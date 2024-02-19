@@ -1,0 +1,231 @@
+﻿
+using System.Data;
+using System.Data.SqlClient;
+using FoodDelivery.Areas.Restaurant.Models;
+using FoodDelivery.Models;
+
+namespace FoodDelivery.Areas.Restaurant.Models
+{
+    public class DatabaseRestaurant
+    {
+        #region Login Registration
+        public RestaurantLoginResult RestaurantLogin(RestaurantLoginModel adminLoginModel)
+        {
+            try
+            {
+                RestaurantLoginResult adminLoginResult = new RestaurantLoginResult();
+                LoginStatus objLoginStatus = new LoginStatus();
+                using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_RestaurantLogin, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmailOrMobileNo", adminLoginModel.EmailOrMobileNo);
+                        cmd.Parameters.AddWithValue("@Password", adminLoginModel.Password.Trim());
+                        con.Open();
+                        using (IDataReader dataReader = cmd.ExecuteReader())
+                        {
+                            objLoginStatus = UserDefineExtensions.DataReaderMapToEntity<LoginStatus>(dataReader);
+                            adminLoginResult.Flag = objLoginStatus.Result;
+                            if (adminLoginResult.Flag == Convert.ToInt32(RestaurantLoginEnum.Active))
+                            {
+                                dataReader.NextResult();
+                                adminLoginResult.RestaurantData = UserDefineExtensions.DataReaderMapToEntity<RestaurantSession>(dataReader);
+                            }
+                        }
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                return adminLoginResult;
+            }
+            catch (Exception ex) { throw; }
+        }
+        public string RestaurantRegistration(RestaurantRegistrationModel restaurantRegistrationModel)
+        {
+            try
+            {
+                var Result = "";
+                using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_AddEditRestaurant, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@RestaurantID", restaurantRegistrationModel.RestaurantID);
+                        cmd.Parameters.AddWithValue("@OwnerName", restaurantRegistrationModel.OwnerName);
+                        cmd.Parameters.AddWithValue("@RestaurantName", restaurantRegistrationModel.RestaurantName);
+                        cmd.Parameters.AddWithValue("@Password", restaurantRegistrationModel.ConfirmPassword.Trim());
+                        cmd.Parameters.AddWithValue("@MobileNo", restaurantRegistrationModel.MobileNo);
+                        cmd.Parameters.AddWithValue("@Email", restaurantRegistrationModel.Email);
+                        cmd.Parameters.AddWithValue("@ShopPlotNumber", restaurantRegistrationModel.ShopPlotNumber);
+                        cmd.Parameters.AddWithValue("@Floor", restaurantRegistrationModel.Floor);
+                        cmd.Parameters.AddWithValue("@BuildingName", restaurantRegistrationModel.BuildingName);
+                        cmd.Parameters.AddWithValue("@ZipCode", restaurantRegistrationModel.ZipCode);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                return Result;
+            }
+            catch (Exception ex) { throw; }
+        }
+
+        #endregion
+        public GetRestaurantDetailById GetRestaurantDetailsById(int RestaurantID)
+        {
+            GetRestaurantDetailById getRestaurantDetailById = new GetRestaurantDetailById();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_GetResataurantDetailsById, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@RestaurantID", RestaurantID);
+                        con.Open();
+                        using (IDataReader datareader = cmd.ExecuteReader())
+                        {
+                            getRestaurantDetailById = UserDefineExtensions.DataReaderMapToEntity<GetRestaurantDetailById>(datareader);
+                        }
+                        con.Close();
+                    }
+                }
+                return getRestaurantDetailById;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        #region Food 
+        public List<FoodItemListModel> GetFoodItemList(JQueryDataTableParamModel param, string Name, string DiscountInPercentage, string IsAvailable ,string IsVegetarian, string IsBestSeller, int RestaurantID,out int noOfRecords)
+        {
+            List<FoodItemListModel> foodItemListModel = new List<FoodItemListModel>();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_GetFoodItemGrid, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@RestaurantID", SqlDbType.NVarChar, 100)).Value = RestaurantID;
+                    cmd.Parameters.Add(new SqlParameter("@Search", SqlDbType.NVarChar, 100)).Value = Name;
+                    cmd.Parameters.Add(new SqlParameter("@DiscountInPercentage", SqlDbType.Int)).Value = Convert.ToInt32(DiscountInPercentage);
+                    cmd.Parameters.Add(new SqlParameter("@IsAvailable", SqlDbType.Int)).Value = Convert.ToInt32(IsAvailable);
+                    cmd.Parameters.Add(new SqlParameter("@IsVegetarian", SqlDbType.Int)).Value = Convert.ToInt32(IsVegetarian);
+                    cmd.Parameters.Add(new SqlParameter("@IsBestSeller", SqlDbType.Int)).Value = Convert.ToInt32(IsBestSeller);
+                    cmd.Parameters.Add(new SqlParameter("@DisplayStart", SqlDbType.Int)).Value = param.iDisplayStart;
+                    cmd.Parameters.Add(new SqlParameter("@PageSize", SqlDbType.Int)).Value = param.iDisplayLength;
+                    cmd.Parameters.Add(new SqlParameter("@SortColumnName", SqlDbType.VarChar, 50)).Value = param.iSortCol_0;
+                    cmd.Parameters.Add(new SqlParameter("@SortOrder", SqlDbType.VarChar, 50)).Value = param.sSortDir_0;
+                    con.Open();
+                    SqlParameter resultOutPut = new SqlParameter("@noOfRecords", SqlDbType.VarChar);
+                    resultOutPut.Size = 50;
+                    resultOutPut.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(resultOutPut);
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        foodItemListModel = UserDefineExtensions.DataReaderMapToList<FoodItemListModel>(dataReader);
+                    }
+                    noOfRecords = Convert.ToInt32(cmd.Parameters["@noOfRecords"].Value);
+                    con.Close();
+                }
+            }
+            return foodItemListModel;
+        }
+        public GetFoodDetailsById GetFoodItemDetailsById(int FoodId, int RestaurantID)
+        {
+            GetFoodDetailsById getFoodDetailsById = new GetFoodDetailsById();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_GetFoodItemDetailsById, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@FoodID", FoodId);
+                        cmd.Parameters.AddWithValue("@RestaurantID", RestaurantID);
+                        con.Open();
+                        using (IDataReader datareader = cmd.ExecuteReader())
+                        {
+                            getFoodDetailsById = UserDefineExtensions.DataReaderMapToEntity<GetFoodDetailsById>(datareader);
+                        }
+                        con.Close();
+                    }
+                }
+                return getFoodDetailsById;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public AddEditFoodResponse AddEditFood(AddEditFoodViewModel addEditFoodViewModel, int RestaurantID,string FoodImageName)
+        {
+            try
+            {
+                AddEditFoodResponse addEditFoodResponse = new AddEditFoodResponse();
+                using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_AddEditFoodItem, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@FoodID", addEditFoodViewModel.FoodId);
+                        cmd.Parameters.AddWithValue("@RestaurantID", RestaurantID);
+                        cmd.Parameters.AddWithValue("@FoodName", addEditFoodViewModel.Name);
+                        cmd.Parameters.AddWithValue("@Price", addEditFoodViewModel.Price);
+                        cmd.Parameters.AddWithValue("@Ingredient", addEditFoodViewModel.Ingredient);
+                        cmd.Parameters.AddWithValue("@IsJainAvailable", addEditFoodViewModel.IsJainAvailable);
+                        cmd.Parameters.AddWithValue("@IsBestSeller", addEditFoodViewModel.IsBestSeller);
+                        cmd.Parameters.AddWithValue("@IsVegetarian", addEditFoodViewModel.IsVegetarian);
+                        cmd.Parameters.AddWithValue("@ImageName", FoodImageName);
+                        cmd.Parameters.AddWithValue("@DisplayOrder", addEditFoodViewModel.DisplayOrder);
+                        cmd.Parameters.AddWithValue("@IsAvailable", addEditFoodViewModel.IsAvailable);
+                        cmd.Parameters.AddWithValue("@DiscountInPercentage", addEditFoodViewModel.DiscountInPercentage);
+                        con.Open();
+                        using (IDataReader datareader = cmd.ExecuteReader())
+                        {
+                            addEditFoodResponse = UserDefineExtensions.DataReaderMapToEntity<AddEditFoodResponse>(datareader);
+                        }
+                        con.Close();
+                    }
+                    return addEditFoodResponse;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public DeleteFoodResponse DeletePackage(int FoodItemId)
+        {
+            DeleteFoodResponse deleteFoodResponse=new DeleteFoodResponse();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_DeleteFood, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@FoodID", FoodItemId);
+                        con.Open();
+                        using (IDataReader datareader = cmd.ExecuteReader())
+                        {
+                            deleteFoodResponse = UserDefineExtensions.DataReaderMapToEntity<DeleteFoodResponse>(datareader);
+                        }
+                        con.Close();
+                    }
+                }
+                return deleteFoodResponse;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        #endregion
+    }
+}

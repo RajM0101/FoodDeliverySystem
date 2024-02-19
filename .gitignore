@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/FoodDelivery/.vs
+/.vs
+/FoodDelivery/bin/Debug/net7.0
+/FoodDelivery/obj
