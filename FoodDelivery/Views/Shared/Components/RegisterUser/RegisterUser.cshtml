@@ -1,0 +1,99 @@
+﻿@model RegisterUserModel
+
+<script>
+    $(document).ready(function () {
+        $("#RegisterUserCountryId").select2({
+            templateResult: formatCountry,
+            templateSelection: formatSelectionType
+        });
+
+
+    });
+    function onSuccessAddUserRegister(data, textStatus, jqXHR) {
+        $("#dvRegister").html(data);
+        var TermAndCondition = '@Model.TermsCondition';
+        if (TermAndCondition.toLowerCase() == 'false') {
+            $(".form-check-label").addClass('validTermAndCondition');
+            $(".chktermcondition").addClass('checkBoxBoder');
+            showToastPortal('danger', '', "Please accept terms & conditions to continue!", 3000);
+        }
+        if (data.IsLoginCompleted) {
+            window.location.href = siteURL;
+        }
+    }
+
+    function onFailAddUserRegister() {
+        showToastPortal('danger', '', "User registered failed.", 3000);
+    }
+
+</script>
+<h3 class="card-title">Register</h3>
+<form asp-action="UserRegister" asp-controller="Home" id="userLoginRegisterForm" method="POST" data-ajax="true" data-ajax-mode="before" data-ajax-success="onSuccessAddUserRegister" data-ajax-fail="onFailAddUserRegister" data-ajax-loading="#loading" data-ajax-begin="OnAjaxBegin('#btnSendOTP')" data-ajax-complete="OnAjaxComplete('#btnSendOTP')" autocomplete="off" asp-area="">
+
+    <input type="hidden" class="from-control" asp-for="RegisterDialCode" />
+
+    <div class="frmRegister">
+        @Html.ValidationMessage("UserAlreadyExists", new { @class = "text-danger" })
+        @Html.ValidationMessage("ReferralCodeIsNotValid", new { @class = "text-danger" })
+        @Html.ValidationMessage("DomainIsBlock", new { @class = "text-danger" })
+        @Html.ValidationMessage("CountryNotMatchedWithIp", new { @class = "text-danger" })
+        <div class="form-group mb-3">
+            <input type="text" class="form-control" placeholder="Enter Name" asp-for="Name" />
+            <div class="input-group error-font-size">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group mb-3">
+            <input type="number" class="register-phone form-control" placeholder="Enter Mobile number" asp-for="RegisterMobileNo" />
+            <div class="input-group error-font-size">
+                <span asp-validation-for="RegisterMobileNo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="input-group mb-3">
+            <input type="password" asp-for="Password" class="form-control" placeholder="Password">
+            <span class="eye-icon" onclick="togglePassword()">👁️</span>
+            <div class="input-group error-font-size">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password">
+            <div class="input-group error-font-size">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" asp-for="Address" class="form-control" placeholder="Address">
+            <div class="input-group error-font-size">
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group" id="txtPrivacyPolicy">
+            <div class="form-check">
+                <span class="input-check form-check-input chktermcondition">
+                    <span class="input-check__body">
+                        <input class="input-check__input" type="checkbox" asp-for="TermsCondition">
+                        <span class="input-check__box"></span>
+                        <span class="input-check__icon">
+                            <svg width="9px" height="7px">
+                                <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" />
+                            </svg>
+                        </span>
+                    </span>
+                </span>
+                <label class="form-check-label" for="TermsCondition">I accept the <a target="_blank" href="@Url.RouteUrl("TermsConditions")">Terms & Conditions</a> and have read the <a target="_blank" href="@Url.RouteUrl("PrivacyPolicy")">Privacy Policy</a>.</label>
+                <div class="input-group error-font-size">
+                    <span asp-validation-for="TermsCondition" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form-group mb-0">
+            <button type="submit" id="btnSendOTP" class="btn btn-primary">Register</button>
+        </div>
+    </div>
+
+</form>

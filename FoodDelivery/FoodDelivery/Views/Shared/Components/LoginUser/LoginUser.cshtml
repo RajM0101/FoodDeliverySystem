@@ -1,0 +1,66 @@
+﻿@model LoginUserModel
+<script>
+    $(document).ready(function () {
+        var context = $("#dvLogin");
+        $("#CountryId", context).select2({
+            templateResult: formatCountry,
+            templateSelection: formatSelectionType
+        });
+
+
+    });
+    function togglePassword() {
+        var passwordInput = document.getElementById("Password");
+        var eyeIcon = document.querySelector(".eye-icon");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.textContent = "👁️";
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.textContent = "👁️";
+        }
+    }
+    function onSuccessUserLogin(result) {
+        $(this).parent().html(result);
+
+        if (result.IsLoginCompleted) {
+            window.location.href = siteURL;
+            showToastPortal('success', '', 'User login successfully.', 3000);
+        }
+    }
+
+    function onFailUserLogin() {
+        showToastPortal('danger', '', "User login failed.", 3000);
+    }
+
+</script>
+
+<form asp-action="UserLogin" asp-controller="Home" id="Login-form" method="POST" data-ajax="true" data-ajax-mode="before" data-ajax-success="onSuccessUserLogin" data-ajax-fail="onFailUserLogin" data-ajax-loading="#loading" data-ajax-begin="OnAjaxBegin('#btnLogin')" data-ajax-complete="OnAjaxComplete('#btnLogin')" autocomplete="off" asp-area="">
+    <div>
+        @if (ViewData.ModelState.ContainsKey("UserIsNotValid"))
+        {
+            <span class="text-danger">You are not registered with us. Please click here to <a class="text-danger" style="text-decoration:underline;" href='@Url.ActionLink("UserLoginRegister","Home")'>Register</a></span>
+        }
+        @Html.ValidationMessage("FirstCompleteRegistration", new { @class = "text-danger" })
+        <div class="form-group mb-0">
+            <div class="input-group mb-3">
+                <input type="number" class="login-phone form-control placeholdermobile" placeholder="Enter mobile number" asp-for="MobileNo" />
+                <div class="input-group error-font-size">
+                    <span asp-validation-for="MobileNo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="password" asp-for="Password" class="form-control" placeholder="Password">
+                <span class="eye-icon" onclick="togglePassword()">👁️</span>
+                <div class="input-group error-font-size">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <button type="submit" id="btnSendOTP" class="btn btn-primary mt-3">Login</button>
+        </div>
+    </div>
+</form>
