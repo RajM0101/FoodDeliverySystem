@@ -1,16 +1,16 @@
 ﻿@model LoginUserModel
 <script>
-    $(document).ready(function () {
-        var context = $("#dvLogin");
-        $("#CountryId", context).select2({
-            templateResult: formatCountry,
-            templateSelection: formatSelectionType
-        });
+    function OnAjaxBegin(id) {
+        $(id).prop("disabled", true);
+        $(id).find('i').removeClass("hide");
+    }
 
-
-    });
+    function OnAjaxComplete(id) {
+        $(id).prop("disabled", false);
+        $(id).find('i').addClass("hide");
+    }
     function togglePassword() {
-        var passwordInput = document.getElementById("Password");
+        var passwordInput = document.getElementById("LoginPassword");
         var eyeIcon = document.querySelector(".eye-icon");
 
         if (passwordInput.type === "password") {
@@ -22,7 +22,8 @@
         }
     }
     function onSuccessUserLogin(result) {
-        $(this).parent().html(result);
+        debugger
+        $("#dvLogin").html(result);
 
         if (result.IsLoginCompleted) {
             window.location.href = siteURL;
@@ -35,14 +36,15 @@
     }
 
 </script>
-
+<h3 class="card-title">Login</h3>
 <form asp-action="UserLogin" asp-controller="Home" id="Login-form" method="POST" data-ajax="true" data-ajax-mode="before" data-ajax-success="onSuccessUserLogin" data-ajax-fail="onFailUserLogin" data-ajax-loading="#loading" data-ajax-begin="OnAjaxBegin('#btnLogin')" data-ajax-complete="OnAjaxComplete('#btnLogin')" autocomplete="off" asp-area="">
     <div>
+        @Html.ValidationMessage("IncorrectPassword", new { @class = "text-danger" })
+        @Html.ValidationMessage("CustomerIsNotActive", new { @class = "text-danger" })
         @if (ViewData.ModelState.ContainsKey("UserIsNotValid"))
         {
-            <span class="text-danger">You are not registered with us. Please click here to <a class="text-danger" style="text-decoration:underline;" href='@Url.ActionLink("UserLoginRegister","Home")'>Register</a></span>
+            <span class="text-danger">You are not registered with us.</span>
         }
-        @Html.ValidationMessage("FirstCompleteRegistration", new { @class = "text-danger" })
         <div class="form-group mb-0">
             <div class="input-group mb-3">
                 <input type="number" class="login-phone form-control placeholdermobile" placeholder="Enter mobile number" asp-for="MobileNo" />
@@ -51,16 +53,16 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                <input type="password" asp-for="Password" class="form-control" placeholder="Password">
+                <input type="password" asp-for="LoginPassword" class="form-control" placeholder="Password">
                 <span class="eye-icon" onclick="togglePassword()">👁️</span>
                 <div class="input-group error-font-size">
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <span asp-validation-for="LoginPassword" class="text-danger"></span>
                 </div>
             </div>
 
         </div>
         <div class="form-group">
-            <button type="submit" id="btnSendOTP" class="btn btn-primary mt-3">Login</button>
+            <button type="submit" id="btnLogin" class="btn btn-primary mt-3">Login</button>
         </div>
     </div>
 </form>

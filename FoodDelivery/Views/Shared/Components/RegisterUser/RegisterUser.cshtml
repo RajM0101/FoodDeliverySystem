@@ -1,25 +1,43 @@
 ﻿@model RegisterUserModel
+<style>
 
+    .validTermAndCondition {
+        color: red;
+        animation: blinker 1s linear infinite;
+    }
+
+    .checkBoxBoder {
+        border: 1px solid red;
+    }
+</style>
 <script>
-    $(document).ready(function () {
-        $("#RegisterUserCountryId").select2({
-            templateResult: formatCountry,
-            templateSelection: formatSelectionType
-        });
+    function toggleRegisterPassword() {
+        var passwordInput = document.getElementById("Password");
+        var eyeIcon = document.querySelector(".eye-icon");
 
-
-    });
-    function onSuccessAddUserRegister(data, textStatus, jqXHR) {
-        $("#dvRegister").html(data);
-        var TermAndCondition = '@Model.TermsCondition';
-        if (TermAndCondition.toLowerCase() == 'false') {
-            $(".form-check-label").addClass('validTermAndCondition');
-            $(".chktermcondition").addClass('checkBoxBoder');
-            showToastPortal('danger', '', "Please accept terms & conditions to continue!", 3000);
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.textContent = "👁️";
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.textContent = "👁️";
         }
-        if (data.IsLoginCompleted) {
+    }
+    function onSuccessAddUserRegister(data, textStatus, jqXHR) {
+        debugger
+        if (data.status == "200") {
             window.location.href = siteURL;
         }
+        else {
+            $("#dvRegister").html(data);
+            var TermAndCondition = '@Model.TermsCondition';
+            if (TermAndCondition.toLowerCase() == 'false') {
+                $(".form-check-label").addClass('validTermAndCondition');
+                $(".chktermcondition").addClass('checkBoxBoder');
+                showToastPortal('danger', '', "Please accept terms & conditions to continue!", 5000);
+            }
+        }
+
     }
 
     function onFailAddUserRegister() {
@@ -29,8 +47,6 @@
 </script>
 <h3 class="card-title">Register</h3>
 <form asp-action="UserRegister" asp-controller="Home" id="userLoginRegisterForm" method="POST" data-ajax="true" data-ajax-mode="before" data-ajax-success="onSuccessAddUserRegister" data-ajax-fail="onFailAddUserRegister" data-ajax-loading="#loading" data-ajax-begin="OnAjaxBegin('#btnSendOTP')" data-ajax-complete="OnAjaxComplete('#btnSendOTP')" autocomplete="off" asp-area="">
-
-    <input type="hidden" class="from-control" asp-for="RegisterDialCode" />
 
     <div class="frmRegister">
         @Html.ValidationMessage("UserAlreadyExists", new { @class = "text-danger" })
@@ -52,7 +68,7 @@
 
         <div class="input-group mb-3">
             <input type="password" asp-for="Password" class="form-control" placeholder="Password">
-            <span class="eye-icon" onclick="togglePassword()">👁️</span>
+            <span class="eye-icon" onclick="toggleRegisterPassword()">👁️</span>
             <div class="input-group error-font-size">
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
@@ -64,7 +80,7 @@
             </div>
         </div>
         <div class="input-group mb-3">
-            <input type="password" asp-for="Address" class="form-control" placeholder="Address">
+            <input type="text" asp-for="Address" class="form-control" placeholder="Address">
             <div class="input-group error-font-size">
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
@@ -82,7 +98,7 @@
                         </span>
                     </span>
                 </span>
-                <label class="form-check-label" for="TermsCondition">I accept the <a target="_blank" href="@Url.RouteUrl("TermsConditions")">Terms & Conditions</a> and have read the <a target="_blank" href="@Url.RouteUrl("PrivacyPolicy")">Privacy Policy</a>.</label>
+                <label class="form-check-label" for="TermsCondition">I accept the <a class="registrationLink" target="_blank" href="@Url.RouteUrl("TermsConditions")">Terms & Conditions</a> and have read the <a class="registrationLink" target="_blank" href="@Url.RouteUrl("PrivacyPolicy")">Privacy Policy</a>.</label>
                 <div class="input-group error-font-size">
                     <span asp-validation-for="TermsCondition" class="text-danger"></span>
                 </div>

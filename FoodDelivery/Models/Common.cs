@@ -24,8 +24,10 @@
             public const string restaurant_GetResataurantDetailsById = "restaurant_GetResataurantDetailsById";
             public const string restaurant_DeleteFood = "restaurant_DeleteFood";
             #endregion
-            #region 
-            public const string web_GetCountryCodeList = "web_GetCountryCodeList";
+            #region User
+            public const string web_UserLogin = "web_UserLogin";
+            public const string web_UserRegister = "web_UserRegister";
+            public const string web_GetAllRestaurant = "web_GetAllRestaurant";
             #endregion
         }
         public static class Messages
@@ -36,7 +38,14 @@
             public const string IncorrectPassword = "Incorrect password";
             public const string RestaurantIsNotActive = "Your restaurant is currently not active, Kindly contact admin or email on support email address.";
             public const string LoginFailed = "Failed to login";
-           
+
+            #endregion
+            #region User
+            public const string CustomerLoginSucessfully = "Login Successfully";
+            public const string CustomerNotAvailable = "Mobile or Password does not exists";
+            public const string CustomerPasswordIncorrect = "Password is incorrect";
+            public const string CustomerIsNotActive = "Customer is not active";
+            public const string UserAlreadyRegistered = "You are already registered, please try to login.";
             #endregion
 
         }

@@ -105,10 +105,11 @@ namespace FoodDelivery.Models
     public class LoginUserModel
     {
         [Display(Name = "Mobile number")]
-        [Required(ErrorMessage = "Mobile number is Required.")]
+        [Required(ErrorMessage = "Please enter mobile number")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Invalid Mobile Number")]
         [MinLength(4, ErrorMessage = "Enter minimum 4 digit Mobile number.")]
         public string MobileNo { get; set; }
+        [Required(ErrorMessage = "Please enter password.")]
         public string LoginPassword { get; set; }      
     }
 
@@ -134,21 +135,39 @@ namespace FoodDelivery.Models
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; }
         public string Address { get; set; }
-        public int RegisterUserCountryId { get; set; }       
         public bool TermsCondition { get; set; }
-        public int RegisterDialCode { get; set; }
-        public string? ISO2Code { get; set; }
-        public string? SignupIP { get; set; }
-        public List<CountryList> CountryList { get; set; } = new List<CountryList>();
+    }
+    public class RegisterUser
+    {
+        public int RetStatus { get; set; }
+        public int UserId { get; set; }
 
     }
-    public class CountryList
+    public class SessionUser
     {
-        public int CountryId { get; set; }
-        public bool IsBanned { get; set; }
-        public string Name { get; set; }
-        public string CurrencyISOCode { get; set; }
-        public string ISO2Code { get; set; }
+        public int UserId { get; set; }
+        public string FullName { get; set; }
+        public string MobileNumber { get; set; }
+    }
+    public class LoginUserInfo
+    {
+        public int RetStatus { get; set; }
+        public SessionUser SessionUser { get; set; }
+
+    }
+    public class UserLoginStatus
+    {
+        public int RetStatus { get; set; }
+    }
+    public class DashboardMainModel {
+       public List<RestaurantDetailModel> restaurantDetailModel { get; set; } = new List<RestaurantDetailModel>();
+    }
+    public class RestaurantDetailModel { 
+        public int RestaurantID { get; set; }
+        public string RestaurantName { get; set; }
+        public string Address { get; set; }
+        public string ZipCode { get; set; }
+        public string ImageName { get; set; }
     }
     public class CommonModel
     {

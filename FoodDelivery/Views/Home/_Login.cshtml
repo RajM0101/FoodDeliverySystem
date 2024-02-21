@@ -3,11 +3,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-
+    .registrationLink {
+        color: #0d6efd !important;
+    }
 
     /*
-        // .input-check
-        */
+            // .input-check
+            */
     .input-check {
         display: inline-block;
     }
@@ -86,8 +88,8 @@
     }
 
     /*
-        // .input-check-color
-        */
+            // .input-check-color
+            */
     .input-check-color {
         display: inline-block;
     }
@@ -183,8 +185,8 @@
     }
 
     /*
-        // .input-number
-        */
+            // .input-number
+            */
     .input-number {
         display: block;
         width: 100%;
@@ -269,39 +271,38 @@
 </style>
 an
 <style>
-    .block{
-        margin:auto;
+    .block {
+        margin: auto;
     }
 </style>
 <!-- site__body -->
 <section id="hero" class="hero d-flex align-items-center section-bg">
-<div class="block-space block-space--layout--after-header"></div>
-<div class="block">
-    <div class="container container--max--lg">
-        <div class="row">
-            <div class="col-md-6 d-flex">
-                <div class="card flex-grow-1 mb-md-0 mr-0 mr-lg-3 ml-0 ml-lg-4">
-                    <div class="card-body card-body--padding--2">
-                        <div id="dvLogin-False">
-                            <h3 class="card-title">Login</h3>
-                            @await Component.InvokeAsync("LoginUser")
+    <div class="block-space block-space--layout--after-header"></div>
+    <div class="block">
+        <div class="container container--max--lg">
+            <div class="row">
+                <div class="col-md-6 d-flex">
+                    <div class="card flex-grow-1 mb-md-0 mr-0 mr-lg-3 ml-0 ml-lg-4">
+                        <div class="card-body card-body--padding--2">
+                            <div id="dvLogin">
+                                @await Component.InvokeAsync("LoginUser")
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-6 d-flex mt-4 mt-md-0">
-                <div class="card flex-grow-1 mb-0 ml-0 ml-lg-3 mr-0 mr-lg-4">
-                    <div class="card-body card-body--padding--2">
-                        <div id="dvRegister">
-                            @await Component.InvokeAsync("RegisterUser",new{registerUserModel=Model.registerUserModel})
+                <div class="col-md-6 d-flex mt-4 mt-md-0">
+                    <div class="card flex-grow-1 mb-0 ml-0 ml-lg-3 mr-0 mr-lg-4">
+                        <div class="card-body card-body--padding--2">
+                            <div id="dvRegister">
+                                @await Component.InvokeAsync("RegisterUser",new{registerUserModel=Model.registerUserModel})
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="block-space block-space--layout--before-footer"></div>
+    <div class="block-space block-space--layout--before-footer"></div>
 
-                </section>
+</section>

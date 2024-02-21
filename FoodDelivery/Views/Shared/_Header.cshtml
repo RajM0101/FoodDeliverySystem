@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    SessionUser sessionUser = Context.Session.GetComplexData<SessionUser>(Common.SessionKeys.UserSession);
+}
 <style>
 
     .indicator__button {
@@ -39,6 +41,16 @@
         margin-left: 50px;
         font-weight: 500;
     }
+
+    .indicator__content {
+        top: 100%;
+        position: absolute;
+        visibility: hidden;
+        transform-origin: top;
+        transform: rotateX(60deg);
+        opacity: 0;
+        transition: transform .2s,opacity .2s,visibility 0s .2s,-webkit-transform .2s;
+    }
 </style>
 
 <div class="container d-flex align-items-center justify-content-between">
@@ -52,11 +64,8 @@
     <nav id="navbar" class="navbar">
         <ul>
             <li><a href="#hero">Home</a></li>
-           @* <li><a href="#about">About</a></li>*@
-            <li><a href="#menu">Menu</a></li>
-            <li><a href="#events">Events</a></li>
-            <li><a href="#chefs">Chefs</a></li>
-            <li><a href="#gallery">Gallery</a></li>
+            @* <li><a href="#about">About</a></li>*@
+            <li><a href="#menu">Restaurants</a></li>
             <li class="dropdown">
                 <a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                 <ul>
@@ -81,18 +90,27 @@
     </nav><!-- .navbar -->
 
     <div class="header__indicators">
-        <div class="indicator indicator--trigger--click indicator--open">
-            <a class="indicator__button" href="/login-register">
+        <div class="indicator indicator--trigger--click">
+            <a class="indicator__button" href=@(sessionUser != null ? "":"/login-register")>
                 <span class="indicator__icon">
                     <svg width="32" height="32">
                         <path d="M16,18C9.4,18,4,23.4,4,30H2c0-6.2,4-11.5,9.6-13.3C9.4,15.3,8,12.8,8,10c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.8-1.5,5.3-3.6,6.7
 C26,18.5,30,23.8,30,30h-2C28,23.4,22.6,18,16,18z M22,10c0-3.3-2.7-6-6-6s-6,2.7-6,6s2.7,6,6,6S22,13.3,22,10z"></path>
                     </svg>
                 </span>
-                <span class="indicator__title">Hello, Log In</span>
-                <span class="indicator__value">My Account</span>
+                @if (sessionUser != null)
+                {
+                    <span class="indicator__title">Hello, @sessionUser.FullName</span>
+                    <span class="indicator__value">My Account</span>
+                    <a asp-route="Logout">Logout</a>
+                }
+                else
+                {
+                    <span class="indicator__title">Hello, Log In</span>
+                    <span class="indicator__value">My Account</span>
+                }
             </a>
-
+            
         </div>
     </div>
     <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
