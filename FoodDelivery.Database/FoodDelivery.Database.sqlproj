@@ -57,4 +57,22 @@
   <ItemGroup>
     <Folder Include="Properties" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="web_UserLogin.sql" />
+    <Build Include="restaurant_AddEditFoodItem.sql" />
+    <Build Include="restaurant_AddEditRestaurant.sql" />
+    <Build Include="restaurant_DeleteFood.sql" />
+    <Build Include="restaurant_GetFoodItemDetailsById.sql" />
+    <Build Include="restaurant_GetFoodItemGrid.sql" />
+    <Build Include="restaurant_GetResataurantDetailsById.sql" />
+    <Build Include="restaurant_RestaurantLogin.sql" />
+    <Build Include="web_UserRegister.sql" />
+    <Build Include="AdminUser.sql" />
+    <Build Include="Food.sql" />
+    <Build Include="Order.sql" />
+    <Build Include="OrderDetail.sql" />
+    <Build Include="Restaurant.sql" />
+    <Build Include="User.sql" />
+    <Build Include="UserCart.sql" />
+  </ItemGroup>
 </Project>
