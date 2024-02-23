@@ -169,6 +169,28 @@ namespace FoodDelivery.Models
         public string ZipCode { get; set; }
         public string ImageName { get; set; }
     }
+
+    public class FoodListbyRestaurantIdMainModel {
+        public List<FoodListByRestaurantId> foodListByRestaurantId { get; set; }
+    }
+    public class FoodListByRestaurantId
+    { 
+        public int RestaurantID { get; set; }
+        public int FoodID { get; set; }
+        public string FoodName { get; set;}
+        public int Price { get; set; }
+        public string ImageName { get; set; }
+        public string Ingredient { get; set; }
+        public int DiscountInPercentage { get; set; }
+        public bool IsBestSeller { get; set; }
+        public bool IsVegetarian { get; set; }
+
+    }
+
+    public class ErrorStatusCodeViewModel
+    {
+        public string StatusCode { get; set; }
+    }
     public class CommonModel
     {
     }

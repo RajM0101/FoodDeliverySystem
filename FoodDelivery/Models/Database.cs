@@ -80,5 +80,26 @@ namespace FoodDelivery.Models
             }
             return restaurantDetailModel;
         }
+        public FoodListbyRestaurantIdMainModel GetFoodListByRestaurant(int RestaurantID)
+        {
+            FoodListbyRestaurantIdMainModel foodListbyRestaurantIdMainModel = new FoodListbyRestaurantIdMainModel();
+            List<FoodListByRestaurantId> foodListByRestaurantId = new List<FoodListByRestaurantId>();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_GetAllFoodByRestaurantID, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RestaurantID", RestaurantID);
+                    con.Open();
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        foodListByRestaurantId = UserDefineExtensions.DataReaderMapToList<FoodListByRestaurantId>(dataReader);
+                    }
+                    con.Close();
+                }
+            }
+            foodListbyRestaurantIdMainModel.foodListByRestaurantId = foodListByRestaurantId;
+            return foodListbyRestaurantIdMainModel;
+        }
     }
 }

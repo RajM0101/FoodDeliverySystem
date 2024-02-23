@@ -1,0 +1,51 @@
+﻿@model FoodListbyRestaurantIdMainModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="menu" class="hero d-flex align-items-center section-bg menu">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Our Food</h2>
+            <p>Restaurants with online food delivery</p>
+        </div>
+
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+
+            <div class="tab-pane fade active show" id="menu-vegetarian">
+
+
+
+                <div class="row gy-5">
+                    @if (Model.foodListByRestaurantId.Count() > 0)
+                    {
+                        @foreach (var item in Model.foodListByRestaurantId)
+                        {
+                            var Image = "/Images/Food/" + @item.ImageName;
+
+                            <div class="col-lg-4 menu-item" style="max-height:300px">
+                                <a href="/Food/img/menu/menu-item-6.png" class="glightbox"><img src="@Image" class="menu-img img-fluid" alt="" style="height:70%"></a>
+                                <h4>@item.FoodName</h4>
+                                <p class="ingredients">
+                                    @item.Ingredient
+                                </p>
+                                <p class="price">
+                                    $@item.Price
+                                </p>
+                            </div>
+
+                            <!-- Menu Item -->
+                        }
+
+                    }
+                </div>
+            </div><!-- End Starter Menu Content -->
+
+
+
+        </div>
+
+    </div>
+</section>

@@ -420,26 +420,26 @@ function SetPagination(ptotal, pagenumber) {
     if (parseInt(pagenumber) == 0 || pagenumber == undefined) {
         pagenumber = 1;
     }
-    $("#pagination").pagination({
-        total: parseInt(ptotal),
-        pageSize: pSize,
-        showPageList: false,
-        showRefresh: false,
-        loading: false,
-        pageNumber: pagenumber,
-        onSelectPage: function (pageNumber, pageSize) {
-            GetDesigns(displayStart, pageSize, pageNumber)
-        },
-        onChangePageSize: function (pageSize) {
-        },
-        onBeforeRefresh: function (pageNumber, pageSize) {
-        },
-        onRefresh: function (pageNumber, pageSize) {
-        },
-        onValidate: function () {
-            return true;
-        },
-    });
+    //$("#pagination").pagination({
+    //    total: parseInt(ptotal),
+    //    pageSize: pSize,
+    //    showPageList: false,
+    //    showRefresh: false,
+    //    loading: false,
+    //    pageNumber: pagenumber,
+    //    onSelectPage: function (pageNumber, pageSize) {
+    //        GetDesigns(displayStart, pageSize, pageNumber)
+    //    },
+    //    onChangePageSize: function (pageSize) {
+    //    },
+    //    onBeforeRefresh: function (pageNumber, pageSize) {
+    //    },
+    //    onRefresh: function (pageNumber, pageSize) {
+    //    },
+    //    onValidate: function () {
+    //        return true;
+    //    },
+    //});
 }
 function GetDesigns(displayStart, pageSize, pageNumber) {
     SetActiveFilterPanel();

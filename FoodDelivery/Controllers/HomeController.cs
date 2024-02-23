@@ -1,5 +1,6 @@
 ﻿using FoodDelivery.Areas.Restaurant.Models;
 using FoodDelivery.Models;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
@@ -31,9 +32,8 @@ namespace FoodDelivery.Controllers
         [Route("/", Name = "HomePage")]
         public ActionResult Index()
         {
-            //DashboardMainModel dashboardMainModel = GetDashboardAllDetails();
-            //return View(dashboardMainModel);
-            return View();
+            DashboardMainModel dashboardMainModel = GetDashboardAllDetails();
+            return View(dashboardMainModel);
         }
 
         public IActionResult Privacy()
@@ -146,10 +146,33 @@ namespace FoodDelivery.Controllers
             dashboardMainModel.restaurantDetailModel= objDatabase.GetAllRestaurantDetail();
             return dashboardMainModel;
         }
+        [Route("/restaurants/{RestaurantID?}", Name = "GetFoodList")]
+        public ActionResult GetFoodList(int RestaurantID)
+        {
+            FoodListbyRestaurantIdMainModel MainModel = new FoodListbyRestaurantIdMainModel();
+            MainModel= objDatabase.GetFoodListByRestaurant(RestaurantID);
+                       
+            return View("_FoodList", MainModel);
+        }
+
+
+
+
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [Route("/error/{statusCode?}", Name = "ErrorStatusCode")]
+        public IActionResult ErrorStatusCode(string statusCode)
+        {
+            var exceptionHandlerFeature = HttpContext.Features.Get<IExceptionHandlerFeature>()!;
+            //https://learn.microsoft.com/en-us/aspnet/core/web-api/handle-errors?view=aspnetcore-7.0
+            return View(new ErrorStatusCodeViewModel { StatusCode = statusCode });
         }
 
     }

@@ -28,6 +28,7 @@
             public const string web_UserLogin = "web_UserLogin";
             public const string web_UserRegister = "web_UserRegister";
             public const string web_GetAllRestaurant = "web_GetAllRestaurant";
+            public const string web_GetAllFoodByRestaurantID = "web_GetAllFoodByRestaurantID";
             #endregion
         }
         public static class Messages

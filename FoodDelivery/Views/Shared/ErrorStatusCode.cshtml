@@ -1,0 +1,19 @@
+﻿@model ErrorStatusCodeViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+<div class="block-space block-space--layout--spaceship-ledge-height"></div>
+<div class="block">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="text-danger" style="font-size: 24px; margin-top: 100px;">
+                Error @Model.StatusCode.ToString()!
+            </h1>
+            <h2 class="text-danger" style="font-size: 20px;">An error occurred while processing your request.</h2>
+            <div class="order-success__actions">
+                <a asp-route="HomePage" class="btn btn-sm btn-secondary">Go To Homepage</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="block-space block-space--layout--before-footer"></div>
