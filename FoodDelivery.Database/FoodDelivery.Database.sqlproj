@@ -74,5 +74,7 @@
     <Build Include="Restaurant.sql" />
     <Build Include="User.sql" />
     <Build Include="UserCart.sql" />
+    <Build Include="web_GetAllFoodByRestaurantID.sql" />
+    <Build Include="web_GetAllRestaurant.sql" />
   </ItemGroup>
 </Project>
