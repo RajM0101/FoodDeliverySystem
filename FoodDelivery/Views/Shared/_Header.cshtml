@@ -51,6 +51,66 @@
         opacity: 0;
         transition: transform .2s,opacity .2s,visibility 0s .2s,-webkit-transform .2s;
     }
+
+    [dir=ltr] .indicator__counter:before {
+        left: 0;
+        right: 0;
+        -webkit-transform: skewX(-11deg);
+        transform: skewX(-11deg);
+    }
+
+    .indicator__counter:before {
+        background-color: #e52727;
+    }
+    .indicator__counter {
+        background-color: #e52727;
+    }
+    .indicator__counter:before {
+        display: block;
+        position: absolute;
+        content: '';
+        top: 0;
+        bottom: 0;
+        z-index: -1;
+        border-radius: 2.5px;
+    }
+    [dir=ltr] .indicator__counter {
+    right: 4px;
+}
+.indicator__counter {
+    color: #fff;
+    font-weight: 500;
+}
+.indicator__counter {
+    position: absolute;
+    top: 5px;
+    font-size: 10px;
+    line-height: 1;
+    padding: 2px 3px 1px;
+    border-radius: 6.5px;
+    text-align: center;
+    z-index: 0;
+}
+
+[dir=ltr] .indicator__counter:before {
+    left: 0;
+    right: 0;
+    -webkit-transform: skewX(-11deg);
+    transform: skewX(-11deg);
+}
+
+.indicator__counter:before {
+    background-color: #e52727;
+}
+.indicator__counter:before {
+    display: block;
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+    border-radius: 2.5px;
+}
 </style>
 
 <div class="container d-flex align-items-center justify-content-between">
@@ -63,9 +123,9 @@
 
     <nav id="navbar" class="navbar">
         <ul>
-            <li><a href="#hero">Home</a></li>
+            <li><a href="/">Home</a></li>
             @* <li><a href="#about">About</a></li>*@
-            <li><a href="#menu">Restaurants</a></li>
+            <li><a href="/">Restaurants</a></li>
             <li class="dropdown">
                 <a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                 <ul>
@@ -91,7 +151,7 @@
 
     <div class="header__indicators">
         <div class="indicator indicator--trigger--click">
-            <a class="indicator__button" href=@(sessionUser != null ? "":"/login-register")>
+            <a class="indicator__button" href=@(sessionUser != null ? "/order-history":"/login-register")>
                 <span class="indicator__icon">
                     <svg width="32" height="32">
                         <path d="M16,18C9.4,18,4,23.4,4,30H2c0-6.2,4-11.5,9.6-13.3C9.4,15.3,8,12.8,8,10c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.8-1.5,5.3-3.6,6.7
@@ -99,7 +159,8 @@ C26,18.5,30,23.8,30,30h-2C28,23.4,22.6,18,16,18z M22,10c0-3.3-2.7-6-6-6s-6,2.7-6
                     </svg>
                 </span>
                 @if (sessionUser != null)
-                {
+                {   
+                   
                     <span class="indicator__title">Hello, @sessionUser.FullName</span>
                     <span class="indicator__value">My Account</span>
                     <a asp-route="Logout">Logout</a>
@@ -109,9 +170,13 @@ C26,18.5,30,23.8,30,30h-2C28,23.4,22.6,18,16,18z M22,10c0-3.3-2.7-6-6-6s-6,2.7-6
                     <span class="indicator__title">Hello, Log In</span>
                     <span class="indicator__value">My Account</span>
                 }
+
             </a>
             
         </div>
+    </div>
+     <div id="TopHeaderCartList" class="indicator indicator--trigger--click  cartForHideModal" >
+        @await Component.InvokeAsync("CartDetail")
     </div>
     <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
     <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>

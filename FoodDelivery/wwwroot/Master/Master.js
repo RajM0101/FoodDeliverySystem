@@ -50,11 +50,12 @@ var MessagePortal =
     UserLogout: "You are sucessfully logged-out.",
     UserLogoutFailed: "We are unable to logout! Please try again.",
     UserUpdate: "Your profile has been updated successfully.",
-    UserUpdateFailed: "We are unable to update your profile! Please try again.",    
+    UserUpdateFailed: "We are unable to update your profile! Please try again.",
     LoginForFavourite: "You first need to <a href='##siteUrl##login-register'>login</a>, to add it into your favourites",
     AddFavourite: "Design successfully added into your favourites.",
     RemoveFavourite: "Design successfully removed from your favourites.",
     LoingForDownload: "Please <a href='##siteUrl##login-register'>login/create</a> new account to download this design.",
+    LoingForAddTocart: "Please <a href='##siteUrl##login-register'>login/create</a> new account to make order.",
     DownloadDesignCase0: "We are unable to process, please try after some times.",
     DownloadDesignCase1: "Design successfully downloaded",
     DownloadDesignCase2: "Design successfully downloaded",
@@ -62,8 +63,15 @@ var MessagePortal =
     DownloadDesignCase4: "You have logged in from another device, please login again to download.",
     DownloadDesignCase5: "You have reached the daily download limit.",
     DownloadDesignFail: "Opps! Something wents wrong, Please try after some time.",
+    AddTocartSuccess: "Add Food to cart successfully",
+    AddTocartAlredyExist: "Food is alredy added to cart",
+    QauntityAddTocart: "Qauntity is added to cart",
+    AddTocartFail: "Opps! Something wents wrong, Please try after some time.",
+    RemoveFromcartSuccess: "Remove Food from cart",
+    RemoveFromcartFail: "Opps! Something wents wrong, Please try after some time.",
     MessageSendSuccess: "Message send sucessfully.",
     MessageSendFailed: "Message send failed.",
+    InValidCaptcha: "Captcha Is Not Valid.",
     UserInfoUpdated: "User info updated successfully.",
     UserInfoDetialsFailed: "User info updated failed.",
     LoginForPurchase: "Please <a href='##siteUrl##login-register'>login/create</a> new account to purchase packages.",
@@ -98,7 +106,18 @@ $(document).ready(function () {
     if ($("#searchDesign").val() != null) {
         GetDesigns();
     }
-   
+
+    $(".input-number__input").change(function () {
+        debugger
+        var Qauntity = $(this).val();
+        var FoodId = $(this).data('foodid');
+        if ($("#userid").val() == null) {
+            showToastPortal('danger', '', MessagePortal.LoingForAddTocart.replace("##siteUrl##", siteURL), 60000);
+        }
+        else {
+            RequestUserCartDetails(FoodId, Qauntity);
+        }
+    });
 });
 $(document).off('click', '#divPurchasepackage').on('click', '#divPurchasepackage', function () {
     if ($("#userid").val() == null) {
@@ -742,4 +761,91 @@ function HeartIcon() {
     else {
         window.location.href = siteURL + "favourite-design";
     }
+}
+
+
+/* Add Design To Cart */
+function AddFoodToCartConfirm(FoodId) {
+    if ($("#userid").val() == null) {
+        showToastPortal('danger', '', MessagePortal.LoingForAddTocart.replace("##siteUrl##", siteURL), 60000);
+    }
+    else {
+        RequestUserCartDetails(FoodId, 1);
+    }
+}
+
+function AddToCart(FoodId) {
+    if ($("#userid").val() == null) {
+        showToastPortal('danger', '', MessagePortal.LoingForAddTocart.replace("##siteUrl##", siteURL), 60000);
+    }
+    else {
+        var Qauntity = $(".input-number__input").val();
+        RequestUserCartDetails(FoodId, parseInt(Qauntity) + 1);
+    }
+}
+
+function RequestUserCartDetails(FoodId, Qauntity) {
+    //async:false for allowing iOs dowloading in new tab using external link
+    $.ajax({
+        url: siteURL + "Secure/AddFoodToCart",
+        type: 'POST',
+        async: false,
+        data: ({ "FoodId": FoodId, "Qauntity": Qauntity }),
+        success: function (result) {
+            $(".topHeaderCartIcon .indicator__counter").html(result.Data.TotalCount);
+            //$(".topHeaderCartIcon .indicator__value").html(result.Data.TotalPrice);
+            $(".mobileTopHeaderCartIcon .mobile-indicator__counter").html(result.Data.TotalCount);
+            if (result.Data.result == 1)  // 1 - inserting new value
+            {
+                showToastPortal('success', '', MessagePortal.AddTocartSuccess, 2000);
+                setTimeout(function () { location.reload() }, 1000);
+            }
+            else if (result.Data.result == 2)  //2 -not add duplicate value
+            {
+                showToastPortal('warning', '', MessagePortal.AddTocartAlredyExist, 2000);
+            }
+            else if (result.Data.result == 3) {
+                showToastPortal('success', '', MessagePortal.AddTocartSuccess, 2000);
+                setTimeout(function () { location.reload() }, 1000);
+            }
+            else {
+                showToastPortal('danger', '', MessagePortal.AddTocartFail, 3000);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            showToastPortal('danger', '', MessagePortal.AddTocartFail, 3000);
+        }
+    });
+}
+
+function RemoveFromCart(FoodId, IsDeleteFromCart) {
+    $.ajax({
+        url: siteURL + "Secure/RemoveFoodFromCart",
+        type: "POST",
+        data: { FoodId: FoodId, IsDeleteFromCart: IsDeleteFromCart },
+        cache: false,
+        success: function (result) {
+            if (IsDeleteFromCart == false) {
+                if (result.RemoveFoodFromCart == 1) {
+                    window.location.href = siteURL + "cart-detail"
+                    showToastPortal('success', '', MessagePortal.RemoveFromcartSuccess, 3000);
+                }
+                else if (result.RemoveFoodFromCart == 3) {
+                    showToastPortal('success', '', MessagePortal.RemoveFromcartSuccess, 3000);
+                    setTimeout(function () { location.reload() }, 2000);
+                }
+                else {
+                    showToastPortal('danger', '', MessagePortal.RemoveFromcartFail, 3000);
+                }
+            }
+            else if (IsDeleteFromCart == true) {
+                setTimeout(function () { location.reload() }, 2000);
+                $("#TopHeaderCartList").html(result);     //When TopMenuCart in remove Design Its Only return View
+                showToastPortal('success', '', MessagePortal.RemoveFromcartSuccess, 3000);
+            }
+            else {
+                showToastPortal('danger', '', MessagePortal.RemoveFromcartFail, 3000);
+            }
+        }
+    });
 }

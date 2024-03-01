@@ -1,6 +1,4 @@
-﻿
---EXEC restaurant_RestaurantLogin 'test@gmail.com','123456@Aa'
-CREATE PROCEDURE [dbo].[restaurant_RestaurantLogin]
+﻿CREATE PROCEDURE [dbo].[restaurant_RestaurantLogin]
 @EmailOrMobileNo  NVARCHAR(100),
 @Password NVARCHAR(50) 
 AS

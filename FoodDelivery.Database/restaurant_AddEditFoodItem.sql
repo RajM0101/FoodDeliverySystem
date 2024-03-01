@@ -1,6 +1,5 @@
 ﻿
-
-CREATE PROCEDURE [dbo].[restaurant_AddEditFoodItem]
+Create PROCEDURE [dbo].[restaurant_AddEditFoodItem]
 @FoodID INT=0, -- 0 then Add mode
 @RestaurantID INT=0,  
 @FoodName VARCHAR(200),  
@@ -60,6 +59,7 @@ BEGIN
             IsJainAvailable=@IsJainAvailable, 
             IsVegetarian=@IsVegetarian, 
             IsBestSeller=@IsBestSeller, 
+			IsAvailable=@IsAvailable,
             ImageName= (Case when @ImageName IS NULL THEN ImageName ELSE @ImageName END), 
             DisplayOrder=@DisplayOrder,
 			DiscountInPercentage =@DiscountInPercentage,
@@ -70,6 +70,5 @@ BEGIN
 END
 
 
+
 GO
-
-

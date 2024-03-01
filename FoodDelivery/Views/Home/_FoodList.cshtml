@@ -26,14 +26,20 @@
                             var Image = "/Images/Food/" + @item.ImageName;
 
                             <div class="col-lg-4 menu-item" style="max-height:300px">
-                                <a href="/Food/img/menu/menu-item-6.png" class="glightbox"><img src="@Image" class="menu-img img-fluid" alt="" style="height:70%"></a>
+                                <a href="/food-detail/@item.FoodID" class="">
+                                    <img src="@Image" class="menu-img img-fluid" alt="@item.FoodName" style="height:70%">
+                                </a>
                                 <h4>@item.FoodName</h4>
                                 <p class="ingredients">
                                     @item.Ingredient
                                 </p>
                                 <p class="price">
                                     $@item.Price
-                                </p>
+                                </p>@*
+                                <button class="btn btn-primary btn-lg btn-block" style="width: 49%; float: left; margin-right: 1%; margin-top: 0.75rem;" onclick="javascript:AddFoodToCartConfirm(@item.FoodID)">
+                                    <i class="fa fa-download"></i> Add
+
+                                </button>*@
                             </div>
 
                             <!-- Menu Item -->

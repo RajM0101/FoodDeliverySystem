@@ -69,7 +69,7 @@ function DeleteFoodItem() {
         data: { "FoodItemId": FoodItemId },
         dataType: "json",
     }).done(function (data, textStatus, jqXHR) {
-        if (data.status == "1") {
+        if (data.result.AllowToDelete == true) {
             showToastPortal('success', '', MessagePortal.FoodItemDeleted);
             var oTable = $('#FoodItemList').dataTable();
             oTable.fnClearTable(0);

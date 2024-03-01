@@ -155,9 +155,13 @@ namespace FoodDelivery.Controllers
             return View("_FoodList", MainModel);
         }
 
-
-
-
+        [Route("/food-detail/{FoodID?}", Name = "FoodDetails")]
+        public ActionResult FoodDetails(int FoodID)
+        {
+            GetFoodDetailsById getFoodDetailsById = new GetFoodDetailsById();
+            getFoodDetailsById = objDatabase.GetFoodItemDetailsById(FoodID);
+            return View("_FoodDetails", getFoodDetailsById);
+        }
 
 
 
@@ -174,7 +178,10 @@ namespace FoodDelivery.Controllers
             //https://learn.microsoft.com/en-us/aspnet/core/web-api/handle-errors?view=aspnetcore-7.0
             return View(new ErrorStatusCodeViewModel { StatusCode = statusCode });
         }
-
+        public IActionResult SessionOut()
+        {
+            return StatusCode(440);
+        }
     }
     #region ViewComponent Section
     public class RegisterUserViewComponent : ViewComponent

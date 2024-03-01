@@ -191,6 +191,54 @@ namespace FoodDelivery.Models
     {
         public string StatusCode { get; set; }
     }
+    public class CartListModel
+    {
+        public List<CartDetailModel> CartDetailList { get; set; } = new List<CartDetailModel>();
+
+        public CartTotalPriceModel cartTotalPrice { get; set; } = new CartTotalPriceModel();
+    }
+    public class CartTotalPriceModel
+    {
+        public string TotalCount { get; set; }
+        public decimal TotalPrice { get; set; }
+    }
+    public class CartDetailModel
+    {
+        public int UserCartID { get; set; }
+        public int FoodID { get; set; }
+        public string FoodName { get; set; }
+        public int Price { get; set; }
+        public string Ingredient { get; set; }
+        public bool IsJainAvailable { get; set; }
+        public bool IsBestSeller { get; set; }
+        public bool IsVegetarian { get; set; }
+        public string FoodImageName { get; set; }
+        public int DisplayOrder { get; set; }
+        public bool IsAvailable { get; set; }
+        public int DiscountInPercentage { get; set; }
+        public int Qauntity { get; set; }
+    }
+    public class RetriveDeatilFromCartModel
+    {
+        public int result { get; set; }
+        public string TotalCount { get; set; }
+        public string TotalPrice { get; set; }
+    }
+    public class AddOrderResoponse
+    {
+        public int RateStatus { get; set; }
+    }
+    public class GetUserOrderModel
+    {
+        public int UserId { get; set; }
+        public int OrderId { get; set; }
+        public int OrderDetailID { get; set; }
+        public string Name { get; set; }
+        public string Price { get; set; }
+        public int Qauntity { get; set; }
+        public string TotalPrice { get; set; }
+        public string OrderDate { get; set; }
+    }
     public class CommonModel
     {
     }

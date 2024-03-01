@@ -101,5 +101,152 @@ namespace FoodDelivery.Models
             foodListbyRestaurantIdMainModel.foodListByRestaurantId = foodListByRestaurantId;
             return foodListbyRestaurantIdMainModel;
         }
+        public GetFoodDetailsById GetFoodItemDetailsById(int FoodId)
+        {
+            GetFoodDetailsById getFoodDetailsById = new GetFoodDetailsById();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_GetFoodItemDetailsById, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@FoodID", FoodId);
+                        con.Open();
+                        using (IDataReader datareader = cmd.ExecuteReader())
+                        {
+                            getFoodDetailsById = UserDefineExtensions.DataReaderMapToEntity<GetFoodDetailsById>(datareader);
+                        }
+                        con.Close();
+                    }
+                }
+                return getFoodDetailsById;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        #region GetCart deatils By UserId
+        public CartListModel GetCartsDetailsByUserId(int UserId)
+        {
+            CartListModel cartListModel = new CartListModel();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_GetCartsDetailsByUserId, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = UserId;
+                    con.Open();
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        cartListModel.CartDetailList = UserDefineExtensions.DataReaderMapToList<CartDetailModel>(dataReader);
+                        dataReader.NextResult();
+                        cartListModel.cartTotalPrice = UserDefineExtensions.DataReaderMapToEntity<CartTotalPriceModel>(dataReader);
+                    }
+                    con.Close();
+                }
+            }
+            return cartListModel;
+        }
+
+        #endregion
+        #region Add Design To Cart
+        public RetriveDeatilFromCartModel AddFoodToCart(int UserId, int FoodId, int Qauntity)
+        {
+            RetriveDeatilFromCartModel retriveDeatilFromCart = new RetriveDeatilFromCartModel();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_AddFoodToCart, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = UserId;
+                    cmd.Parameters.Add(new SqlParameter("@FoodID", SqlDbType.Int)).Value = FoodId;
+                    cmd.Parameters.Add(new SqlParameter("@Qauntity", SqlDbType.Int)).Value = Qauntity;
+                    con.Open();
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        retriveDeatilFromCart = UserDefineExtensions.DataReaderMapToEntity<RetriveDeatilFromCartModel>(dataReader);
+                    }
+                    con.Close();
+                }
+            }
+            return retriveDeatilFromCart;
+        }
+        public int RemoveFoodFromCart(int UserId, int FoodId,bool IsDeleteFromCart)
+        {
+            int result = 0;
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_RemoveFoodFromCart, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = UserId;
+                    cmd.Parameters.Add(new SqlParameter("@FoodId", SqlDbType.Int)).Value = FoodId;
+                    cmd.Parameters.Add(new SqlParameter("@IsDeleteFromCart", SqlDbType.Bit)).Value = IsDeleteFromCart;
+                    con.Open();
+                    SqlDataReader sdr = cmd.ExecuteReader();
+                    while (sdr.Read())
+                    {
+                        result = Convert.ToInt32(sdr["result"]);
+                    }
+                    con.Close();
+                }
+            }
+            return result;
+        }
+        #endregion
+        public AddOrderResoponse AddOrder(string FoodIds, int UserId)
+        {
+            AddOrderResoponse AddOrderResoponse = new AddOrderResoponse();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_AddOrder, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = UserId;
+                    cmd.Parameters.Add(new SqlParameter("@FoodIds", SqlDbType.NVarChar,2000)).Value = FoodIds;
+                    con.Open();
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        AddOrderResoponse = UserDefineExtensions.DataReaderMapToEntity<AddOrderResoponse>(dataReader);
+                    }
+                    con.Close();
+                }
+            }
+            return AddOrderResoponse;
+        }
+        public List<GetUserOrderModel> GetUserOrderList(JQueryDataTableParamModel param, int UserId, out int noOfRecords)
+        {
+            List<GetUserOrderModel> getUserPurchaseDesignModels = new List<GetUserOrderModel>();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_GetUserOrder, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = UserId;
+                    cmd.Parameters.Add(new SqlParameter("@Search", SqlDbType.NVarChar, 50)).Value = param.sSearch;
+                    cmd.Parameters.Add(new SqlParameter("@DisplayStart", SqlDbType.Int)).Value = param.iDisplayStart;
+                    cmd.Parameters.Add(new SqlParameter("@PageSize", SqlDbType.Int)).Value = param.iDisplayLength;
+                    cmd.Parameters.Add(new SqlParameter("@SortColumnName", SqlDbType.VarChar, 50)).Value = param.iSortCol_0;
+                    cmd.Parameters.Add(new SqlParameter("@SortOrder", SqlDbType.VarChar, 50)).Value = param.sSortDir_0;
+                    con.Open();
+                    SqlParameter resultOutPut = new SqlParameter("@noOfRecords", SqlDbType.VarChar);
+                    resultOutPut.Size = 50;
+                    resultOutPut.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(resultOutPut);
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        getUserPurchaseDesignModels = UserDefineExtensions.DataReaderMapToList<GetUserOrderModel>(dataReader);
+                    }
+                    noOfRecords = Convert.ToInt32(cmd.Parameters["@noOfRecords"].Value);
+                    con.Close();
+                }
+            }
+            return getUserPurchaseDesignModels;
+        }
     }
 }

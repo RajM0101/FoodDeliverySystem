@@ -1,0 +1,150 @@
+﻿@model GetFoodDetailsById
+@{
+    ViewBag.MetaTitle = Model.FoodName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .p-15{
+        padding:15px;
+    }
+
+    .product__header h1 {
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 32px;
+        margin: 0;
+    }
+
+    .product__meta table {
+        font-size: 20px;
+        width:100%;
+    }
+
+    [dir=ltr] .product__meta th {
+        padding-right: 12px;
+    }
+
+    .product__meta table tbody tr th {
+        width: 160px;
+    }
+
+    .product__meta th, .product__meta td {
+        padding: 8px 0;
+    }
+
+    .product__meta th {
+        font-weight: 700;
+    }
+
+    .product__meta tr + tr > * {
+        border-top: 1px solid #ebebeb;
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: rgb(235, 235, 235);
+    }
+
+    .product__body {
+        font-family: "Roboto","sans-serif";
+    }
+
+    .product-gallery {
+        height: 500px;
+        display: table;
+        text-align: -moz-center;
+        text-align: -webkit-center;
+    }
+
+    .zoom {
+        position: relative;
+        vertical-align: middle;
+        display: table-cell;
+        border: 1px solid black;
+    }
+
+        .zoom img {
+            display: block;
+            vertical-align: middle;
+            max-width: 100%;
+        }
+</style>
+<section id="menu" class="hero align-items-center section-bg menu">
+<div class="block-split">
+
+    <div class="container" style="background-color:white; padding:30px;">
+        <div class="row">
+            <div class="col-md-6 product-gallery p-15">
+                <span class='zoom' id='product-img'>
+                    @{
+                        var Image = "/Images/Food/" + @Model.FoodImageName;
+                        ViewBag.MetaImage = @Image;
+                    }
+                    <img src="@Image" style="max-height:500px;" alt="@Model.FoodName" />
+                       
+                    </span>
+            </div>
+            <div class="col-md-6 product p-15">
+                <div class="product__body">
+                        <div class="product__header">
+                            <h1 class="product__title">@Model.FoodName</h1>
+                        </div>
+                    <div class="product__main">
+                        <div class="product__meta">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                                @if (Model.IsVegetarian)
+                                                {
+                                                    <img src="~/images/vegetarian.png" alt="Vegetarian"/>
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/images/non-vegetarian.png" alt="Non-Vegetarian" />
+                                                }
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Ingredient</th>
+                                        <td>@Model.Ingredient</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Price</th>
+                                        <td>$@Model.Price</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Jain Available</th>
+                                        <td>@(Model.IsJainAvailable==true? "Yes" :"No")</td>
+                                    </tr>
+                                    @if (Model.DiscountInPercentage != null || Model.DiscountInPercentage != 0)
+                                    {
+                                        <tr>
+                                            <th>Discount</th>
+                                            <td>@Model.DiscountInPercentage%</td>
+                                        </tr>
+                                    }
+                                    
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <input type="hidden" class="form-control" asp-for="FoodID" value="@Model.FoodID">
+
+                        <button class="btn btn-primary btn-lg btn-block" style="width: 49%; float: left; margin-right: 1%; margin-top: 0.75rem;white-space: nowrap;" onclick="javascript:AddFoodToCartConfirm(@Model.FoodID)">
+                                <i class="fa fa-shopping-cart"></i> Add to cart
+                            </button>
+                            @*
+                        <button class="btn btn-primary btn-lg btn-block btnfav" style="width: 49%; float: left; margin-top: 0.75rem;"
+                                onclick="javascript:AddOrRemoveFavourite(@Model.DesignId)">
+                            <i class="fa fa-heart"></i> Favourite
+                        </button>*@
+                       
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="block-space block-space--layout--before-footer"></div>
+</section>

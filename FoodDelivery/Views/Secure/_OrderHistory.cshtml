@@ -1,0 +1,210 @@
+﻿
+<style>
+    .account-nav {
+        background-color: #fff;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+    }
+
+    .account-nav__title {
+        padding: 1.375rem 1.5rem;
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    .account-nav__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 15px;
+        line-height: 20px;
+        padding-bottom: 1.375rem;
+    }
+ 
+[dir=ltr] .account-nav__item--active a {
+    -webkit-box-shadow: 3px 0 #e52727 inset;
+    box-shadow: 3px 0 #e52727 inset;
+}
+.account-nav__item--active a {
+    color: inherit;
+    font-weight: 500;
+}
+    .account-nav__item a {
+        cursor: pointer;
+        display: block;
+        color: #6c757d;
+        padding: 7px 1.5rem;
+    }
+
+    .dashboard {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+    }
+
+    .dashboard__orders {
+        margin-top: 24px;
+        width: 100%;
+    }
+
+    .card {
+        background-color: #fff;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+        border: none;
+        border-radius: 0;
+    }
+
+    .card-header {
+        border-radius: 0;
+        background: transparent;
+        padding: 1.25rem 2rem;
+        border: none;
+    }
+
+    .card-divider {
+        height: 1px;
+        background: #ebebeb;
+    }
+
+    .card-table {
+        font-size: 15px;
+        Padding:10px
+    }
+
+    [dir=ltr] .card-table table {
+        text-align: left;
+    }
+
+    .card-table table {
+        width: 100%;
+        min-width: 500px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        GetUserOrderList();
+    });
+
+    function GetUserOrderList() {
+        $('#GetUserOrderList').dataTable({
+            "responsive": true,
+            "bServerSide": true,
+            "sAjaxSource": siteURL + 'Secure/GetUserOrderList',
+            "fnServerParams": function (aoData, fnCallback) {
+            },
+            "processing": true,
+            "bLengthChange": true,
+            "bInfo": true,
+            "paging": true,
+            "searching": true,
+            "columnDefs": [],
+            "order": [[1, "desc"]],
+            "lengthMenu": [10, 25, 50, 75, 100],
+            "rowGroup": {
+                enable: true,
+                startRender: function (rows, group) {
+                    var OrderId = rows.data().pluck(1).reduce(function (a, b) {
+                        return b;
+                    }, 0);
+                    var OrderDate = rows.data().pluck(7).reduce(function (a, b) {
+                        return b;
+                    }, 0);
+                    var TotalPrice = rows.data().pluck(6).reduce(function (a, b) {
+                        return b;
+                    }, 0);
+
+                    var trHtml = '<td style="font-size: 13px;font-weight: bold;" class="remove-colspan">' + OrderId + '</td>' +
+                        '<td style="font-size: 13px;font-weight: bold;" class="remove-colspan"> OrderDate : ' + OrderDate + '</td>' +
+                        '<td></td>'+
+                        '<td style="font-size: 13px;font-weight: bold;" class="remove-colspan"> TotalPrice : ' + TotalPrice + '</td>'+
+                        '<td></td>';
+
+                    return $('<tr style="background-color: rgb(228, 228, 228);"/>').append(trHtml);
+                },
+                dataSrc: [1]
+            },
+            "aoColumns": [
+                { "sName": "UserId", "bVisible": false, "bSearchable": false, "bSortable": false },
+                {
+                    "sName": "OrderId", "bVisible": true, "bSearchable": true, "bSortable": true,
+                    "mRender": function (data, type, aoData) {
+                        return "";
+                    }
+                },
+                { "sName": "OrderDetailID", "bSearchable": true, "bSortable": true },
+                { "sName": "Name", "bSearchable": true, "bSortable": false },
+                { "sName": "Price", "bSearchable": true, "bSortable": false },
+                { "sName": "Qauntity", "bSearchable": true, "bSortable": false },
+                { "sName": "TotalPrice", "bVisible": false, "bSearchable": true, "bSortable": true },
+                { "sName": "OrderDate", "bVisible": false, "bSearchable": true, "bSortable": true }
+            ],
+            oLanguage: { sEmptyTable: "No Records Found." },
+            processing: true,
+            destroy: true,
+            stateSave: false
+        });
+    }
+</script>
+<style>
+    #GetUserOrderList {
+        width: 100% !important;
+    }
+</style>
+<section id="menu" class="hero align-items-center section-bg menu">
+    <div class="block">
+        <div class="container container--max--xl">
+            <div class="row">
+                <div class="col-12 col-lg-3 d-flex">
+                    <div class="account-nav flex-grow-1">
+                        <h4 class="account-nav__title">My Account</h4>
+                        <ul class="account-nav__list">
+                            <li class="account-nav__item account-nav__item--active">
+                                <a asp-route="OrderHistory">Order History</a>
+                            </li>
+                            <li class="account-nav__divider" role="presentation"></li>
+                            <li class="account-nav__item ">
+                                <a asp-route="Logout">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Order History</h5>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-table">
+                            <div class="table-responsive-sm">
+                                <table id="GetUserOrderList" class="display table nowrap table-striped table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>#User Id</th>
+                                            <th>Order Id</th>
+                                            <th>Order Detail ID</th>
+                                            <th>Name</th>
+                                            <th>Food Price</th>
+                                            <th>Qauntity</th>
+                                            <th>Total Price</th>
+                                            <th>Order Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block-space block-space--layout--before-footer"></div>
+</section>

@@ -76,5 +76,8 @@
     <Build Include="UserCart.sql" />
     <Build Include="web_GetAllFoodByRestaurantID.sql" />
     <Build Include="web_GetAllRestaurant.sql" />
+    <Build Include="web_GetFoodItemDetailsById.sql" />
+    <Build Include="web_GetCartsDetailsByUserId.sql" />
+    <Build Include="web_AddFoodToCart.sql" />
   </ItemGroup>
 </Project>

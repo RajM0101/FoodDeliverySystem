@@ -1,7 +1,4 @@
-﻿
-
--- Exec restaurant_GetFoodItemDetailsById 3,1
-CREATE PROCEDURE [dbo].[restaurant_GetResataurantDetailsById]
+﻿CREATE PROCEDURE [dbo].[restaurant_GetResataurantDetailsById]
 @RestaurantID int
 AS 
 BEGIN  
@@ -27,5 +24,3 @@ END
 
 
 GO
-
-

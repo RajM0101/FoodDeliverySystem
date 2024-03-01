@@ -1,0 +1,684 @@
+﻿@model CartListModel
+@{
+    var currencySymbol = "$";
+}
+<style>
+
+    .cartDetailPage .container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+    .cartDetailPage .cart {
+        display: flex;
+    }
+    
+/*
+// .cart-table
+*/
+.cart-table__table {
+    width: 100%;
+    border-spacing: 0;
+}
+
+.cart-table__head {
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.cart-table__column--product {
+    line-height: 1.25;
+}
+
+.cart-table__column--price {
+    width: 130px;
+}
+
+[dir=ltr] .cart-table__column--price {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.cart-table__row .cart-table__column--price-Name {
+    text-align: center !important;
+}
+
+[dir=rtl] .cart-table__column--price {
+    text-align: left;
+}
+
+.cart-table__column--quantity {
+    width: 150px;
+    text-align: center;
+}
+
+ .cart-table__column--quantity {
+    padding-left: 36px;
+}
+
+[dir=rtl] .cart-table__column--quantity {
+    padding-right: 36px;
+}
+
+.cart-table__column--total {
+    width: 130px;
+}
+
+[dir=ltr] .cart-table__column--total {
+    text-align: right;
+}
+
+[dir=rtl] .cart-table__column--total {
+    text-align: left;
+}
+
+.cart-table__column--remove {
+    width: 1px;
+    white-space: nowrap;
+}
+
+[dir=ltr] .cart-table__column--remove {
+    padding-left: 0;
+}
+
+[dir=rtl] .cart-table__column--remove {
+    padding-right: 0;
+}
+
+.cart-table__product-name {
+    color: inherit;
+    -webkit-transition: color .15s;
+    transition: color .15s;
+}
+
+.cart-table__Design-name {
+    color: inherit;
+    -webkit-transition: color .15s;
+    transition: color .15s;
+}
+
+.cart-table__product-name:hover {
+    color: var(--pcolor) !important;
+}
+
+.cart-table__Design-name:hover {
+    color: var(--pcolor) !important;
+}
+
+.cart-table__options {
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    line-height: 1.375;
+    color: #6c757d;
+}
+
+@@media (min-width: 992px) {
+    .cart-table {
+        -ms-flex-item-align: start;
+        align-self: flex-start;
+        background-color: #fff;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+    }
+
+    .cart-table__foot td {
+        padding: 20px 24px;
+    }
+
+    .cart-table__column {
+        padding: 14px 16px;
+        border-bottom: 1px solid #ebebeb;
+    }
+
+    [dir=ltr] .cart-table__column:first-child {
+        padding-left: 28px;
+    }
+
+    [dir=rtl] .cart-table__column:first-child {
+        padding-right: 28px;
+    }
+
+    [dir=ltr] .cart-table__column:last-child {
+        padding-right: 28px;
+    }
+
+    [dir=rtl] .cart-table__column:last-child {
+        padding-left: 28px;
+    }
+
+    .cart-table__column--image {
+        width: 1px;
+        text-align: center;
+    }
+
+        .cart-table__column--image .image {
+            width: 80px;
+        }
+
+    .cartDetail .cart-table__column--image .image {
+        width: 160px !important;
+    }
+
+    .cart-table__options li {
+        position: relative;
+    }
+
+    [dir=ltr] .cart-table__options li {
+        padding-left: 12px;
+    }
+
+    [dir=rtl] .cart-table__options li {
+        padding-right: 12px;
+    }
+
+    .cart-table__options li:before {
+        display: block;
+        position: absolute;
+        content: '';
+        width: 4px;
+        height: 4px;
+        border-radius: 2px;
+        background: currentColor;
+        top: 7px;
+        opacity: .7;
+    }
+
+    [dir=ltr] .cart-table__options li:before {
+        left: 2px;
+    }
+
+    [dir=rtl] .cart-table__options li:before {
+        right: 2px;
+    }
+
+    [dir=ltr] .cart-table__remove {
+        margin-right: -12px;
+    }
+
+    [dir=rtl] .cart-table__remove {
+        margin-left: -12px;
+    }
+
+    .cart-table__actions {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+    }
+
+    .cart-table__coupon-form {
+        width: 360px;
+    }
+}
+
+@@media (max-width: 991.98px) {
+    .cart-table__table {
+        display: block;
+    }
+
+    .cart-table__head {
+        display: none;
+    }
+
+    .cart-table__column {
+        display: block;
+    }
+
+    .cart-table__column {
+        padding: 0;
+    }
+
+    .cart-table__body {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin: -8px;
+    }
+
+    .cart-table__row {
+        background-color: #fff;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        position: relative;
+        margin: 8px;
+        width: calc(100% / 3 - 16px);
+    }
+
+    .cart-table__column--image {
+        text-align: center;
+        padding: 16px 14px;
+    }
+
+        .cart-table__column--image .image {
+            max-width: 220px;
+            margin: 0 auto;
+        }
+
+    .cart-table__column--product {
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        text-align: center;
+        padding: 0 14px 16px;
+    }
+
+    .cart-table__column--price,
+    .cart-table__column--quantity,
+    .cart-table__column--total {
+        width: 100%;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        border-top: 1px solid #ebebeb;
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+
+    [dir=ltr] .cart-table__column--price, [dir=ltr]
+    .cart-table__column--quantity, [dir=rtl]
+    .cart-table__column--Design, [dir=ltr]
+    .cart-table__column--total {
+        padding-left: 14px;
+    }
+
+    [dir=rtl] .cart-table__column--price, [dir=rtl]
+    .cart-table__column--quantity, [dir=rtl]
+    .cart-table__column--Design, [dir=rtl]
+    .cart-table__column--DesignCode, [dir=rtl]
+    .cart-table__column--total {
+        padding-right: 14px;
+    }
+
+    .cart-table__column--price:before,
+    .cart-table__column--quantity:before,
+    .cart-table__column--Design:before,
+    .cart-table__column--DesignCode:before,
+    .cart-table__column--total:before {
+        content: attr(data-title) ":";
+        display: block;
+        width: calc(40% - 6px);
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+        font-weight: 500;
+    }
+
+    [dir=ltr] .cart-table__column--price:before, [dir=ltr]
+    .cart-table__column--quantity:before, [dir=rtl]
+    .cart-table__column--Design, [dir=ltr]
+    .cart-table__column--DesignCode:before, [dir=ltr]
+    .cart-table__column--total:before {
+        margin-right: 12px;
+        text-align: left;
+    }
+
+    [dir=rtl] .cart-table__column--price:before, [dir=rtl]
+    .cart-table__column--quantity:before, [dir=rtl]
+    .cart-table__column--Design:before, [dir=rtl]
+    .cart-table__column--DesignCode:before, [dir=rtl]
+    .cart-table__column--total:before {
+        margin-left: 12px;
+        text-align: right;
+    }
+
+    .cart-table__remove {
+        position: absolute;
+        top: 0;
+    }
+
+    [dir=ltr] .cart-table__remove {
+        right: 0;
+    }
+
+
+    .cart-table__foot,
+    .cart-table__foot tr,
+    .cart-table__foot td {
+        display: block;
+        padding: 0;
+    }
+
+    .cart-table__actions {
+        background-color: #fff;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+        margin-top: 20px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+    }
+
+    .cart-table__coupon-form {
+        padding: 16px;
+    }
+
+    .cart-table__update-button {
+        padding: 16px;
+    }
+
+    .cart-table__quantity {
+        max-width: 120px;
+    }
+}
+
+@@media (min-width: 768px) and (max-width: 991.98px) {
+    .cart-table__coupon-form {
+        width: 60%;
+    }
+}
+
+@@media (max-width: 767.98px) {
+    .cart-table__row {
+        width: calc(50% - 16px);
+    }
+
+    .cart-table__update-button {
+        border-top: 1px solid #ebebeb;
+    }
+}
+
+@@media (max-width: 767.98px) {
+    .cart-table__actions {
+        display: block;
+    }
+
+    .cart-table__update-button {
+        border-top: 1px solid #ebebeb;
+        text-align: center;
+    }
+}
+
+@@media (max-width: 474px) {
+    .cart-table__row {
+        width: 100%;
+    }
+}
+
+    .cart__totals {
+        margin-left: 50px;
+    }
+
+    .cart__totals {
+        width: 360px;
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+    }
+    .cart-table__column--quantity {
+    padding-left: 36px;
+}
+
+@@media (min-width: 992px)
+.cart-table__column {
+    padding: 14px 16px;
+    border-bottom: 1px solid #ebebeb;
+}
+
+
+    .input-number {
+        display: block;
+        width: 100%;
+        position: relative;
+    }
+
+    .input-number__input {
+        -moz-appearance: textfield;
+        display: block;
+        width: 100%;
+        min-width: 88px;
+        padding-left: 24px;
+        padding-right: 24px;
+        text-align: center;
+    }
+
+    .form-control {
+        border-radius: 2px;
+        border-width: 1px;
+        border-style: solid;
+        background-clip: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        -webkit-transition: border-color .15s ease-in-out, background .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+        transition: border-color .15s ease-in-out, background .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background .15s ease-in-out;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+        color: #262626;
+        background-color: #ebebeb;
+        border-color: #ebebeb;
+        height: 36px;
+        padding: calc(15px / 2) 10px;
+        font-size: 16px;
+        line-height: 19px;
+    }
+    .input-number__sub:before, .input-number__add:before {
+        width: 8px;
+        height: 2px;
+    }
+
+    .input-number__sub:before, .input-number__sub:after, .input-number__add:before, .input-number__add:after {
+        display: block;
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        background: currentColor;
+    }
+
+    .input-number__sub, .input-number__add {
+        position: absolute;
+        height: 100%;
+        width: 24px;
+        top: 0;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        opacity: .3;
+        -webkit-transition: opacity .18s;
+        transition: opacity .18s;
+    }
+
+    .input-number__add:after {
+        width: 2px;
+        height: 8px;
+    }
+
+    .input-number__sub {
+        left: 1px;
+    }
+     .input-number__add {
+        right: 1px;
+    }
+
+    .input-number__sub:before, .input-number__sub:after, .input-number__add:before, .input-number__add:after {
+        display: block;
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        background: currentColor;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    .input-number__input::-webkit-outer-spin-button,
+    .input-number__input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input-number__input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+<script>
+
+    function onSuccessAddOrder(result) {
+        debugger
+        if (result.Result==1) {
+            showToastPortal('success', '',"Order added sucessfully", 3000);
+            setTimeout(function () { location.reload() }, 2000);
+        }
+        else{
+            showToastPortal('danger', '', "Order cannot added sucessfully.", 3000);
+        }
+    }
+
+    function onFailAddOrder() {
+        showToastPortal('danger', '', "Order cannot added sucessfully.", 3000);
+    }
+
+</script>
+<section id="menu" class="hero align-items-center section-bg menu">
+    <div class="block cartDetailPage">
+        <div class="container">
+            <div class="cart">
+                <div class="cart__table cart-table">
+                    @if (Model.CartDetailList.Count() > 0)
+                    {
+                        <table class="cart-table__table">
+                            <thead class="cart-table__head">
+                                <tr class="cart-table__row">
+                                    <th class="cart-table__column cart-table__column--image">Image</th>
+                                    <th class="cart-table__column cart-table__column--Design">Detail</th>
+                                    <th class="cart-table__column cart-table__column--price cart-table__column--price-Name">Price</th>
+                                    <th class="cart-table__column cart-table__column--Design">Quantity</th>
+                                    <th class="cart-table__column cart-table__column--Design">Total</th>
+                                    <th class="cart-table__column cart-table__column--remove"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="cart-table__body cartDetail">
+                                @foreach (var item in Model.CartDetailList)
+                                {
+                                    var Image = "/Images/Food/" + item.FoodImageName;
+
+                                    <tr class="cart-table__row">
+                                        <td class="cart-table__column cart-table__column--image">
+                                            <div class="image image--type--design--img">
+                                                @*<a href="/design-details/@item.CategorySEOUrl/@item.DesignSEOUrl-@item.DesignId">*@
+                                                <a href="/food-detail/@item.FoodID">
+                                                    <img class="" src="@Image" alt="@item.FoodName" style="max-height:160px;">
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="cart-table__column cart-table__column--Name">
+                                            <a href="/food-detail/@item.FoodID" class="cart-table__Design-name">@item.FoodName</a>
+                                            @if (item.IsVegetarian)
+                                            {
+                                                <img src="~/images/vegetarian.png" alt="Vegetarian" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/non-vegetarian.png" alt="Non-Vegetarian" />
+                                            }
+                                            <ul class="cart-table__options">
+                                                <li>Ingredient: @item.Ingredient </li>
+                                                <li>JainAvailable: @(item.IsJainAvailable==false ?"Yes":"No") </li>
+                                            </ul>
+                                        </td>
+                                        @{
+                                            var indianCulture = new System.Globalization.CultureInfo("en-US");
+                                        }
+                                        <td class="cart-table__column cart-table__column--price" data-title="Price">@currencySymbol @string.Format(indianCulture, "{0:N2}", @item.Price)</td>
+                                        <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
+                                            <div class="cart-table__quantity input-number">
+                                                <input class="form-control input-number__input" type="number" min="1" value="@item.Qauntity"  data-foodid="@item.FoodID">
+                                                <div class="input-number__add" onclick="javascript:AddToCart(@item.FoodID)"></div>
+                                                <div class="input-number__sub" onclick="javascript:RemoveFromCart(@item.FoodID,false)"></div>
+                                            </div>
+                                        </td>
+                                        @{
+                                            var TotalPrice = (item.Price * item.Qauntity);
+                                        }
+                                        <td class="cart-table__column cart-table__column--price" data-title="Total Price">@currencySymbol @string.Format(indianCulture, "{0:N2}", @TotalPrice)</td>
+                                        <td class="cart-table__column cart-table__column--remove">
+                                            <button type="button" class="cart-table__remove btn btn-sm btn-icon btn-muted" onclick="javascript:RemoveFromCart(@item.FoodID,true)">
+                                                <svg width="12" height="12">
+                                                    <path d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6
+	                                            c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4
+	                                            C11.2,9.8,11.2,10.4,10.8,10.8z" />
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="products-view__pagination m-t-0">
+                            <div class="products-view__pagination-legend">
+                                <h6 style="padding: 10px; text-align: center;">Your Cart is empty.</h6>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="cart__totals">
+                    <div class="card">
+                        <div class="card-body card-body--padding--2">
+                            <h3 class="card-title">Cart Totals</h3>
+                            <table class="cart__totals-table">
+                                <tbody class="card-wallet">
+                                    <tr>
+                                        <th>Total</th>
+                                        @if (Model.CartDetailList.Count() > 0)
+                                        {
+                                            <td>@currencySymbol @ViewBag.TotalPrices</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@currencySymbol 0</td>
+                                        }
+                                    </tr>
+                                   
+                                </tbody>
+                            </table>
+                            @{
+                                var FoodIds = string.Join(",", Model.CartDetailList.Select(x => x.FoodID.ToString()));
+
+                                if (Model.CartDetailList.Count() > 0)
+                                {
+                                    <form asp-action="AddUserOrder" asp-controller="Secure" id="ConformUserCartForm" method="POST" data-ajax="true" data-ajax-mode="before" data-ajax-success="onSuccessAddOrder" data-ajax-fail="onFailAddOrder" asp-area="">
+                                        <input type="hidden" class="form-control" id="FoodIds" name="FoodIds" value="@FoodIds">
+                                        <button type="submit" class="btn btn-primary btn-xl btn-block">Proceed to checkout</button>
+                                    </form>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block-space block-space--layout--before-footer"></div>
+
+    </section>

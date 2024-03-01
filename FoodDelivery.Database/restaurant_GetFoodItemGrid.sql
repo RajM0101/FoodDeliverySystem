@@ -1,10 +1,4 @@
-﻿
-/*
-Declare @noOfRecords int  
-Exec [restaurant_GetFoodItemGrid] 1,NULL,NULL,-1,-1,-1,0,10,NULL,'DESC',@noOfRecords out
-Select @noOfRecords 
-*/
-CREATE PROCEDURE [dbo].[restaurant_GetFoodItemGrid]
+﻿CREATE PROCEDURE [dbo].[restaurant_GetFoodItemGrid]
 @RestaurantID int,
 @Search NVARCHAR(50) = NULL,    
 @DiscountInPercentage int=0, 
@@ -81,5 +75,3 @@ END
 
 
 GO
-
-

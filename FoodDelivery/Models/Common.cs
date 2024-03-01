@@ -23,12 +23,18 @@
             public const string restaurant_GetFoodItemGrid = "restaurant_GetFoodItemGrid";
             public const string restaurant_GetResataurantDetailsById = "restaurant_GetResataurantDetailsById";
             public const string restaurant_DeleteFood = "restaurant_DeleteFood";
+            public const string web_RemoveFoodFromCart = "web_RemoveFoodFromCart";
             #endregion
             #region User
             public const string web_UserLogin = "web_UserLogin";
             public const string web_UserRegister = "web_UserRegister";
             public const string web_GetAllRestaurant = "web_GetAllRestaurant";
             public const string web_GetAllFoodByRestaurantID = "web_GetAllFoodByRestaurantID";
+            public const string web_GetFoodItemDetailsById = "web_GetFoodItemDetailsById";
+            public const string web_GetCartsDetailsByUserId = "web_GetCartsDetailsByUserId";
+            public const string web_AddFoodToCart = "web_AddFoodToCart";
+            public const string web_AddOrder = "web_AddOrder";
+            public const string web_GetUserOrder = "web_GetUserOrder";
             #endregion
         }
         public static class Messages
