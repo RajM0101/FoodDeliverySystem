@@ -11,3 +11,5 @@
 /FoodDelivery/FoodDelivery/obj
 /FoodDelivery.Database/bin/Debug
 /FoodDelivery.Database/obj/Debug
+*.dbmdl
+*.jfm
