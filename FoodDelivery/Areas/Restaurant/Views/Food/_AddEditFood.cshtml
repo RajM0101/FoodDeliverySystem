@@ -5,7 +5,17 @@
 }
 <link href="~/lib/jcrop/css/jquery.jcrop.css" rel="stylesheet" />
 <script src="~/lib/jcrop/js/jquery.jcrop.js"></script>
-
+<style>
+     .jcrop-tracker{
+         width:33% !important;
+        height:70% !important;
+    }
+    .jcrop-holder img{
+        width:33% !important;
+        height:70% !important;
+    }
+   
+</style>
 @section scripts
     {
     <script type="text/javascript">
@@ -122,6 +132,7 @@
                 });
                 $("#dvImageName").hide();
                 $("#delImage").removeClass("hide");
+                 $(".DeleteImageIcon").removeClass("hide");
             }
             reader.readAsDataURL($("#ImageName")[0].files[0]);
         }
@@ -256,23 +267,25 @@
                                                 <input type="hidden" asp-for="FoodImageName" />
                                                 <label class="col-sm-2">Image<span style="color: red">*</span></label>
                                                 <div class="col-sm-8" id="dvImageName">
-                                                    <span style="color:#DC3545">Note*: Image size should be <b>395px X 180px</b> (width x height). &nbsp; Only <b>.jpg,.jpeg,.png</b> file types.</span><br />
+                                                   
                                                     <input type="file" asp-for="ImageName" class="form-control field-input" multiple="multiple" onchange="changeCatalogFile(this);" accept="image/*">
                                                     <div class="input-group error-font-size">
                                                         <span asp-validation-for="ImageName" class="text-danger"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 hide DeleteImageIcon">
-                                                    <div class="col-sm-8 form-group" id="Editimagelist1">
-                                                    </div>
-                                                    <div id="delImage" class="delImage"><i class="fas fa-trash-alt"></i></div>
-                                                </div>
+                                                
                                                 <span class="AddImageList">
                                                 <label class="col-sm-2"></label>
                                                 <label class="col-sm-2"></label>
-                                                <div class="col-sm-8 form-group" id="imagelist1">
+                                                <div class="col-sm-8 form-group" id="imagelist1" style="max-height:300px">
                                                 </div>
+                                                
                                                 </span>
+                                                <div class="col-md-3 hide DeleteImageIcon">
+                                                    <div class="col-sm-8 form-group" id="Editimagelist1" style="max-height:300px">
+                                                    </div>
+                                                    <div id="delImage" class="delImage"><i class="fas fa-trash-alt"></i></div>
+                                                </div>
 
                                                 <input type="hidden" asp-for="imgX1" />
                                                 <input type="hidden" asp-for="imgY1" />
