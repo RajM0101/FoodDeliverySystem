@@ -34,6 +34,7 @@ namespace FoodDelivery.Areas.Restaurant.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("restaurant")]
         public IActionResult Login(RestaurantLoginModel restaurantLoginModel)
         {
             try
@@ -62,6 +63,10 @@ namespace FoodDelivery.Areas.Restaurant.Controllers
                     {
                         HttpContext.Session.SetComplexData(Common.SessionKeys.RestaurantSession, restaurantLoginResult.RestaurantData);
                     }
+                    else if (restaurantLoginResult.Flag == 3)
+                    {
+                        result = Common.Messages.NotApproved;
+                    }
                     else
                     {
                         result = Common.Messages.LoginFailed;
@@ -81,7 +86,6 @@ namespace FoodDelivery.Areas.Restaurant.Controllers
         }
 
         [HttpPost]
-        // [Route("Backoffice/logout")]
         public IActionResult Logout()
         {
             try

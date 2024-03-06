@@ -1,5 +1,4 @@
-﻿
-CREATE TABLE [dbo].[Restaurant](
+﻿CREATE TABLE [dbo].[Restaurant](
 	[RestaurantID] [int] IDENTITY(1,1) NOT NULL,
 	[OwnerName] [nvarchar](200) NULL,
 	[RestaurantName] [nvarchar](200) NULL,
@@ -10,7 +9,7 @@ CREATE TABLE [dbo].[Restaurant](
 	[Floor] [nvarchar](50) NULL,
 	[BuildingName] [nvarchar](500) NULL,
 	[ZipCode] [nvarchar](50) NULL,
-	[RestaurantStatus] [int] NULL,
+	[RestaurantStatus] [bit] NULL,
 	[ImageName] [nvarchar](max) NULL,
 	[IsActive] [bit] NULL,
 	[IsDelete] [bit] NULL,
@@ -24,7 +23,3 @@ CREATE TABLE [dbo].[Restaurant](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'1--Pending for Approval ,2--Approved' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Restaurant', @level2type=N'COLUMN',@level2name=N'RestaurantStatus'
-GO
-

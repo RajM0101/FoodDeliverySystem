@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[web_GetAllRestaurant]
+﻿CREATE PROCEDURE [dbo].[web_GetAllRestaurant]
 AS 
 BEGIN  
 

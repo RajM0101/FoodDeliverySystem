@@ -29,28 +29,31 @@ BEGIN
 
 			DECLARE @RestaurantStatus INT= (SELECT RestaurantStatus FROM Restaurant WHERE (Email = @EmailOrMobileNo OR MobileNo = @EmailOrMobileNo) 
                 AND [Password] = @Password AND ISNULL(IsDelete,0)=0 AND IsActive=1)
-
+			
             IF(@IsRestaurantActive=1)
             BEGIN
-                SET @Result = 5;
-                SELECT @Result AS Result;
-                SELECT 
-					r.RestaurantID,
-					r.OwnerName,
-					r.RestaurantName,
-					r.Email as Email,
-					r.MobileNo as MobileNo,
-					r.ShopPlotNumber +' '+r.[Floor] +' '+ r.BuildingName as Address,
-					r.ZipCode,
-					r.RestaurantStatus
-				FROM Restaurant AS r 
-				WHERE (r.Email = @EmailOrMobileNo) OR (r.MobileNo = @EmailOrMobileNo)
+				IF(@RestaurantStatus=1)
+				BEGIN
+					 SET @Result = 5;
+					SELECT @Result AS Result;
+					SELECT 
+						r.RestaurantID,
+						r.OwnerName,
+						r.RestaurantName,
+						r.Email as Email,
+						r.MobileNo as MobileNo,
+						r.ShopPlotNumber +' '+r.[Floor] +' '+ r.BuildingName as Address,
+						r.ZipCode,
+						r.RestaurantStatus
+					FROM Restaurant AS r 
+					WHERE (r.Email = @EmailOrMobileNo) OR (r.MobileNo = @EmailOrMobileNo)
+				END
+				ELSE
+				BEGIN
+					SET @Result = 3; 
+					SELECT @Result AS Result;
+				END				              
             END
-			ELSE IF(@RestaurantStatus=1)
-			BEGIN
-				SET @Result = 3; 
-                SELECT @Result AS Result;
-			END
             ELSE
             BEGIN
                 SET @Result = 2; 
@@ -59,5 +62,6 @@ BEGIN
 		END
 	END 
 END
+
 
 GO

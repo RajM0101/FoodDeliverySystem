@@ -294,7 +294,7 @@ namespace FoodDelivery.Areas.Restaurant.Controllers
             try
             {
                 DeleteFoodResponse DeleteFoodResponse = new DeleteFoodResponse();
-                DeleteFoodResponse = objDatabaseRestaurant.DeletePackage(FoodItemId);
+                DeleteFoodResponse = objDatabaseRestaurant.DeleteFood(FoodItemId);
                 return Json(new { result = DeleteFoodResponse });
             }
             catch
@@ -329,6 +329,88 @@ namespace FoodDelivery.Areas.Restaurant.Controllers
                 return Json(new { Deleted = 0 });
             }
         }
+        #endregion
+
+        #region Order
+        [Route("restaurant/restaurant-order")]
+        [HttpGet]
+        public ActionResult RestaurantOrderList()
+        {
+            return View("_OrderList");
+        }
+        [HttpGet]
+        public ActionResult GetRestaurantOrderList(JQueryDataTableParamModel param, string Name)
+        {
+            try
+            {
+                IEnumerable<string[]> obj = Enumerable.Empty<string[]>();
+                int noOfRecords;
+                var SortOrderString = param.sColumns.Split(',');
+                param.iSortCol_0 = SortOrderString[Convert.ToInt32(param.iSortCol_0)];
+                List<OrderListModel> list = objDatabaseRestaurant.GetRestaurantOrderList(param, Name, GetCurrentRestaurant().RestaurantID, out noOfRecords);
+                obj = from c in list
+                      select new[]
+                      {
+                        Convert.ToString(c.OrderId),
+                        Convert.ToString(c.OrderDetailID),
+                         Convert.ToString(c.FoodId),
+                        c.Name,
+                        Convert.ToString(c.Qauntity),
+                        Convert.ToString(c.OrderDate),
+                        Convert.ToString(c.Price),
+                        Convert.ToString(c.OrderStatus)
+                      };
+
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = noOfRecords,
+                    iTotalDisplayRecords = noOfRecords,
+                    aaData = obj
+                });
+            }
+            catch (Exception) { throw; }
+        }
+        public List<OrderstatusList> GetOrderstatusList()
+        {
+            List<OrderstatusList> list = objDatabaseRestaurant.GetOrderstatusList();
+            return list;
+        }
+        [Route("restaurant/change-order-status")]
+        [HttpGet]
+        public ActionResult GetOrderDetailByOrderId(int OrderDetailID)
+        {
+            OrderViewModel orderViewModel = new OrderViewModel();
+
+            orderViewModel = objDatabaseRestaurant.GetOrderDetailByOrderId(OrderDetailID, GetCurrentRestaurant().RestaurantID);
+
+            ViewBag.IsReadOnlyClass = "readonly";
+            ViewBag.OrderStatusList = GetOrderstatusList();
+            return View("_ChangeOrderStatus", orderViewModel);
+        }
+        [HttpPost]
+        [Route("restaurant/change-order-status")]
+        public IActionResult ChangeOrderStatus(OrderViewModel orderViewModel)
+        {
+            try
+            {
+                if (ModelState.IsValid) {
+                    OrderStatusResponse orderStatusResponse = new OrderStatusResponse();
+                    orderStatusResponse = objDatabaseRestaurant.ChangeOrderStatus(orderViewModel, GetCurrentRestaurant().RestaurantID);
+                    return RedirectToAction("RestaurantOrderList", new { Status = orderStatusResponse.status });
+                }
+                else
+                {
+                    return View("_ChangeOrderStatus", orderViewModel);
+                }
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         #endregion
         public static String GetTimestamp(DateTime value)
         {

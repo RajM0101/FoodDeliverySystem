@@ -1,5 +1,4 @@
-﻿
-CREATE TABLE [dbo].[Food](
+﻿CREATE TABLE [dbo].[Food](
 	[FoodID] [int] IDENTITY(1,1) NOT NULL,
 	[RestaurantID] [int] NULL,
 	[FoodName] [nvarchar](200) NULL,
@@ -22,5 +21,3 @@ CREATE TABLE [dbo].[Food](
 ) ON [PRIMARY]
 
 GO
-
-

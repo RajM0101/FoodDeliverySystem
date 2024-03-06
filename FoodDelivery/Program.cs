@@ -66,12 +66,17 @@ app.UseMvc(routes =>
        "Home/{UserLoginRegister}/{id?}",
        new { controller = "Home", action = "UserLoginRegister" }
     );
-
     routes.MapRoute(
        "Restaurant",
        "restaurant/{controller}/{action}/{id?}",
        new { area = "restaurant", controller = "Login", action = "Index" }
     );
+    routes.MapRoute(
+       "AdminUser",
+       "adminuser/{controller}/{action}/{id?}",
+       new { area = "adminuser", controller = "Login", action = "Index" }
+    );
+    
 
     routes.MapRoute(
         name: "default",

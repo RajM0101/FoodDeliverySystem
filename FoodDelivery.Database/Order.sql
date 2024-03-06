@@ -1,8 +1,7 @@
-﻿
-CREATE TABLE [dbo].[Order](
+﻿CREATE TABLE [dbo].[Order](
 	[OrderId] [int] IDENTITY(1,1) NOT NULL,
-	[UserId] [int] NULL,
-	[OrderDate] [date] NULL,
+	[UserId] [int] NOT NULL,
+	[OrderDate] [date] NOT NULL,
 	[IsDelivered] [bit] NULL,
 	[IsCancelled] [bit] NULL,
 	[CancelReason] [nvarchar](max) NULL,

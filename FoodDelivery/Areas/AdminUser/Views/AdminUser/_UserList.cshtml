@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "UserList";
+    Layout = "~/Areas/AdminUser/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+    {
+    <script src="~/restaurant/scripts/adminuser/userlist.js" asp-append-version="true"></script>
+}
+
+<div class="pcoded-main-container company-report">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ fixed-menu ] start -->
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="panel panel-default panel-toggled">
+                                        <div class="card-header filter-header" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
+                                            <h5 class="mb-0">Advance filter - User</h5>
+                                            <i class="collapsed fa fa-angle-down float-right" aria-expanded="false" aria-controls="collapseTwo"></i>
+                                        </div>
+
+                                        <div id="collapseTwo" class="collapse card-body" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                            <div class="form-group row">
+                                                <label class="col-sm-1"></label>
+                                                <label class="col-sm-2">Name</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="txtName" />
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-1"></label>
+                                                <label class="col-sm-2"></label>
+                                                <div class="col-sm-8">
+                                                    <button type="button" id="UserSearch" class="btn btn-primary">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Food</h5>
+                                        <div class="card-header-right">
+                                            <div class="btn-group card-option">
+
+                                                <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="feather icon-more-horizontal"></i>
+                                                </button>
+                                                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                    <li class="dropdown-item full-card"><a href="javascript:"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                                                    <li class="dropdown-item minimize-card"><a href="javascript:"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                                                    <li class="dropdown-item close-card"><a href="javascript:"><i class="fas fa-eye-slash"></i> hide</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block report-block">
+                                        <div class="table-responsive">
+                                            <table id="UserList" class="display table nowrap table-striped table-hover table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#UserID</th>
+                                                        <th>Name</th>
+                                                        <th>Mobile No</th>
+                                                        <th>Address</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- [ fixed-menu ] end -->
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,13 @@
-﻿CREATE TABLE [dbo].[AdminUser](
+﻿
+CREATE TABLE [dbo].[AdminUser](
 	[AdminUserId] [int] IDENTITY(1,1) NOT NULL,
 	[FirstName] [nvarchar](50) NULL,
 	[LastName] [nvarchar](50) NULL,
 	[Email] [nvarchar](100) NULL,
-	[MobileNo] [nvarchar](20) NULL,
+	[MobileNo] [nvarchar](20) NOT NULL,
 	[Password] [nvarchar](50) NULL,
-	[IsActive] [bit] NULL,
-	[IsDelete] [bit] NULL,
+	[IsActive] [bit] NOT NULL,
+	[IsDelete] [bit] NOT NULL,
 	[CreatedDate] [datetime] NULL,
 	[CreatedBy] [int] NULL,
 	[ModifiedDate] [datetime] NULL,

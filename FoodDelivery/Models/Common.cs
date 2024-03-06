@@ -15,7 +15,15 @@
         }
         public static class StoredProcedureNames
         {
-            #region Admin 
+            #region Admin
+            public const string admin_ChangeRestaurantStatus = "admin_ChangeRestaurantStatus";
+            public const string admin_GetRestaurantList = "admin_GetRestaurantList";
+            public const string admin_GetRestaurantDetailByRestaurantId = "admin_GetRestaurantDetailByRestaurantId";
+            public const string admin_AdminUserLogin = "admin_AdminUserLogin";
+            public const string admin_GetUserList = "admin_GetUserList";
+            #endregion
+            #region Restaurant 
+
             public const string restaurant_RestaurantLogin = "restaurant_RestaurantLogin";
             public const string restaurant_AddEditRestaurant = "restaurant_AddEditRestaurant";
             public const string restaurant_GetFoodItemDetailsById = "restaurant_GetFoodItemDetailsById";
@@ -24,6 +32,10 @@
             public const string restaurant_GetResataurantDetailsById = "restaurant_GetResataurantDetailsById";
             public const string restaurant_DeleteFood = "restaurant_DeleteFood";
             public const string web_RemoveFoodFromCart = "web_RemoveFoodFromCart";
+            public const string restaurant_GetRestaurantOrders = "restaurant_GetRestaurantOrders";
+            public const string restaurant_GetOrderDetailByOrderId = "restaurant_GetOrderDetailByOrderId";
+            public const string restaurant_OrderstatusList = "restaurant_OrderstatusList";
+            public const string restaurant_ChangeOrderStatus = "restaurant_ChangeOrderStatus";
             #endregion
             #region User
             public const string web_UserLogin = "web_UserLogin";
@@ -45,6 +57,9 @@
             public const string IncorrectPassword = "Incorrect password";
             public const string RestaurantIsNotActive = "Your restaurant is currently not active, Kindly contact admin or email on support email address.";
             public const string LoginFailed = "Failed to login";
+            public const string NotApproved = "You are currently not approved, Kindly contact on support email address.";
+
+            public const string AdminUserIsNotActive = "You are currently not active, Kindly contact on support email address.";
 
             #endregion
             #region User

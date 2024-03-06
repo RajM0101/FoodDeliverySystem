@@ -1,10 +1,10 @@
-﻿
-CREATE TABLE [dbo].[OrderDetail](
+﻿CREATE TABLE [dbo].[OrderDetail](
 	[OrderDetailID] [int] IDENTITY(1,1) NOT NULL,
 	[OrderId] [int] NULL,
 	[FoodId] [int] NULL,
 	[RestaurantId] [int] NULL,
 	[Qauntity] [int] NULL,
+	[OrderStatus] [int] NULL,
 	[OrderDate] [datetime] NULL,
  CONSTRAINT [PK_OrderDetail] PRIMARY KEY CLUSTERED 
 (
@@ -13,5 +13,3 @@ CREATE TABLE [dbo].[OrderDetail](
 ) ON [PRIMARY]
 
 GO
-
-

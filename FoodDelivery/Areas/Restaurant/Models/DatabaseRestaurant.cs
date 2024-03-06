@@ -229,7 +229,7 @@ namespace FoodDelivery.Areas.Restaurant.Models
             }
         }
 
-        public DeleteFoodResponse DeletePackage(int FoodItemId)
+        public DeleteFoodResponse DeleteFood(int FoodItemId)
         {
             DeleteFoodResponse deleteFoodResponse=new DeleteFoodResponse();
             try
@@ -257,5 +257,110 @@ namespace FoodDelivery.Areas.Restaurant.Models
         }
 
         #endregion
+
+        public List<OrderListModel> GetRestaurantOrderList(JQueryDataTableParamModel param, string Name, int RestaurantID, out int noOfRecords)
+        {
+            List<OrderListModel> orderListModel = new List<OrderListModel>();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_GetRestaurantOrders, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@RestaurantID", SqlDbType.NVarChar, 100)).Value = RestaurantID;
+                    cmd.Parameters.Add(new SqlParameter("@Search", SqlDbType.NVarChar, 100)).Value = Name;
+                    cmd.Parameters.Add(new SqlParameter("@DisplayStart", SqlDbType.Int)).Value = param.iDisplayStart;
+                    cmd.Parameters.Add(new SqlParameter("@PageSize", SqlDbType.Int)).Value = param.iDisplayLength;
+                    cmd.Parameters.Add(new SqlParameter("@SortColumnName", SqlDbType.VarChar, 50)).Value = param.iSortCol_0;
+                    cmd.Parameters.Add(new SqlParameter("@SortOrder", SqlDbType.VarChar, 50)).Value = param.sSortDir_0;
+                    con.Open();
+                    SqlParameter resultOutPut = new SqlParameter("@noOfRecords", SqlDbType.VarChar);
+                    resultOutPut.Size = 50;
+                    resultOutPut.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(resultOutPut);
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        orderListModel = UserDefineExtensions.DataReaderMapToList<OrderListModel>(dataReader);
+                    }
+                    noOfRecords = Convert.ToInt32(cmd.Parameters["@noOfRecords"].Value);
+                    con.Close();
+                }
+            }
+            return orderListModel;
+        }
+
+        public OrderViewModel GetOrderDetailByOrderId(int OrderDetailID, int RestaurantID)
+        {
+            OrderViewModel getFoodDetailsById = new OrderViewModel();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_GetOrderDetailByOrderId, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@OrderDetailID", OrderDetailID);
+                        cmd.Parameters.AddWithValue("@RestaurantID", RestaurantID);
+                        con.Open();
+                        using (IDataReader datareader = cmd.ExecuteReader())
+                        {
+                            getFoodDetailsById = UserDefineExtensions.DataReaderMapToEntity<OrderViewModel>(datareader);
+                        }
+                        con.Close();
+                    }
+                }
+                return getFoodDetailsById;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public OrderStatusResponse ChangeOrderStatus(OrderViewModel orderViewModel, int RestaurantID)
+        {
+            try
+            {
+                OrderStatusResponse orderStatusResponse = new OrderStatusResponse();
+                using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_ChangeOrderStatus, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@OrderDetailID", orderViewModel.OrderDetailID);
+                        cmd.Parameters.AddWithValue("@OrderStatusID", orderViewModel.OrderStatus);
+
+                        con.Open();
+                        using (IDataReader datareader = cmd.ExecuteReader())
+                        {
+                            orderStatusResponse = UserDefineExtensions.DataReaderMapToEntity<OrderStatusResponse>(datareader);
+                        }
+                        con.Close();
+                    }
+                    return orderStatusResponse;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<OrderstatusList> GetOrderstatusList()
+        {
+            List<OrderstatusList> OrderstatusList = new List<OrderstatusList>();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_OrderstatusList, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        OrderstatusList = UserDefineExtensions.DataReaderMapToList<OrderstatusList>(dataReader);
+                    }
+                    con.Close();
+                }
+            }
+            return OrderstatusList;
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[web_GetAllFoodByRestaurantID]
+﻿CREATE PROCEDURE [dbo].[web_GetAllFoodByRestaurantID]
 @RestaurantID INT=0
 AS 
 BEGIN  

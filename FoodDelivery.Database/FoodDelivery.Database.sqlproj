@@ -79,5 +79,24 @@
     <Build Include="web_GetFoodItemDetailsById.sql" />
     <Build Include="web_GetCartsDetailsByUserId.sql" />
     <Build Include="web_AddFoodToCart.sql" />
+    <Build Include="restaurant_GetRestaurantOrders.sql" />
+    <Build Include="OrderStatus.sql" />
+    <Build Include="GetDateFormat.sql" />
+    <Build Include="Split.sql" />
+    <Build Include="OrderPaymentDetail.sql" />
+    <Build Include="admin_AdminUserLogin.sql" />
+    <Build Include="admin_ChangeRestaurantStatus.sql" />
+    <Build Include="admin_GetRestaurantDetailByRestaurantId.sql" />
+    <Build Include="admin_GetRestaurantList.sql" />
+    <Build Include="admin_GetUserList.sql" />
+    <Build Include="restaurant_ChangeOrderStatus.sql" />
+    <Build Include="restaurant_GetOrderDetailByOrderId.sql" />
+    <Build Include="restaurant_OrderstatusList.sql" />
+    <Build Include="web_AddOrder.sql" />
+    <Build Include="web_GetUserOrder.sql" />
+    <Build Include="web_RemoveFoodFromCart.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="FoodDelivery.Database.refactorlog" />
   </ItemGroup>
 </Project>

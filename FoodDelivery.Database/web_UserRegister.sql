@@ -1,9 +1,4 @@
-﻿
-
-/*
---EXEC web_UserRegister 0,'User 1','9978797017','123456@Aa','surat'
-*/
-CREATE PROCEDURE [dbo].[web_UserRegister]
+﻿CREATE PROCEDURE [dbo].[web_UserRegister]
 @UserId int=0, -- 0 then Add mode 
 @Name nvarchar(200), 
 @MobileNo nvarchar(20), 
@@ -45,5 +40,3 @@ END
 
 
 GO
-
-

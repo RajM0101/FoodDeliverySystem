@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[restaurant_AddEditRestaurant]
+﻿CREATE PROCEDURE [dbo].[restaurant_AddEditRestaurant]
 @RestaurantID int=0, -- 0 then Add mode 
 @OwnerName nvarchar(200),
 @RestaurantName nvarchar(200),
@@ -66,5 +65,3 @@ END
 
 
 GO
-
-

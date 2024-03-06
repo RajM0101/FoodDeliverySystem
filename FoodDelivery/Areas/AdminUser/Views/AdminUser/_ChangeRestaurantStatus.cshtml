@@ -1,0 +1,135 @@
+﻿@model RestaurantViewModel
+@{
+    ViewBag.MetaTitle = "Change Restaurant Status";
+    Layout = "~/Areas/AdminUser/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pcoded-main-container add-cms-page proj-bg-color">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ fixed-menu ] start -->
+                            <div class="col-sm-12">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Change Restaurant Status</h5>
+
+                                        <div class="card-header-right">
+                                            <div class="btn-group card-option">
+                                                <a href="@Url.Action("RestaurantList","AdminUser")" class="btn btn-primary">List</a>
+                                                <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="feather icon-more-horizontal"></i>
+                                                </button>
+                                                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                    <li class="dropdown-item full-card"><a href="javascript:"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                                                    <li class="dropdown-item minimize-card"><a href="javascript:"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                                                    <li class="dropdown-item close-card"><a href="javascript:"><i class="fas fa-eye-slash"></i> hide</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <form asp-action="ChangeRestaurantStatus" asp-controller="AdminUser" method="POST" id="ChangeRestaurantStatusForm" autocomplete="off">
+                                            <input type="hidden" class="form-control" asp-for="RestaurantID">
+                                            <input type="hidden" class="form-control" asp-for="RestaurantImageName">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Owner Name<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="OwnerName" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Restaurant Name<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="RestaurantName" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Mobile No<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="MobileNo" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Email<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="Email" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Shop/Plot Number<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="ShopPlotNumber" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                             <div class="form-group row">
+                                                <label class="col-sm-2">Floor<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="Floor" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Building Name<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="BuildingName" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Zip Code<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="ZipCode" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Approved</label>
+                                                <div class="col-sm-4">
+                                                    <div class="no-collapsable checked-fix checkbox checkbox-info checkbox-fill d-inline">
+                                                        <input type="checkbox" asp-for="RestaurantStatus" />
+                                                        <label for="RestaurantStatus" class="cr"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2"></div>
+                                                <div class="col-sm-4">
+                                                    <button type="submit" id="btnSave" class="btn btn-primary">Save</button>
+                                                    <a type="button" href="@Url.Action("RestaurantList","AdminUser")" class="btn btn-primary">Cancel</a>
+                                                </div>
+                                                <div class="col-sm-6"></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ fixed-menu ] end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,6 @@
-﻿
-CREATE TABLE [dbo].[User](
+﻿CREATE TABLE [dbo].[User](
 	[UserId] [int] IDENTITY(1,1) NOT NULL,
-	[MobileNo] [varchar](20) NULL,
+	[MobileNo] [varchar](20) NOT NULL,
 	[Name] [nvarchar](50) NULL,
 	[Address] [nvarchar](400) NULL,
 	[LastLoginDate] [datetime] NULL,
@@ -17,5 +16,3 @@ CREATE TABLE [dbo].[User](
 ) ON [PRIMARY]
 
 GO
-
-

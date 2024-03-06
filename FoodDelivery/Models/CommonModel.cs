@@ -57,7 +57,7 @@ namespace FoodDelivery.Models
         public string MobileNo { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
-        public int RestaurantStatus { get; set; }
+        public bool RestaurantStatus { get; set; }
     }
 
     public class LoginStatus
@@ -65,6 +65,13 @@ namespace FoodDelivery.Models
         public int Result { get; set; }
     }
     public enum RestaurantLoginEnum
+    {
+        UserNotAvailable = 1,
+        ContactAdmin = 3,
+        PasswordMissmatch = 4,
+        Active = 5
+    }
+    public enum AdminLoginEnum
     {
         UserNotAvailable = 1,
         ContactAdmin = 3,
@@ -238,6 +245,30 @@ namespace FoodDelivery.Models
         public int Qauntity { get; set; }
         public string TotalPrice { get; set; }
         public string OrderDate { get; set; }
+    }
+    public class AdminUserLoginModel
+    {
+
+        [Required(ErrorMessage = "Please enter email or mobile number")]
+        public string EmailOrMobileNo { get; set; }
+
+        [Required(ErrorMessage = "Please enter password.")]
+        [StringLength(16, ErrorMessage = "Please enter value between 8 to 16 character.", MinimumLength = 8)]
+        [RegularExpression(@"^(?=.{8,32})(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?\W).*$", ErrorMessage = "Minimum 8 characters at least 1 Uppercase Alphabet,1 Lowercase Alphabet,1 Number and 1 Special character.")]
+        public string Password { get; set; }
+    }
+  
+    public class AdminLoginResult
+    {
+        public AdminUserSession AdminUserData { get; set; }
+        public int Flag { get; set; }
+    }
+    public class AdminUserSession
+    {
+        public int AdminUserID { get; set; }
+        public string AdminUserName { get; set; }       
+        public string MobileNo { get; set; }
+        public string Email { get; set; }
     }
     public class CommonModel
     {

@@ -79,7 +79,7 @@ namespace FoodDelivery.Areas.Restaurant.Models
         public int FoodId { get; set; }
 
         [Required(ErrorMessage = "Please enter name")]
-        [StringLength(200,ErrorMessage = "Name length can't be more than 200.")]
+        [StringLength(200, ErrorMessage = "Name length can't be more than 200.")]
         [Display(Name = "Name")]
         public string Name { get; set; }
 
@@ -116,6 +116,39 @@ namespace FoodDelivery.Areas.Restaurant.Models
     {
         public int status { get; set; }
         public int FoodItemID { get; set; }
+    }
+    public class OrderListModel
+    {
+        public int OrderId { get; set; }
+        public int OrderDetailID { get; set; }
+        public int FoodId { get; set; }
+        public string Name { get; set; }
+        public int Qauntity { get; set; }
+        public int Price { get; set; }
+        public string OrderStatus { get; set; }
+        public string OrderDate { get; set; }
+    }
+
+    public class OrderViewModel
+    {
+        public int OrderID { get; set; }
+        public int OrderDetailID { get; set; }
+        public int FoodId { get; set; }
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+        public int Price { get; set; }
+        public int Qauntity { get; set; }
+        public int TotalPrice { get; set; }
+        public int OrderStatus { get; set; }
+    }
+    public class OrderStatusResponse
+    {
+        public int status { get; set; }
+    }
+    public class OrderstatusList
+    {
+        public int OrderStatusID { get; set; }
+        public string OrderStatusName { get; set; }
     }
     public class DeleteFoodResponse
     {

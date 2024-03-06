@@ -1,10 +1,9 @@
-﻿
-CREATE TABLE [dbo].[UserCart](
+﻿CREATE TABLE [dbo].[UserCart](
 	[UserCartID] [int] IDENTITY(1,1) NOT NULL,
 	[UserID] [int] NULL,
 	[FoodID] [int] NULL,
 	[Qauntity] [int] NULL,
-	[CreatedDate] [datetime] NULL,
+	[CreatedDate] [datetime] NOT NULL,
  CONSTRAINT [PK_UserCart] PRIMARY KEY CLUSTERED 
 (
 	[UserCartID] ASC
@@ -12,5 +11,3 @@ CREATE TABLE [dbo].[UserCart](
 ) ON [PRIMARY]
 
 GO
-
-

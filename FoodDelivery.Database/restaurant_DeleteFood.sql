@@ -1,6 +1,4 @@
-﻿
-
-CREATE PROCEDURE [dbo].[restaurant_DeleteFood]
+﻿CREATE PROCEDURE [dbo].[restaurant_DeleteFood]
 @FoodID INT
 AS
 BEGIN
@@ -18,5 +16,3 @@ BEGIN
 	END
 END;
 GO
-
-
