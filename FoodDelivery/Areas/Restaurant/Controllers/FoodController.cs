@@ -104,7 +104,7 @@ namespace FoodDelivery.Areas.Restaurant.Controllers
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        ImageName.CopyToAsync(stream);
+                        ImageName.CopyTo(stream);
                     }
                 }
                 return RedirectToAction("GetRestaurantDetailById");
@@ -242,7 +242,7 @@ namespace FoodDelivery.Areas.Restaurant.Controllers
 
                             using (var stream = new FileStream(filePath, FileMode.Create))
                             {
-                                ImageName.CopyToAsync(stream);
+                                ImageName.CopyTo(stream);
                             }
                         }
                         return RedirectToAction("FoodItemList", new { Status = addEditFoodResponse.status });
@@ -271,7 +271,7 @@ namespace FoodDelivery.Areas.Restaurant.Controllers
 
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
-                            ImageName.CopyToAsync(stream);
+                            ImageName.CopyTo(stream);
                         }
                         return RedirectToAction("FoodItemList", new { Status = addEditFoodResponse.status });
                     }
