@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[restaurant_AddEditFoodItem]
+﻿CREATE PROCEDURE [dbo].[restaurant_AddEditFoodItem]
 @FoodID INT=0, -- 0 then Add mode
 @RestaurantID INT=0,  
 @FoodName VARCHAR(200),  

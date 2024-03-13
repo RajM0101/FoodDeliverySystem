@@ -24,7 +24,7 @@ namespace FoodDelivery.Controllers
         {
             if (HttpContext.Session.GetComplexData<SessionUser>(Common.SessionKeys.UserSession) == null)
             {
-                
+
             }
 
             base.OnActionExecuting(filterContext);
@@ -60,7 +60,7 @@ namespace FoodDelivery.Controllers
             if (loginUser.RetStatus == 1)
             {
                 //login successfully
-                HttpContext.Session.SetComplexData(Common.SessionKeys.UserSession, new SessionUser {FullName = loginUser.SessionUser.FullName, UserId = loginUser.SessionUser.UserId, MobileNumber = loginUser.SessionUser.MobileNumber });
+                HttpContext.Session.SetComplexData(Common.SessionKeys.UserSession, new SessionUser { FullName = loginUser.SessionUser.FullName, UserId = loginUser.SessionUser.UserId, MobileNumber = loginUser.SessionUser.MobileNumber });
                 TempData["Message"] = Common.Messages.CustomerLoginSucessfully;
                 TempData["MessageType"] = "success";
                 return Json(new { IsLoginCompleted = true });
@@ -113,7 +113,7 @@ namespace FoodDelivery.Controllers
                         if (RegistrationResult.RetStatus == 2)
                         {
                             ModelState.AddModelError("UserAlreadyExists", Common.Messages.UserAlreadyRegistered);
-                           
+
                         }
                     }
                     return ViewComponent("RegisterUser", registerUserModel);
@@ -143,15 +143,15 @@ namespace FoodDelivery.Controllers
         public DashboardMainModel GetDashboardAllDetails()
         {
             DashboardMainModel dashboardMainModel = new DashboardMainModel();
-            dashboardMainModel.restaurantDetailModel= objDatabase.GetAllRestaurantDetail();
+            dashboardMainModel.restaurantDetailModel = objDatabase.GetAllRestaurantDetail();
             return dashboardMainModel;
         }
         [Route("/restaurants/{RestaurantID?}", Name = "GetFoodList")]
         public ActionResult GetFoodList(int RestaurantID)
         {
             FoodListbyRestaurantIdMainModel MainModel = new FoodListbyRestaurantIdMainModel();
-            MainModel= objDatabase.GetFoodListByRestaurant(RestaurantID);
-                       
+            MainModel = objDatabase.GetFoodListByRestaurant(RestaurantID);
+
             return View("_FoodList", MainModel);
         }
 
@@ -162,8 +162,21 @@ namespace FoodDelivery.Controllers
             getFoodDetailsById = objDatabase.GetFoodItemDetailsById(FoodID);
             return View("_FoodDetails", getFoodDetailsById);
         }
+        [Route("/search-food-restaurant", Name = "SearchFoodRestaurant")]
+        public ActionResult SearchRestaurantAndFood(string SearchBy)
+        {
+            SearchFoodAndRestaurant searchFoodAndRestaurant = new SearchFoodAndRestaurant();
+            searchFoodAndRestaurant = objDatabase.GetSearchRestaurantAndFood(SearchBy);
+            return View("_SearchView", searchFoodAndRestaurant);
+        }
 
-
+        [Route("/all-foodlist", Name = "AllFoodList")]
+        public ActionResult AllFoodList()
+        {
+            FoodListbyRestaurantIdMainModel MainModel = new FoodListbyRestaurantIdMainModel();
+            MainModel = objDatabase.GetFoodListByRestaurant();
+            return View("_AllFoodList", MainModel);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

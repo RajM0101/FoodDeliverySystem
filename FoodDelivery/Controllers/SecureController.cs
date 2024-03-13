@@ -98,9 +98,10 @@ namespace FoodDelivery.Controllers
                         Convert.ToString(c.OrderDetailID),
                         c.Name,
                         Convert.ToString(c.Price),
-                        Convert.ToString(c.Qauntity),
-                        c.TotalPrice,
-                        c.OrderDate
+                        Convert.ToString(c.Qauntity),//5
+                        c.TotalPrice,//6
+                        c.OrderDate,//7
+                        c.Rate.ToString()//8
                       };
 
                 return Json(new
@@ -113,7 +114,19 @@ namespace FoodDelivery.Controllers
             }
             catch (Exception) { throw; }
         }
-
+        [HttpPost]
+        public ActionResult RateToFood(int OrderDetailId,string Rate) {
+            try
+            {
+                RateFoodResoponse rateFoodResoponse = new RateFoodResoponse();
+                rateFoodResoponse = objDatabase.RateToFood(OrderDetailId, Rate,GetCurrentUser().UserId);
+                return Json(new { Result = rateFoodResoponse.Status });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
     public class CartDetailViewComponent : ViewComponent
     {

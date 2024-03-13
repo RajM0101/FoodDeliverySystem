@@ -1,7 +1,18 @@
 ﻿@{
     SessionUser sessionUser = Context.Session.GetComplexData<SessionUser>(Common.SessionKeys.UserSession);
 }
+<style>
+    .alert-dismissible {
+        padding-right: 10px !important;
+    }
+    .sr-only{
+        display:none;
+    }
 
+    .alert .close{
+        float:right;
+    }
+</style>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>

@@ -9,8 +9,9 @@ BEGIN
 		,ZipCode
 		,ImageName
 	 from Restaurant
-	where IsActive=1 AND Isnull(IsDelete,0)=0
+	where IsActive=1 AND Isnull(IsDelete,0)=0 AND RestaurantStatus=1
 
  end
+
 
 GO

@@ -28,7 +28,8 @@ BEGIN
 						Qauntity,
                         OrderDate,
                         Price,
-                        TotalPrice
+                        TotalPrice,
+						Rate
                     FROM(
                     SELECT
                         o.UserId AS UserId,
@@ -42,12 +43,14 @@ BEGIN
                         (SELECT (CONVERT(VARCHAR,(CONVERT(DECIMAL(18,2),((SUM(f1.Price*(od1.Qauntity)))))))) FROM Food f1 
                                                 LEFT JOIN [OrderDetail] od1 ON od1.FoodId = f1.FoodId
                                                 WHERE od1.OrderId = o.OrderId AND o.UserId = ' + CAST(@UserId AS NVARCHAR(20))+'
-                        ) AS TotalPrice
+                        ) AS TotalPrice,
+						ISNULL(fr.Rate,0) AS Rate
                          ';
 
     SET @QRYTABLE = ' FROM [Order] o
                             JOIN OrderDetail od ON od.OrderId = o.OrderId 
-                            JOIN Food f ON f.FoodID = od.FoodId  ';
+                            JOIN Food f ON f.FoodID = od.FoodId
+							LEFT JOIN FoodRating fr ON fr.FoodID=f.FoodID AND fr.UserID= ' + CAST(@UserId AS NVARCHAR(20))+'';
 
     SET @QRYWHERE += ' WHERE 1=1 '; 
 
@@ -74,5 +77,6 @@ BEGIN
     --SELECT (@QRY+@QRYTABLE+@QRYWHERE+@PAGINATION);    
     EXEC (@QRY+@QRYTABLE+@QRYWHERE+@PAGINATION);    
 END
+
 
 GO

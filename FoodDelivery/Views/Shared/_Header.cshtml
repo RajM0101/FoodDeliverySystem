@@ -111,6 +111,30 @@
     z-index: -1;
     border-radius: 2.5px;
 }
+
+    .search {
+        display: flex;
+        align-items: center;
+    }
+
+        .search input[type="text"] {
+            padding: 7px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: -10px;
+        }
+
+        .search button {
+            padding: 7px 15px;
+            background-color: #f2f2f2;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 1px solid black;
+            border-radius: unset;
+        }
+
 </style>
 
 <div class="container d-flex align-items-center justify-content-between">
@@ -126,29 +150,19 @@
             <li><a href="/">Home</a></li>
             @* <li><a href="#about">About</a></li>*@
             <li><a href="/">Restaurants</a></li>
-            <li class="dropdown">
-                <a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                <ul>
-                    <li><a href="#">Drop Down 1</a></li>
-                    <li class="dropdown">
-                        <a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                        <ul>
-                            <li><a href="#">Deep Drop Down 1</a></li>
-                            <li><a href="#">Deep Drop Down 2</a></li>
-                            <li><a href="#">Deep Drop Down 3</a></li>
-                            <li><a href="#">Deep Drop Down 4</a></li>
-                            <li><a href="#">Deep Drop Down 5</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Drop Down 2</a></li>
-                    <li><a href="#">Drop Down 3</a></li>
-                    <li><a href="#">Drop Down 4</a></li>
-                </ul>
-            </li>
-            <li><a href="#contact">Contact</a></li>
+            <li style="display:none"><a href="/all-foodlist">Food</a></li>
         </ul>
     </nav><!-- .navbar -->
-
+    <div class="header__search">
+        <div class="search">
+            <form asp-route="SearchFoodRestaurant" class="search__body">
+                <div class="search">
+                    <input type="text" id="SearchBy" name="SearchBy" placeholder="Search...">
+                    <button id="searchButton">Search</button>
+                </div>
+            </form>
+        </div>
+    </div> 
     <div class="header__indicators">
         <div class="indicator indicator--trigger--click">
             <a class="indicator__button" href=@(sessionUser != null ? "/order-history":"/login-register")>

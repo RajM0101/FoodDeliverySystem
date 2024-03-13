@@ -248,5 +248,77 @@ namespace FoodDelivery.Models
             }
             return getUserPurchaseDesignModels;
         }
+        public SearchFoodAndRestaurant GetSearchRestaurantAndFood(string SearchBy)
+        {
+            SearchFoodAndRestaurant searchFoodAndRestaurant = new SearchFoodAndRestaurant();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_GetSearchData, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (!string.IsNullOrEmpty(SearchBy))
+                    {
+                        cmd.Parameters.AddWithValue("@SearchBy", SearchBy);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@SearchBy", DBNull.Value);
+                    }
+                   
+                    con.Open();
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        searchFoodAndRestaurant.searchFoodList = UserDefineExtensions.DataReaderMapToList<SearchFoodList>(dataReader);
+                        dataReader.NextResult();
+                        searchFoodAndRestaurant.searchRestaurantList = UserDefineExtensions.DataReaderMapToList<SearchRestaurantList>(dataReader);
+                        
+                    }
+                    con.Close();
+                }
+            }
+            return searchFoodAndRestaurant;
+        }
+        public FoodListbyRestaurantIdMainModel GetFoodListByRestaurant()
+        {
+            FoodListbyRestaurantIdMainModel foodListbyRestaurantIdMainModel = new FoodListbyRestaurantIdMainModel();
+            List<FoodListByRestaurantId> foodListByRestaurantId = new List<FoodListByRestaurantId>();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_GetFoodList, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        foodListByRestaurantId = UserDefineExtensions.DataReaderMapToList<FoodListByRestaurantId>(dataReader);
+                    }
+                    con.Close();
+                }
+            }
+            foodListbyRestaurantIdMainModel.foodListByRestaurantId = foodListByRestaurantId;
+            return foodListbyRestaurantIdMainModel;
+        }
+        public RateFoodResoponse RateToFood(int OrderDetailId, string Rate, int UserId)
+        {
+            RateFoodResoponse rateFoodResoponse = new RateFoodResoponse();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_RateToFood, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@OrderDetailId", SqlDbType.Int)).Value = OrderDetailId;
+                    cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = UserId;
+                    cmd.Parameters.Add(new SqlParameter("@Rate", SqlDbType.DateTime)).Value =Convert.ToDecimal(Rate);
+                    con.Open();
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        rateFoodResoponse = UserDefineExtensions.DataReaderMapToEntity<RateFoodResoponse>(dataReader);
+                    }
+                    con.Close();
+                }
+            }
+            return rateFoodResoponse;
+        }
     }
 }

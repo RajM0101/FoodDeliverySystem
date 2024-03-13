@@ -1,4 +1,4 @@
-﻿
+﻿<script src="~/js/rate/rater.min.js"></script>
 <style>
     .account-nav {
         background-color: #fff;
@@ -21,15 +21,17 @@
         line-height: 20px;
         padding-bottom: 1.375rem;
     }
- 
-[dir=ltr] .account-nav__item--active a {
-    -webkit-box-shadow: 3px 0 #e52727 inset;
-    box-shadow: 3px 0 #e52727 inset;
-}
-.account-nav__item--active a {
-    color: inherit;
-    font-weight: 500;
-}
+
+    [dir=ltr] .account-nav__item--active a {
+        -webkit-box-shadow: 3px 0 #e52727 inset;
+        box-shadow: 3px 0 #e52727 inset;
+    }
+
+    .account-nav__item--active a {
+        color: inherit;
+        font-weight: 500;
+    }
+
     .account-nav__item a {
         cursor: pointer;
         display: block;
@@ -75,7 +77,7 @@
 
     .card-table {
         font-size: 15px;
-        Padding:10px
+        Padding: 10px
     }
 
     [dir=ltr] .card-table table {
@@ -86,12 +88,99 @@
         width: 100%;
         min-width: 500px;
     }
+
+    .popover {
+        max-width: 25%;
+    }
+
+        .popover .box {
+            border-width: 0px;
+        }
+
+    .packageTagPopup {
+        width: 103%;
+        margin-left: -9px;
+        max-height: 266px;
+        max-width: 614px;
+    }
+    .popover .box-body {
+        padding-bottom: 0px;
+    }
+
+    .popover button.close {
+        top: 1px;
+    }
+
+    #closepopover {
+        font-size: 25px;
+        padding: 4px;
+        cursor: pointer;
+    }
+
+    .popover .move_right {
+        position: absolute;
+        top: -7px;
+        right: 9px;
+        z-index: 99999999;
+    }
+    .hidden{
+        display:none;
+    }
 </style>
 <script>
     $(document).ready(function () {
         GetUserOrderList();
     });
+    var popoverElement;
+    var popTemplate = [
+        '<div class="popover" role="tooltip">',
+        '<div class="popover-arrow"></div>',
+        '<div class="with-border">',
+        '<h3 class="box-title popover-header"></h3>',
+        '<div class="move_right">',
+        '<span id="closepopover" class="close" aria-hidden="true">&times;</span>',
+        '</div>',
+        '<div class="popover-body"></div>',
+        '</div></div>'].join('');
+    function OpenUserPopOver(title, html) {
+        var item = new bootstrap.Popover(popoverElement, { html: true, trigger: 'click', container: 'body', placement: 'left', template: popTemplate, content: html, title: title, animation: true, sanitize: false });
+        item.show();
+    }
 
+    function closePopovers() {
+        $('.popover').popover().hide();
+    }
+    $(document).off('click', '.ratePopOver').on('click', '.ratePopOver', function () {
+        closePopovers();
+        var OrderDetailId = $(this).data('orderdetailid');
+        var Rate = $(this).data('foodrate');
+        $("#ProspectRating").val(Rate);
+
+        var popuphtml = '<div class="rating faPrimaryColor" style="font-size:30px;"><input type="text" id="ProspectRating" Name="ProspectRating" Class = "form-control field-input hidden"/></div><div class="popover-footer"><a class="btn btn-success btn-sm close" onclick="javascript:RateToFood(' + OrderDetailId + ')" >Submit</a></div>';
+
+        popoverElement = $(this);
+        OpenUserPopOver("<h4 class='custom-title'>Rate Us</h4>", "<div class='row packageTagPopup'>" + popuphtml + "</div>");
+        $(".rating").rate();
+        var options = {
+            max_value: 5,
+            step_size: 0.5,
+            initial_value: 0,
+        }
+        $(".rating").rate(options);
+        $(".rating").rate("setValue", $("#ProspectRating").val());
+
+        $(".rating").on("change", function (ev, data) {
+            $("#ProspectRating").val($(".rating").rate("getValue"))
+        });
+
+    });
+
+    $('body').on('click', function (e) {
+        // close the popover if: click outside of the popover || click on the close button of the popover
+        if (popoverElement && ((!popoverElement.is(e.target) && popoverElement.has(e.target).length === 0 && $('.popover').has(e.target).length === 0) || (popoverElement.has(e.target) && e.target.id === 'closepopover'))) {
+            closePopovers();
+        }
+    });
     function GetUserOrderList() {
         $('#GetUserOrderList').dataTable({
             "responsive": true,
@@ -122,8 +211,8 @@
 
                     var trHtml = '<td style="font-size: 13px;font-weight: bold;" class="remove-colspan">' + OrderId + '</td>' +
                         '<td style="font-size: 13px;font-weight: bold;" class="remove-colspan"> OrderDate : ' + OrderDate + '</td>' +
-                        '<td></td>'+
-                        '<td style="font-size: 13px;font-weight: bold;" class="remove-colspan"> TotalPrice : ' + TotalPrice + '</td>'+
+                        '<td></td>' +
+                        '<td style="font-size: 13px;font-weight: bold;" class="remove-colspan"> TotalPrice : ' + TotalPrice + '</td>' +
                         '<td></td>';
 
                     return $('<tr style="background-color: rgb(228, 228, 228);"/>').append(trHtml);
@@ -143,14 +232,39 @@
                 { "sName": "Price", "bSearchable": true, "bSortable": false },
                 { "sName": "Qauntity", "bSearchable": true, "bSortable": false },
                 { "sName": "TotalPrice", "bVisible": false, "bSearchable": true, "bSortable": true },
-                { "sName": "OrderDate", "bVisible": false, "bSearchable": true, "bSortable": true }
+                { "sName": "OrderDate", "bVisible": false, "bSearchable": true, "bSortable": true },
+                //{
+                //    "sName": "RatingUs", "bVisible": true,
+                //    "mRender": function (data, type, aoData) {
+                //        return '<button type="button" id="searchButton" class="btn btn-success ratePopOver" data-toggle="popover" data-foodrate='+aoData[8]+' data-orderdetailid=' + aoData[2] + '>Rate Food</button>';
+                //    }
+                //},
             ],
+
             oLanguage: { sEmptyTable: "No Records Found." },
             processing: true,
             destroy: true,
             stateSave: false
         });
     }
+    function RateToFood(OrderDetailId) {
+        var Rate = $("#ProspectRating").val();
+        $.ajax({
+            url: siteURL + "Secure/RateToFood",
+            type: 'POST',
+            data: { "OrderDetailId": OrderDetailId,"Rate":Rate }
+        })
+            .done(
+                function (data, textStatus, jqXHR) {
+                    
+                })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                showToastPortal('danger', '', 'Something went wrong, you cannot give rate to this food');
+            }).always(function (data, textStatus, errorThrown) {
+                //write content here
+            });
+    }
+    
 </script>
 <style>
     #GetUserOrderList {
@@ -194,6 +308,7 @@
                                             <th>Qauntity</th>
                                             <th>Total Price</th>
                                             <th>Order Date</th>
+                                           @* <th>Rating</th>*@
                                         </tr>
                                     </thead>
                                     <tbody></tbody>

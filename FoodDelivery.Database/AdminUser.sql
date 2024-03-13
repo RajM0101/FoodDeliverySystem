@@ -1,5 +1,4 @@
-﻿
-CREATE TABLE [dbo].[AdminUser](
+﻿CREATE TABLE [dbo].[AdminUser](
 	[AdminUserId] [int] IDENTITY(1,1) NOT NULL,
 	[FirstName] [nvarchar](50) NULL,
 	[LastName] [nvarchar](50) NULL,

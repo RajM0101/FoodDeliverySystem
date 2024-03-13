@@ -21,9 +21,9 @@ $(document).ajaxStop(function () {
         $(this).tooltip("hide");
     });
     $('[data-toggle="popover"]').popover();
-    $('[data-toggle="popover"]').on("mouseleave", function () {
-        $(this).popover("hide");
-    })
+    //$('[data-toggle="popover"]').on("mouseleave", function () {
+    //    $(this).popover("hide");
+    //})
 });
 
 function showLoading() {

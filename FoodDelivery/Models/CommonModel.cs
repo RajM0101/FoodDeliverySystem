@@ -245,6 +245,7 @@ namespace FoodDelivery.Models
         public int Qauntity { get; set; }
         public string TotalPrice { get; set; }
         public string OrderDate { get; set; }
+        public decimal Rate { get; set; }
     }
     public class AdminUserLoginModel
     {
@@ -269,6 +270,10 @@ namespace FoodDelivery.Models
         public string AdminUserName { get; set; }       
         public string MobileNo { get; set; }
         public string Email { get; set; }
+    }
+    public class RateFoodResoponse
+    {
+        public int Status { get; set; }
     }
     public class CommonModel
     {

@@ -155,4 +155,20 @@ namespace FoodDelivery.Areas.Restaurant.Models
         public string ImageName { get; set; }
         public bool AllowToDelete { get; set; }
     }
+    public class SearchFoodList { 
+        public int FoodID { get; set; }
+        public string FoodName { get; set; }
+        public int Price { get; set; }
+        public string Ingredient { get; set; }
+        public string ImageName { get; set; }
+    }
+    public class SearchRestaurantList {
+        public int RestaurantID { get; set; }
+        public string RestaurantName { get; set; }
+        public string ImageName { get; set; }
+    }
+    public class SearchFoodAndRestaurant{
+        public List<SearchRestaurantList> searchRestaurantList { get; set; }
+        public List<SearchFoodList> searchFoodList { get; set; }
+    }
 }

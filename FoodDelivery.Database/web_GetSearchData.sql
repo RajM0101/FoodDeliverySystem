@@ -1,0 +1,47 @@
+﻿CREATE PROCEDURE [dbo].[web_GetSearchData] 
+@SearchBy nvarchar(200) = ''
+
+AS
+BEGIN
+    DECLARE @Query nvarchar(max) = ''
+    DECLARE @WhereQuery nvarchar(max) = ''
+   
+    DECLARE @ResQuery nvarchar(max) = ''
+    DECLARE @ResWhereQuery nvarchar(max) = ''
+                
+        SET @Query = '
+        Select
+			FoodID,
+			FoodName,
+			Price,
+			Ingredient,
+			f.ImageName           
+        FROM dbo.Food f
+		LEFT JOIN dbo.Restaurant r ON r.RestaurantID=f.RestaurantID
+		WHERE ISNULL(f.IsDeleted,0)=0 AND ISNULL(f.IsAvailable,0)=1 AND ISNULL(RestaurantStatus,0)=1'
+                    
+        IF(LEN(@SearchBy)>0 AND @SearchBy IS NOT NULL )
+        BEGIN
+            SET @WhereQuery = 'AND f.FoodName like ''%' + @SearchBy + '%'' ';
+        END     
+		
+		SET @ResQuery = '
+        SELECT 
+			RestaurantID,
+			RestaurantName,
+			ImageName           
+        FROM dbo.Restaurant r
+		WHERE ISNULL(r.IsDelete,0)=0 AND ISNULL(r.IsActive,0)=1 AND ISNULL(RestaurantStatus,0)=1 '
+                    
+        IF(LEN(@SearchBy)>0 AND @SearchBy IS NOT NULL )
+        BEGIN
+            SET @ResWhereQuery = 'AND r.RestaurantName like ''%' + @SearchBy + '%'' ';
+        END          
+           
+        EXEC (@Query+@WhereQuery) 
+		EXEC (@ResQuery+@ResWhereQuery) 
+END
+
+
+
+GO

@@ -47,6 +47,9 @@
             public const string web_AddFoodToCart = "web_AddFoodToCart";
             public const string web_AddOrder = "web_AddOrder";
             public const string web_GetUserOrder = "web_GetUserOrder";
+            public const string web_GetSearchData = "web_GetSearchData";
+            public const string web_GetFoodList = "web_GetFoodList";
+            public const string web_RateToFood = "web_RateToFood";
             #endregion
         }
         public static class Messages

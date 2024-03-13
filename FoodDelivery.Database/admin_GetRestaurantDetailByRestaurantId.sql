@@ -1,5 +1,4 @@
-﻿--Exec admin_GetRestaurantDetailByRestaurantId  2
-CREATE PROCEDURE [dbo].[admin_GetRestaurantDetailByRestaurantId]
+﻿CREATE PROCEDURE [dbo].[admin_GetRestaurantDetailByRestaurantId]
 @RestaurantID INT=0
 AS 
 BEGIN  

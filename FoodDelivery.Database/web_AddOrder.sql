@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[web_AddOrder]                  
+﻿
+Create PROCEDURE [dbo].[web_AddOrder]                  
 	@UserId INT =0,
     @FoodIds  NVARCHAR(MAX)=''
 AS
@@ -26,13 +27,14 @@ AS
 		SET @OrderId = SCOPE_IDENTITY()  
 
 		INSERT INTO OrderDetail
-		(OrderId,FoodId,RestaurantId,Qauntity,OrderDate)
+		(OrderId,FoodId,RestaurantId,Qauntity,OrderDate,OrderStatus)
 		SELECT
 			@OrderId,
 			tf.FoodID,
 			f.RestaurantID,
 			uc.Qauntity,
-			GETDATE()
+			GETDATE(),
+			1
 		FROM #TempFood tf
 		JOIN dbo.Food f ON f.FoodID=tf.FoodID
 		JOIN UserCart uc ON uc.FoodID=f.FoodID
@@ -46,3 +48,5 @@ AS
     END
 
 GO
+
+

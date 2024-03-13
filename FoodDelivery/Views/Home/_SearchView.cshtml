@@ -1,0 +1,80 @@
+﻿@model SearchFoodAndRestaurant
+@{
+    ViewData["Title"] = "Seach Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="menu" class="hero d-flex align-items-center section-bg menu">
+    <div class="container" data-aos="fade-up">
+        <div class="section-header">
+            <h2>Our Restaurant</h2>
+        </div>
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+            <div class="tab-pane fade active show" id="menu-vegetarian">
+                <div class="row gy-5">
+                    @if (Model.searchRestaurantList.Count() > 0)
+                    {
+                        @foreach (var item in Model.searchRestaurantList)
+                        {
+                            var Image = "/Images/Restaurant/" + @item.ImageName;
+                            <div class="col-lg-4 menu-item" style="max-height:300px">
+                                <a href="/restaurants/@item.RestaurantID" class="">
+                                    <img src="@Image" class="menu-img img-fluid" alt="@item.RestaurantName" style="height:70%">
+                                </a>
+                                <h4>@item.RestaurantName</h4>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <h3>No Restaurant Found</h3>
+                    }
+                </div>
+            </div><!-- End Starter Menu Content -->
+        </div>
+    </div>
+</section>
+<section id="menu" class="hero d-flex align-items-center section-bg menu" style="padding-top:10px">
+    <div class="container" data-aos="fade-up">
+        <div class="section-header">
+            <h2>Our Food</h2>
+        </div>
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+            <div class="tab-pane fade active show" id="menu-vegetarian">
+                <div class="row gy-5">
+                    @if (Model.searchFoodList.Count() > 0)
+                    {
+                        @foreach (var item in Model.searchFoodList)
+                        {
+                            var Image = "/Images/Food/" + @item.ImageName;
+
+                            <div class="col-lg-4 menu-item" style="max-height:300px">
+                                <a href="/food-detail/@item.FoodID" class="">
+                                    <img src="@Image" class="menu-img img-fluid" alt="@item.FoodName" style="height:70%">
+                                </a>
+                                <h4>@item.FoodName</h4>
+                                <p class="ingredients">
+                                    @item.Ingredient
+                                </p>
+                                <p class="price">
+                                    $@item.Price
+                                </p>@*
+                        <button class="btn btn-primary btn-lg btn-block" style="width: 49%; float: left; margin-right: 1%; margin-top: 0.75rem;" onclick="javascript:AddFoodToCartConfirm(@item.FoodID)">
+                        <i class="fa fa-download"></i> Add
+
+                        </button>*@
+                            </div>
+
+                            <!-- Menu Item -->
+                        }
+
+                    }
+                    else
+                    {
+                        <h3>No Food Found</h3>
+                    }
+                </div>
+            </div><!-- End Starter Menu Content -->
+        </div>
+    </div>
+</section>

@@ -95,6 +95,10 @@
     <Build Include="web_AddOrder.sql" />
     <Build Include="web_GetUserOrder.sql" />
     <Build Include="web_RemoveFoodFromCart.sql" />
+    <Build Include="FoodRating.sql" />
+    <Build Include="web_GetFoodList.sql" />
+    <Build Include="web_GetSearchData.sql" />
+    <Build Include="web_RateToFood.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="FoodDelivery.Database.refactorlog" />
