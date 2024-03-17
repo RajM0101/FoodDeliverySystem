@@ -26,8 +26,17 @@ function GetRestaurantList() {
         "lengthMenu": [10, 25, 50, 75, 100],
         "aoColumns": [
             { "sName": "RestaurantID", "bSearchable": false, "bSortable": true, "bVisible": false },
-            { "sName": "OwnerName", "bSearchable": false, "bSortable": true},
-            { "sName": "RestaurantName", "bSearchable": false, "bSortable": true },
+            { "sName": "OwnerName", "bSearchable": false, "bSortable": true },
+            {
+                "sName": "RestaurantName",
+                "bSearchable": false,
+                "bSortable": true,
+                "mRender": function (data, type, aoData) {
+                    var href = adminSiteURLPortal + "foodlist" + "?RestaurantID=" + aoData[0];
+                    return '<a href=\"' + href + '\">' + aoData[2] + '</a>';
+
+                }
+            },
             { "sName": "Email", "bSearchable": false, "bSortable": true },
             { "sName": "MobileNo", "bSearchable": false, "bSortable": true },
             { "sName": "Address", "bSearchable": false, "bSortable": true },

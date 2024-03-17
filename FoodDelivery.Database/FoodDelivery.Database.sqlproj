@@ -99,6 +99,7 @@
     <Build Include="web_GetFoodList.sql" />
     <Build Include="web_GetSearchData.sql" />
     <Build Include="web_RateToFood.sql" />
+    <Build Include="admin_GetAllFoodByRestaurantID.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="FoodDelivery.Database.refactorlog" />

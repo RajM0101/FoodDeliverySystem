@@ -1,88 +1,354 @@
-﻿@model FoodListbyRestaurantIdMainModel
+﻿
+<script src="~/css/vendor/nouislider/nouislider.min.js"></script>
+<script src="~/js/rate/rater.min.js"></script>
+<script src="~/css/site/main.js"></script>
+<link href="~/css/site/style.css" rel="stylesheet" />
+
+@model FoodListbyRestaurantIdMainModel
 @{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+    //var lowerSlider = document.querySelector('#lower');
+    //var upperSlider = document.querySelector('#upper');
+
+    //document.querySelector('#two').value = upperSlider.value;
+    //document.querySelector('#one').value = lowerSlider.value;
+
+    //var lowerVal = parseInt(lowerSlider.value);
+    //var upperVal = parseInt(upperSlider.value);
+
+    //upperSlider.oninput = function () {
+    //    lowerVal = parseInt(lowerSlider.value);
+    //    upperVal = parseInt(upperSlider.value);
+
+    //    if (upperVal < lowerVal + 4) {
+    //        lowerSlider.value = upperVal - 4;
+    //        if (lowerVal == lowerSlider.min) {
+    //            upperSlider.value = 4;
+    //        }
+    //    }
+    //    document.querySelector('#two').value = this.value
+    //};
+
+    //lowerSlider.oninput = function () {
+    //    lowerVal = parseInt(lowerSlider.value);
+    //    upperVal = parseInt(upperSlider.value);
+    //    if (lowerVal > upperVal - 4) {
+    //        upperSlider.value = lowerVal + 4;
+    //        if (upperVal == upperSlider.max) {
+    //            lowerSlider.value = parseInt(upperSlider.max) - 4;
+    //        }
+    //    }
+    //    document.querySelector('#one').value = this.value
+    //};
+    function GetFoodList() {
+        debugger
+        var MinVal = $(".filter-price__min-value").text();
+        var MaxVal = $(".filter-price__max-value").text();
+        //SetActiveFilterPanel();
+        var model = ({
+            "IsVegFood": $("#chkPureVeg").is(":checked"),
+            "IsJainFood": $("#chkJainFood").is(":checked"),
+            "IsRatingCheck": $("#chkRating").is(":checked"),
+            "PriceMinVal": MinVal,
+            "PriceMaxVal":MaxVal
+        });
+
+        $.ajax({
+            type: "POST",
+            data: model,
+            url: siteURL + "Home/GetAllFoodList"
+        }).done(function (result) {
+            $("#filterFoodList").html(result);
+            $(document).scrollTop(0);
+        }).fail(function (result) {
+            alert("No design found")
+        });
+
+    }
+
+</script>
 <style>
-/*
-// .block-split
-*/
-@@media (min-width: 1400px) {
-    .block-split--has-sidebar .block-split__item-sidebar {
-        width: 270px;
-        align-self: flex-start; /* for sticky left menu in list product page*/
+
+    .input-check {
+        display: inline-block;
     }
 
-    .block-split--has-sidebar .block-split__item-content {
-        width: calc(100% - 294px);
+    .input-check__body {
+        display: block;
+        position: relative;
+        width: 16px;
+        height: 16px;
     }
 
-    [dir=ltr] .block-split--has-sidebar .block-split__item + .block-split__item {
-        margin-left: 24px;
-    }
-
-    [dir=rtl] .block-split--has-sidebar .block-split__item + .block-split__item {
-        margin-right: 24px;
-    }
-}
-
-@@media (min-width: 992px) and (max-width: 1399.98px) {
-    .block-split--has-sidebar .block-split__item-sidebar {
-        width: 260px;
-        align-self: flex-start; /* for sticky left menu in list product page*/
-    }
-
-    .block-split--has-sidebar .block-split__item-content {
-        width: calc(100% - 276px);
-    }
-
-    [dir=ltr] .block-split--has-sidebar .block-split__item + .block-split__item {
-        margin-left: 16px;
-    }
-
-    [dir=rtl] .block-split--has-sidebar .block-split__item + .block-split__item {
-        margin-right: 16px;
-    }
-}
-
-@@media (max-width: 991.98px) {
-    .block-split__item-sidebar {
+    .input-check__input {
+        opacity: 0;
+        position: absolute;
         width: 100%;
-        -webkit-box-ordinal-group: 2;
-        -ms-flex-order: 1;
-        order: 1;
-        margin-top: 52px;
+        height: 100%;
+        left: 0;
+        top: 0;
+        cursor: inherit;
     }
 
-    .block-split__item-content {
-        width: 100%;
+    .input-check__box {
+        display: block;
+        width: 16px;
+        height: 16px;
+        border-radius: 1.2px;
+        background: #fff;
+        -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+        -webkit-transition: background 0.15s, -webkit-box-shadow 0.15s;
+        transition: background 0.15s, -webkit-box-shadow 0.15s;
+        transition: background 0.15s, box-shadow 0.15s;
+        transition: background 0.15s, box-shadow 0.15s, -webkit-box-shadow 0.15s;
     }
-}
+
+    .input-check__icon {
+        pointer-events: none;
+        position: absolute;
+        left: 4px;
+        top: 5px;
+        fill: #fff;
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        -webkit-transition: fill 0.15s, visibility 0s 0.15s, -webkit-transform 0.15s;
+        transition: fill 0.15s, visibility 0s 0.15s, -webkit-transform 0.15s;
+        transition: fill 0.15s, transform 0.15s, visibility 0s 0.15s;
+        transition: fill 0.15s, transform 0.15s, visibility 0s 0.15s, -webkit-transform 0.15s;
+    }
+
+        .input-check__icon svg {
+            display: block;
+        }
+
+    .input-check__input:checked ~ .input-check__box {
+        background: #0d6efd;
+        -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05) inset;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05) inset;
+    }
+
+    .input-check__input:checked ~ .input-check__icon {
+        fill: #fff;
+        -webkit-transition-delay: 0s, 0s, 0s;
+        transition-delay: 0s, 0s, 0s;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    .input-check__input:disabled ~ .input-check__box {
+        background: #f2f2f2;
+        -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;
+    }
+
+    .input-check__input:disabled ~ .input-check__icon {
+        fill: rgba(0, 0, 0, 0.2);
+    }
+
+    /*
+                                    // .input-check-color
+                                    */
+    .input-check-color {
+        display: inline-block;
+    }
+
+    .input-check-color__body {
+        display: block;
+        position: relative;
+        width: 22px;
+        height: 22px;
+        border-radius: 1.2px;
+        overflow: hidden;
+        cursor: inherit;
+        margin: 0;
+    }
+
+    .input-check-color__input {
+        position: absolute;
+        visibility: hidden;
+    }
+
+    .input-check-color__box {
+        display: block;
+        width: 22px;
+        height: 22px;
+        border-radius: 1.2px;
+        background: currentColor;
+        cursor: inherit;
+    }
+
+    .input-check-color__icon {
+        position: absolute;
+        left: 5px;
+        top: 6px;
+        fill: #fff;
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        -webkit-transition: -webkit-transform 0.15s;
+        transition: -webkit-transform 0.15s;
+        transition: transform 0.15s;
+        transition: transform 0.15s, -webkit-transform 0.15s;
+    }
+
+        .input-check-color__icon svg {
+            display: block;
+        }
+
+    .input-check-color__input:checked ~ .input-check-color__icon {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    .input-check-color__input:disabled {
+        cursor: default;
+    }
+
+        .input-check-color__input:disabled ~ .input-check-color__box {
+            position: relative;
+            left: 0px;
+            top: 0px;
+            width: 22px;
+            height: 22px;
+            opacity: .5;
+            cursor: default;
+        }
+
+        .input-check-color__input:disabled ~ .input-check-color__stick {
+            pointer-events: none;
+            display: block;
+            position: absolute;
+            width: 2px;
+            border-radius: 1px;
+            height: 34px;
+            left: calc(50% - 1px);
+            top: -6px;
+            background: rgba(102, 102, 102, 0.9);
+            -webkit-transform: rotateZ(45deg);
+            transform: rotateZ(45deg);
+            -webkit-transform-origin: center center;
+            transform-origin: center center;
+        }
+
+    .input-check-color--light .input-check-color__icon {
+        fill: #3d464d;
+    }
+
+    .input-check-color--white .input-check-color__box {
+        -webkit-box-shadow: 0 0 0 2px #d9d9d9 inset;
+        box-shadow: 0 0 0 2px #d9d9d9 inset;
+    }
+
+    .input-check-color--white .input-check-color__icon {
+        fill: #bfbfbf;
+    }
+
+    @@media (min-width: 1400px) .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+        max-width: 1480px !important;
+    }
+
+    @@media (min-width: 1200px) .container, .container-lg, .container-md, .container-sm, .container-xl {
+        max-width: 1140px;
+    }
+
+    @@media (min-width: 992px) .container, .container-lg, .container-md, .container-sm {
+        max-width: 960px;
+    }
+
+    @@media (min-width: 768px) .container, .container-md, .container-sm {
+        max-width: 720px;
+    }
+
+    @@media (min-width: 576px) .container, .container-sm {
+        max-width: 540px;
+    }
+
+    .hidden {
+        display: none;
+    }
+    /*
+                                                // .block-split
+                                                */
+    @@media (min-width: 1400px) {
+        .block-split--has-sidebar .block-split__item-sidebar {
+            width: 270px;
+            align-self: flex-start; /* for sticky left menu in list product page*/
+        }
+
+        .block-split--has-sidebar .block-split__item-content {
+            width: calc(100% - 294px);
+        }
+
+        [dir=ltr] .block-split--has-sidebar .block-split__item + .block-split__item {
+            margin-left: 24px;
+        }
+
+        [dir=rtl] .block-split--has-sidebar .block-split__item + .block-split__item {
+            margin-right: 24px;
+        }
+    }
+
+    @@media (min-width: 992px) and (max-width: 1399.98px) {
+        .block-split--has-sidebar .block-split__item-sidebar {
+            width: 260px;
+            align-self: flex-start; /* for sticky left menu in list product page*/
+        }
+
+        .block-split--has-sidebar .block-split__item-content {
+            width: calc(100% - 276px);
+        }
+
+        [dir=ltr] .block-split--has-sidebar .block-split__item + .block-split__item {
+            margin-left: 16px;
+        }
+
+        [dir=rtl] .block-split--has-sidebar .block-split__item + .block-split__item {
+            margin-right: 16px;
+        }
+    }
+
+    @@media (max-width: 991.98px) {
+        .block-split__item-sidebar {
+            width: 100%;
+            -webkit-box-ordinal-group: 2;
+            -ms-flex-order: 1;
+            order: 1;
+            margin-top: 52px;
+        }
+
+        .block-split__item-content {
+            width: 100%;
+        }
+    }
 
     .sidebar__header {
         display: none;
     }
-@@media (min-width: 992px) {
-    .widget-filters--offcanvas--mobile {
-        background-color: #fff;
-        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
-    }
-}
 
-@@media (max-width: 991.98px) {
-    .widget-filters--offcanvas--mobile .widget-filters__header {
-        display: none;
-    }
-
-    .widget-filters--offcanvas--mobile .widget-filters__item {
-        padding: 8px 20px;
-    }
-
-        .widget-filters--offcanvas--mobile .widget-filters__item:first-child {
-            border-top: none;
+    @@media (min-width: 992px) {
+        .widget-filters--offcanvas--mobile {
+            background-color: #fff;
+            -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.09);
         }
-}
+    }
+
+    @@media (max-width: 991.98px) {
+        .widget-filters--offcanvas--mobile .widget-filters__header {
+            display: none;
+        }
+
+        .widget-filters--offcanvas--mobile .widget-filters__item {
+            padding: 8px 20px;
+        }
+
+            .widget-filters--offcanvas--mobile .widget-filters__item:first-child {
+                border-top: none;
+            }
+    }
 
 
     .widget__header {
@@ -172,12 +438,23 @@
     .products-list--grid--5[data-layout="grid"] .products-list__content {
         margin-left: -4px;
     }
+
+
+    @@media (min-width: 991.98px) {
+        .sticky /* for sticky left menu in list product page*/ {
+            position: -webkit-sticky; /* Safari */
+            position: sticky;
+            top: 90;
+        }
+    }
+
 </style>
 <section id="menu" class="hero d-flex align-items-center section-bg menu">
-    <div class="block-split block-split--has-sidebar">
-        <div class="container">
-            <div class="block-split__row row no-gutters">   
-               
+    <div class="container">
+        <div class="block-split block-split--has-sidebar">
+
+            <div class="block-split__row row no-gutters">
+
                 <div class="block-split__item block-split__item-sidebar col-auto sticky">
                     <div class="sidebar sidebar--offcanvas--mobile">
                         <div class="sidebar__backdrop"></div>
@@ -201,7 +478,7 @@
                                         <div class="widget-filters__item">
                                             <div class="filter filter--opened" data-collapse-item>
                                                 <button type="button" class="filter__title" data-collapse-trigger>
-                                                    Search the Designs
+                                                    Pure Veg
                                                     <span class="filter__arrow">
                                                         <svg width="12px" height="7px">
                                                             <path d="M0.286,0.273 L0.286,0.273 C-0.070,0.629 -0.075,1.204 0.276,1.565 L5.516,6.993 L10.757,1.565 C11.108,1.204 11.103,0.629 10.747,0.273 L10.747,0.273 C10.385,-0.089 9.796,-0.086 9.437,0.279 L5.516,4.296 L1.596,0.279 C1.237,-0.086 0.648,-0.089 0.286,0.273 Z" />
@@ -211,22 +488,127 @@
                                                 <div class="filter__body" data-collapse-content>
                                                     <div class="filter__container">
                                                         <div class="filter-list">
-                                                            <div>
-                                                                
-                                                                <input type="text" class="form-control" placeholder="enter text" id="SeachFood"/>
+                                                            <div class="filter-list__list">
+                                                                <label class="filter-list__item">
+                                                                    <span class="input-check filter-list__input">
+                                                                        <span class="input-check__body">
+                                                                            <input class="input-check__input" type="checkbox" onchange="javascript:GetFoodList()" id="chkPureVeg" value="false" name="PureVeg"
+                                                                                   data-title="VegFood">
+                                                                            <span class="input-check__box"></span>
+                                                                            <span class="input-check__icon">
+                                                                                <svg width="9px" height="7px">
+                                                                                    <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                    </span>
+                                                                    <span class="filter-list__title">
+                                                                        Veg Food
+                                                                    </span>
+                                                                </label>
                                                             </div>
-                                                            <div class="filter-vehicle__button">
-                                                                <button type="button" class="btn btn-xs btn-primary" onclick="javascript:GetDesigns()"><i class="fa fa-search"></i>&nbsp;Search</button>
-                                                            </div>
-
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                       
-                                        
+                                        <div class="widget-filters__item">
+                                            <div class="filter" data-collapse-item>
+                                                <button type="button" class="filter__title" data-collapse-trigger>
+                                                    Only Jain Food
+                                                    <span class="filter__arrow">
+                                                        <svg width="12px" height="7px">
+                                                            <path d="M0.286,0.273 L0.286,0.273 C-0.070,0.629 -0.075,1.204 0.276,1.565 L5.516,6.993 L10.757,1.565 C11.108,1.204 11.103,0.629 10.747,0.273 L10.747,0.273 C10.385,-0.089 9.796,-0.086 9.437,0.279 L5.516,4.296 L1.596,0.279 C1.237,-0.086 0.648,-0.089 0.286,0.273 Z" />
+                                                        </svg>
+                                                    </span>
+                                                </button>
+                                                <div class="filter__body" data-collapse-content>
+                                                    <div class="filter__container">
+                                                        <div class="filter-list">
+                                                            <div class="filter-list__list">
+                                                                <label class="filter-list__item">
+                                                                    <span class="input-check filter-list__input">
+                                                                        <span class="input-check__body">
+                                                                            <input class="input-check__input" type="checkbox" onchange="javascript:GetFoodList()" id="chkJainFood" value="false" name="JainFood"
+                                                                                   data-title="JainFood">
+                                                                            <span class="input-check__box"></span>
+                                                                            <span class="input-check__icon">
+                                                                                <svg width="9px" height="7px">
+                                                                                    <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                    </span>
+                                                                    <span class="filter-list__title">
+                                                                        Jain Food
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="widget-filters__item">
+                                            <div class="filter" data-collapse-item>
+                                                <button type="button" class="filter__title" data-collapse-trigger>
+                                                    Rating
+                                                    <span class="filter__arrow">
+                                                        <svg width="12px" height="7px">
+                                                            <path d="M0.286,0.273 L0.286,0.273 C-0.070,0.629 -0.075,1.204 0.276,1.565 L5.516,6.993 L10.757,1.565 C11.108,1.204 11.103,0.629 10.747,0.273 L10.747,0.273 C10.385,-0.089 9.796,-0.086 9.437,0.279 L5.516,4.296 L1.596,0.279 C1.237,-0.086 0.648,-0.089 0.286,0.273 Z" />
+                                                        </svg>
+                                                    </span>
+                                                </button>
+                                                <div class="filter__body" data-collapse-content>
+                                                    <div class="filter__container">
+                                                        <div class="filter-list">
+                                                            <div class="filter-list__list">
+                                                                <label class="filter-list__item">
+                                                                    <span class="input-check filter-list__input">
+                                                                        <span class="input-check__body">
+                                                                            <input class="input-check__input" type="checkbox" onchange="javascript:GetFoodList()" id="chkRating" value="false" name="Rating"
+                                                                                   data-title="Rating">
+                                                                            <span class="input-check__box"></span>
+                                                                            <span class="input-check__icon">
+                                                                                <svg width="9px" height="7px">
+                                                                                    <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                    </span>
+                                                                    <span class="filter-list__title">
+                                                                        Ratings 4.0+
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="widget-filters__item">
+                                            <div class="filter" data-collapse-item>
+                                                <button type="button" class="filter__title" data-collapse-trigger>
+                                                    Price
+                                                    <span class="filter__arrow">
+                                                        <svg width="12px" height="7px">
+                                                            <path d="M0.286,0.273 L0.286,0.273 C-0.070,0.629 -0.075,1.204 0.276,1.565 L5.516,6.993 L10.757,1.565 C11.108,1.204 11.103,0.629 10.747,0.273 L10.747,0.273 C10.385,-0.089 9.796,-0.086 9.437,0.279 L5.516,4.296 L1.596,0.279 C1.237,-0.086 0.648,-0.089 0.286,0.273 Z" />
+                                                        </svg>
+                                                    </span>
+                                                </button>
+                                                <div class="filter__body" data-collapse-content>
+                                                    <div class="filter__container">
+                                                        <div class="filter-price" data-min="0" data-max="1500" data-from="0" data-to="500">
+                                                            <div class="filter-price__slider"></div>
+                                                            <div class="filter-price__title-button">
+                                                                <div class="filter-price__title">$<span class="filter-price__min-value"></span> – $<span class="filter-price__max-value"></span></div>
+                                                                <button type="button" class="btn btn-xs btn-secondary filter-price__button" onclick="javascript:GetFoodList()">Filter</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -236,63 +618,23 @@
                 </div>
 
                 <div class="block-split__item block-split__item-content col-auto">
-                    <div class="block">
-                        <div class="products-view">
-                            <div class="products-view__list products-list products-list--grid--5" data-layout="grid" data-with-features="false" id="designList">
-                                <div class="container" data-aos="fade-up">
 
-                                    <div class="section-header" style="background-color:#fff;margin-bottom:30px">
-                                        <h2>Our Food</h2>
-                                    </div>
+                    <div class="container" data-aos="fade-up">
 
-                                    <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
-
-                                        <div class="tab-pane fade active show" id="menu-vegetarian" style="background-color:#fff;padding-bottom:50px;">
-
-                                            <div class="row gy-5">
-                                                @if (Model.foodListByRestaurantId.Count() > 0)
-                                                {
-                                                    @foreach (var item in Model.foodListByRestaurantId)
-                                                    {
-                                                        var Image = "/Images/Food/" + @item.ImageName;
-
-                                                        <div class="col-lg-4 menu-item" style="max-height:300px">
-                                                            <a href="/food-detail/@item.FoodID" class="">
-                                                                <img src="@Image" class="menu-img img-fluid" alt="@item.FoodName" style="height:70%">
-                                                            </a>
-                                                            <h4>@item.FoodName</h4>
-                                                            <p class="ingredients">
-                                                                @item.Ingredient
-                                                            </p>
-                                                            <p class="price">
-                                                                $@item.Price
-                                                            </p>@*
-                                                    <button class="btn btn-primary btn-lg btn-block" style="width: 49%; float: left; margin-right: 1%; margin-top: 0.75rem;" onclick="javascript:AddFoodToCartConfirm(@item.FoodID)">
-                                                    <i class="fa fa-download"></i> Add
-
-                                                    </button>*@
-                                                        </div>
-
-                                                        <!-- Menu Item -->
-                                                    }
-
-                                                }
-                                            </div>
-                                        </div><!-- End Starter Menu Content -->
-
-
-
-                                    </div>
-
-                                </div>
-                            </div>
+                        <div class="section-header">
+                            <h2>Our Food</h2>
                         </div>
+
+                        <div id="filterFoodList">
+                            @await Component.InvokeAsync("PartialFoodList",Model)
+                        </div>
+
+
                     </div>
+
                 </div>
             </div>
             <div class="block-space block-space--layout--before-footer"></div>
         </div>
     </div>
-
-     
 </section>

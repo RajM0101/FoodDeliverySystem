@@ -1,5 +1,4 @@
-﻿
-Create PROCEDURE [dbo].[web_AddOrder]                  
+﻿CREATE PROCEDURE [dbo].[web_AddOrder]                  
 	@UserId INT =0,
     @FoodIds  NVARCHAR(MAX)=''
 AS
@@ -47,6 +46,5 @@ AS
         
     END
 
+
 GO
-
-

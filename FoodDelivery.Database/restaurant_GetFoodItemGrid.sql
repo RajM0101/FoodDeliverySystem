@@ -69,9 +69,10 @@ BEGIN
     @CountRecord,    
     N'@noOfRecord int OUTPUT',    
     @noOfRecord = @noOfRecords OUTPUT;    
-    --PRINT (@QRY+@QRYWHERE+@PAGINATION);  
+    PRINT (@QRY+@QRYWHERE+@PAGINATION);  
     EXEC (@QRY+@QRYWHERE+@PAGINATION);   
 END
+
 
 
 GO

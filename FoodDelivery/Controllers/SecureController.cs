@@ -101,6 +101,7 @@ namespace FoodDelivery.Controllers
                         Convert.ToString(c.Qauntity),//5
                         c.TotalPrice,//6
                         c.OrderDate,//7
+                        c.OrderStatus,
                         c.Rate.ToString()//8
                       };
 
@@ -122,7 +123,7 @@ namespace FoodDelivery.Controllers
                 rateFoodResoponse = objDatabase.RateToFood(OrderDetailId, Rate,GetCurrentUser().UserId);
                 return Json(new { Result = rateFoodResoponse.Status });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

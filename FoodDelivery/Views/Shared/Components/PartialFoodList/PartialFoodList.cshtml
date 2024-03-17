@@ -1,0 +1,57 @@
+﻿
+@model FoodListbyRestaurantIdMainModel
+<div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+
+    <div class="tab-pane fade active show" id="menu-vegetarian" style="background-color:#fff;padding-bottom:50px;">
+
+        <div class="row gy-5">
+            @if (Model.foodListByRestaurantId.Count() > 0)
+            {
+                var i = 0;
+                @foreach (var item in Model.foodListByRestaurantId)
+                {
+                    var Image = "/Images/Food/" + @item.ImageName;
+
+                    <div class="col-lg-4 menu-item" style="max-height:300px">
+                        <a href="/food-detail/@item.FoodID" class="">
+                            <img src="@Image" class="menu-img img-fluid" alt="@item.FoodName" style="height:70%">
+                        </a>
+                        <h4>@item.FoodName</h4>
+                        <p class="ingredients">
+                            @item.Ingredient
+                        </p>
+                        <div class="row">
+                            <div class="col-md-5 price" style="margin-bottom:5px;text-align-last:right">
+                                $@item.Price
+                            </div>
+                            <div class="col-md-6 rating_@i faPrimaryColor" style="font-size:30px;color:#ffe339;font-size:25px">
+                                <input type="text" id="ProspectRating_@i" Name="ProspectRating_@i" Class="form-control field-input hidden" value="@item.Rate" />
+                            </div>
+                            <script>
+                                $(".rating_@i").rate();
+                                var options = {
+                                    initial_value: @item.Rate,
+                                    readonly: true,
+                                    change_once: true,
+                                }
+                                //$("#ProspectRating_@i").val();
+                                $(".rating_@i").rate(options);
+                                $(".rating_@i").rate("setValue", $("#ProspectRating_@i").val());
+                                $(".rating_@i").rate("destroy");
+                            </script>
+                        </div>
+                    </div>
+                    i = i + 1;
+                    <!-- Menu Item -->
+                }
+
+            }
+        </div>
+    </div><!-- End Starter Menu Content -->
+
+
+
+
+</div>
+
+ 

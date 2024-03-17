@@ -150,7 +150,7 @@
             <li><a href="/">Home</a></li>
             @* <li><a href="#about">About</a></li>*@
             <li><a href="/">Restaurants</a></li>
-            <li style="display:none"><a href="/all-foodlist">Food</a></li>
+            <li><a href="/all-foodlist">Food</a></li>
         </ul>
     </nav><!-- .navbar -->
     <div class="header__search">
@@ -164,7 +164,7 @@
         </div>
     </div> 
     <div class="header__indicators">
-        <div class="indicator indicator--trigger--click">
+        <div class="indicator">
             <a class="indicator__button" href=@(sessionUser != null ? "/order-history":"/login-register")>
                 <span class="indicator__icon">
                     <svg width="32" height="32">

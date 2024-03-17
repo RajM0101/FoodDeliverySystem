@@ -21,6 +21,7 @@
             public const string admin_GetRestaurantDetailByRestaurantId = "admin_GetRestaurantDetailByRestaurantId";
             public const string admin_AdminUserLogin = "admin_AdminUserLogin";
             public const string admin_GetUserList = "admin_GetUserList";
+            public const string admin_GetAllFoodByRestaurantID = "admin_GetAllFoodByRestaurantID";
             #endregion
             #region Restaurant 
 

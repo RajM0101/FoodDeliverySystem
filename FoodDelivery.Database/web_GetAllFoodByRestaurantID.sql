@@ -5,7 +5,7 @@ BEGIN
 
 	 SELECT 
 		 RestaurantID
-		 ,FoodID
+		 ,f.FoodID
 		 ,FoodName
 		 ,Price
 		 ,ImageName
@@ -13,10 +13,12 @@ BEGIN
 		 ,DiscountInPercentage
 		 ,IsBestSeller
 		 ,IsVegetarian 
-	 FROM Food 
+		 ,(SELECT ROUND((ISNULL(SUM(Rate),0)/COUNT(UserID)),2) FROM FoodRating fr where fr.FoodID=f.FoodID GROUP BY FoodID) Rate
+	 FROM Food f
 	 WHERE RestaurantID=@RestaurantID AND IsAvailable=1 AND ISNULL(IsDeleted,0)=0
 	 ORDER BY DisplayOrder,IsBestSeller
 
  END
+
 
 GO

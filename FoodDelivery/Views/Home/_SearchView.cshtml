@@ -1,9 +1,14 @@
-﻿@model SearchFoodAndRestaurant
+﻿<script src="~/js/rate/rater.min.js"></script>
+@model SearchFoodAndRestaurant
 @{
     ViewData["Title"] = "Seach Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
 <section id="menu" class="hero d-flex align-items-center section-bg menu">
     <div class="container" data-aos="fade-up">
         <div class="section-header">
@@ -44,6 +49,7 @@
                 <div class="row gy-5">
                     @if (Model.searchFoodList.Count() > 0)
                     {
+                        var i = 0;
                         @foreach (var item in Model.searchFoodList)
                         {
                             var Image = "/Images/Food/" + @item.ImageName;
@@ -56,15 +62,28 @@
                                 <p class="ingredients">
                                     @item.Ingredient
                                 </p>
-                                <p class="price">
-                                    $@item.Price
-                                </p>@*
-                        <button class="btn btn-primary btn-lg btn-block" style="width: 49%; float: left; margin-right: 1%; margin-top: 0.75rem;" onclick="javascript:AddFoodToCartConfirm(@item.FoodID)">
-                        <i class="fa fa-download"></i> Add
-
-                        </button>*@
+                                <div class="row">
+                                    <div class="col-md-5 price" style="margin-bottom:5px;text-align-last:right">
+                                        $@item.Price
+                                    </div>
+                                    <div class="col-md-6 rating_@i faPrimaryColor" style="color:#ffe339;font-size:25px">
+                                        <input type="text" id="ProspectRating_@i" Name="ProspectRating_@i" Class="form-control field-input hidden" value="@item.Rate" />
+                                    </div>
+                                    <script>
+                                        $(".rating_@i").rate();
+                                        var options = {
+                                            initial_value: @item.Rate,
+                                            readonly: true,
+                                            change_once: true,
+                                        }
+                                        //$("#ProspectRating_@i").val();
+                                        $(".rating_@i").rate(options);
+                                        $(".rating_@i").rate("setValue", $("#ProspectRating_@i").val());
+                                        $(".rating_@i").rate("destroy");
+                                    </script>
+                                </div>
                             </div>
-
+                            i = i + 1;
                             <!-- Menu Item -->
                         }
 

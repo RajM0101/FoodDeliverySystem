@@ -29,6 +29,7 @@ BEGIN
                         OrderDate,
                         Price,
                         TotalPrice,
+						OrderStatus,
 						Rate
                     FROM(
                     SELECT
@@ -44,11 +45,13 @@ BEGIN
                                                 LEFT JOIN [OrderDetail] od1 ON od1.FoodId = f1.FoodId
                                                 WHERE od1.OrderId = o.OrderId AND o.UserId = ' + CAST(@UserId AS NVARCHAR(20))+'
                         ) AS TotalPrice,
+						os.OrderStatusName AS OrderStatus,
 						ISNULL(fr.Rate,0) AS Rate
                          ';
 
     SET @QRYTABLE = ' FROM [Order] o
                             JOIN OrderDetail od ON od.OrderId = o.OrderId 
+							LEFT JOIN OrderStatus os ON os.OrderStatusID=od.OrderStatus
                             JOIN Food f ON f.FoodID = od.FoodId
 							LEFT JOIN FoodRating fr ON fr.FoodID=f.FoodID AND fr.UserID= ' + CAST(@UserId AS NVARCHAR(20))+'';
 
@@ -77,6 +80,7 @@ BEGIN
     --SELECT (@QRY+@QRYTABLE+@QRYWHERE+@PAGINATION);    
     EXEC (@QRY+@QRYTABLE+@QRYWHERE+@PAGINATION);    
 END
+
 
 
 GO

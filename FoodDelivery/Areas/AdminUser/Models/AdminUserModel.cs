@@ -36,4 +36,15 @@
         public string MobileNo { get; set; }
         public string Address { get; set; }
     }
+    public class FoodListModel
+    {
+        public int RestaurantID { get; set; }
+        public int FoodID { get; set; }
+        public string FoodName { get; set; }
+        public int Price { get; set; }
+        public string Ingredient { get; set; }
+        public bool IsBestSeller { get; set; }
+        public bool IsVegetarian { get; set; }
+        public decimal Rate { get; set; }
+    }
 }

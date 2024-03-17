@@ -278,7 +278,7 @@ namespace FoodDelivery.Models
             }
             return searchFoodAndRestaurant;
         }
-        public FoodListbyRestaurantIdMainModel GetFoodListByRestaurant()
+        public FoodListbyRestaurantIdMainModel GetFoodListByRestaurant(bool IsVegFood, bool IsJainFood, bool IsRatingCheck, decimal PriceMinVal, decimal PriceMaxVal)
         {
             FoodListbyRestaurantIdMainModel foodListbyRestaurantIdMainModel = new FoodListbyRestaurantIdMainModel();
             List<FoodListByRestaurantId> foodListByRestaurantId = new List<FoodListByRestaurantId>();
@@ -287,6 +287,11 @@ namespace FoodDelivery.Models
                 using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_GetFoodList, con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IsVegFood", SqlDbType.Bit)).Value = IsVegFood;
+                    cmd.Parameters.Add(new SqlParameter("@IsJainFood", SqlDbType.Bit)).Value = IsJainFood;
+                    cmd.Parameters.Add(new SqlParameter("@IsRatingCheck", SqlDbType.Bit)).Value = IsRatingCheck;
+                    cmd.Parameters.Add(new SqlParameter("@PriceMinVal", SqlDbType.Decimal)).Value = PriceMinVal;
+                    cmd.Parameters.Add(new SqlParameter("@PriceMaxVal", SqlDbType.Decimal)).Value = PriceMaxVal;
                     con.Open();
                     using (IDataReader dataReader = cmd.ExecuteReader())
                     {
@@ -309,7 +314,7 @@ namespace FoodDelivery.Models
 
                     cmd.Parameters.Add(new SqlParameter("@OrderDetailId", SqlDbType.Int)).Value = OrderDetailId;
                     cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = UserId;
-                    cmd.Parameters.Add(new SqlParameter("@Rate", SqlDbType.DateTime)).Value =Convert.ToDecimal(Rate);
+                    cmd.Parameters.Add(new SqlParameter("@Rate", SqlDbType.Decimal)).Value =Convert.ToDecimal(Rate);
                     con.Open();
                     using (IDataReader dataReader = cmd.ExecuteReader())
                     {

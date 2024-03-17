@@ -460,43 +460,6 @@ function SetPagination(ptotal, pagenumber) {
     //    },
     //});
 }
-function GetDesigns(displayStart, pageSize, pageNumber) {
-    SetActiveFilterPanel();
-    var model = ({
-        "FilterSubCategoryId": $("#chkDesignByCategory:checked").map(function () { return this.value }).get().join(","),
-        "StitchId": $("#chkStitch:checked").map(function () { return this.value }).get().join(","),
-        "AreaId": $("#chkArea:checked").map(function () { return this.value }).get().join(","),
-        "NiddleId": $("#chkNiddle:checked").map(function () { return this.value }).get().join(","),
-        "HeightId": $("#chkHeight:checked").map(function () { return this.value }).get().join(","),
-        "WidthId": $("#chkWidth:checked").map(function () { return this.value }).get().join(","),
-        "SEOUrl": $("#SEOUrl").val(),
-        "PSEOUrl": $("#PSEOUrl").val(),
-        "SSEOUrl": $("#SSEOUrl").val(),
-        "Search": $("#searchDesign").val(),
-        "StartDate": $("#startDate").val(),
-        "EndDate": $("#endDate").val(),
-        "IsFavourite": $("#IsFavourite").val(),
-        "IsDownload": $("#IsDownload").val(),
-        "DisplayStart": displayStart,
-        "PageSize": pageSize,
-        "PageNumber": pageNumber,
-        "PackageId": $("#PackageId:checked").map(function () { return this.value }).get().join(","),
-    });
-
-    $.ajax({
-        type: "POST",
-        data: model,
-        url: siteURL + "Home/GetDesignList"
-    }).done(function (result) {
-        $("#designList").html(result);
-        $(document).scrollTop(0);
-        var NoOfRecords = $("#NoOfDesignCount").val();
-        SetPagination(NoOfRecords, pageNumber);
-    }).fail(function (result) {
-        alert("No design found")
-    });
-
-}
 
 function ClearOneFilter(type, id) {
     switch (type) {

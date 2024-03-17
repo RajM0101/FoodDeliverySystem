@@ -1,12 +1,20 @@
 ﻿@{
-    ViewData["Title"] = "FoodItemList";
-    Layout = "~/Areas/Restaurant/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "FoodList";
+    Layout = "~/Areas/AdminUser/Views/Shared/_Layout.cshtml";
 }
+<style>
+.hidden{
+display:none;
+}
+</style>
+<script src="~/js/rate/rater.min.js"></script>
+<script>
+    var RestaurantID = '@ViewBag.RestaurantID';
+</script>
 @section scripts
     {
-    <script src="~/restaurant/scripts/food/orderlist.js" asp-append-version="true"></script>
+    <script src="~/restaurant/scripts/adminuser/foodlist.js" asp-append-version="true"></script>
 }
-
 <div class="pcoded-main-container company-report">
     <div class="pcoded-wrapper">
         <div class="pcoded-content">
@@ -32,7 +40,7 @@
                                 <div class="card">
                                     <div class="panel panel-default panel-toggled">
                                         <div class="card-header filter-header" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
-                                            <h5 class="mb-0">Advance filter - Order</h5>
+                                            <h5 class="mb-0">Advance filter - Food</h5>
                                             <i class="collapsed fa fa-angle-down float-right" aria-expanded="false" aria-controls="collapseTwo"></i>
                                         </div>
 
@@ -49,7 +57,7 @@
                                                 <label class="col-sm-1"></label>
                                                 <label class="col-sm-2"></label>
                                                 <div class="col-sm-8">
-                                                    <button type="button" id="FoodItemSearch" class="btn btn-primary">Search</button>
+                                                    <button type="button" id="FoodSearch" class="btn btn-primary">Search</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -57,10 +65,10 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Order</h5>
+                                        <h5>Food</h5>
                                         <div class="card-header-right">
                                             <div class="btn-group card-option">
-                                                
+
                                                 <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="feather icon-more-horizontal"></i>
                                                 </button>
@@ -74,18 +82,17 @@
                                     </div>
                                     <div class="card-block report-block">
                                         <div class="table-responsive">
-                                            <table id="OrderList" class="display table nowrap table-striped table-hover table-bordered">
+                                            <table id="FoodList" class="display table nowrap table-striped table-hover table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th>#ID</th>
-                                                        <th>#ID</th>
-                                                        <th>#Food ID</th>
-                                                        <th>Name</th>
-                                                        <th>Qauntity</th>
-                                                        <th>OrderDate</th>
+                                                        <th>#RestaurantID</th>
+                                                        <th>#FoodID</th>
+                                                        <th>Food Name</th>
                                                         <th>Price</th>
-                                                        <th>Order Status</th>
-                                                        <th>Action</th>
+                                                        <th>Ingredient</th>
+                                                        <th>BestSeller</th>
+                                                        <th>Vegetarian</th>
+                                                        <th>Rate</th> 
                                                     </tr>
                                                 </thead>
                                                 <tbody></tbody>

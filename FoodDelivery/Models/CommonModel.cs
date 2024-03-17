@@ -191,6 +191,7 @@ namespace FoodDelivery.Models
         public int DiscountInPercentage { get; set; }
         public bool IsBestSeller { get; set; }
         public bool IsVegetarian { get; set; }
+        public decimal Rate { get; set; }
 
     }
 
@@ -245,6 +246,7 @@ namespace FoodDelivery.Models
         public int Qauntity { get; set; }
         public string TotalPrice { get; set; }
         public string OrderDate { get; set; }
+        public string OrderStatus { get; set; }
         public decimal Rate { get; set; }
     }
     public class AdminUserLoginModel

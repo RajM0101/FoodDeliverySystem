@@ -6,12 +6,20 @@ AS
 BEGIN  
 	DECLARE @FoodId INT=0
 	SELECT @FoodId=FoodId FROM OrderDetail WHERE OrderDetailID=@OrderDetailId
-
-	INSERT INTO FoodRating(FoodID,UserID,Rate,RateDate)
-	VALUES(@FoodId,@UserId,@Rate,GETDATE())
+	 
+	IF EXISTS(Select 1 from FoodRating WHERE FoodID=@FoodID AND UserID=@UserId)
+    BEGIN 
+        UPDATE FoodRating SET Rate=@Rate WHERE FoodID=@FoodID AND UserID=@UserId
+	END
+	ELSE 
+	BEGIN
+		INSERT INTO FoodRating(FoodID,UserID,Rate,RateDate)
+		VALUES(@FoodId,@UserId,@Rate,GETDATE())
+	END
 	 
 	 Select cast(1 as int) as Status
  END
+
 
 
 GO

@@ -122,5 +122,47 @@ namespace FoodDelivery.Areas.AdminUser.Controllers
             catch (Exception) { throw; }
         }
         #endregion
+        #region Foodlist
+        [Route("adminuser/foodlist")]
+        [HttpGet]
+        public ActionResult FoodList(string RestaurantID)
+        {
+            ViewBag.RestaurantID = RestaurantID;
+            return View("_FoodList");
+        }
+        [HttpGet]
+        public ActionResult GetFoodList(JQueryDataTableParamModel param,string RestaurantID, string Name)
+        {
+            try
+            {
+                IEnumerable<string[]> obj = Enumerable.Empty<string[]>();
+                int noOfRecords;
+                var SortOrderString = param.sColumns.Split(',');
+                param.iSortCol_0 = SortOrderString[Convert.ToInt32(param.iSortCol_0)];
+                List<FoodListModel> list = objDatabaseAdminUser.GetFoodList(param, RestaurantID, Name, out noOfRecords);
+                obj = from c in list
+                      select new[]
+                      {
+                        Convert.ToString(c.RestaurantID),
+                        Convert.ToString(c.FoodID),
+                        c.FoodName,
+                        c.Price.ToString(),
+                        c.Ingredient,
+                        c.IsBestSeller==true ?"Yes":"No",
+                        c.IsVegetarian==true?"Vegetarian":"Non-Veg",
+                        Convert.ToString(c.Rate)
+                      };
+
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = noOfRecords,
+                    iTotalDisplayRecords = noOfRecords,
+                    aaData = obj
+                });
+            }
+            catch (Exception) { throw; }
+        }
+        #endregion
     }
 }

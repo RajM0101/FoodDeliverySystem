@@ -151,5 +151,35 @@ namespace FoodDelivery.Areas.AdminUser.Models
             }
             return userListModel;
         }
+
+        public List<FoodListModel> GetFoodList(JQueryDataTableParamModel param, string RestaurantID, string Name, out int noOfRecords)
+        {
+            List<FoodListModel> foodListModel = new List<FoodListModel>();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.admin_GetAllFoodByRestaurantID, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Search", SqlDbType.NVarChar, 100)).Value = Name;
+                    cmd.Parameters.Add(new SqlParameter("@DisplayStart", SqlDbType.Int)).Value = param.iDisplayStart;
+                    cmd.Parameters.Add(new SqlParameter("@PageSize", SqlDbType.Int)).Value = param.iDisplayLength;
+                    cmd.Parameters.Add(new SqlParameter("@SortColumnName", SqlDbType.VarChar, 50)).Value = param.iSortCol_0;
+                    cmd.Parameters.Add(new SqlParameter("@SortOrder", SqlDbType.VarChar, 50)).Value = param.sSortDir_0;
+                    cmd.Parameters.Add(new SqlParameter("@RestaurantID", SqlDbType.Int)).Value = Convert.ToInt32(RestaurantID);
+                    con.Open();
+                    SqlParameter resultOutPut = new SqlParameter("@noOfRecords", SqlDbType.VarChar);
+                    resultOutPut.Size = 50;
+                    resultOutPut.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(resultOutPut);
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        foodListModel = UserDefineExtensions.DataReaderMapToList<FoodListModel>(dataReader);
+                    }
+                    noOfRecords = Convert.ToInt32(cmd.Parameters["@noOfRecords"].Value);
+                    con.Close();
+                }
+            }
+            return foodListModel;
+        }
     }
 }

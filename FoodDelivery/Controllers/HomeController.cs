@@ -171,13 +171,18 @@ namespace FoodDelivery.Controllers
         }
 
         [Route("/all-foodlist", Name = "AllFoodList")]
-        public ActionResult AllFoodList()
+        public ActionResult AllFoodList(bool IsVegFood,bool IsJainFood,bool IsRatingCheck,decimal PriceMinVal=0, decimal PriceMaxVal=500)
         {
             FoodListbyRestaurantIdMainModel MainModel = new FoodListbyRestaurantIdMainModel();
-            MainModel = objDatabase.GetFoodListByRestaurant();
+            MainModel = objDatabase.GetFoodListByRestaurant(IsVegFood, IsJainFood, IsRatingCheck, PriceMinVal, PriceMaxVal);
             return View("_AllFoodList", MainModel);
         }
-
+        public ActionResult GetAllFoodList(bool IsVegFood, bool IsJainFood, bool IsRatingCheck,decimal PriceMinVal=0,decimal PriceMaxVal=500)
+        {
+            FoodListbyRestaurantIdMainModel MainModel = new FoodListbyRestaurantIdMainModel();
+            MainModel = objDatabase.GetFoodListByRestaurant(IsVegFood, IsJainFood, IsRatingCheck,PriceMinVal,PriceMaxVal);
+            return ViewComponent("PartialFoodList", MainModel);
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -214,6 +219,13 @@ namespace FoodDelivery.Controllers
             return View("LoginUser", loginUserModel);
         }
     }
-
+    public class PartialFoodListViewComponent : ViewComponent
+    {
+        Database objDatabase = new Database();
+        public async Task<IViewComponentResult> InvokeAsync(FoodListbyRestaurantIdMainModel? Model)
+        {
+            return View("PartialFoodList", Model);
+        }
+    }
     #endregion
 }

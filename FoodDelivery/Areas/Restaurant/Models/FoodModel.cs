@@ -159,6 +159,7 @@ namespace FoodDelivery.Areas.Restaurant.Models
         public int FoodID { get; set; }
         public string FoodName { get; set; }
         public int Price { get; set; }
+        public decimal Rate { get; set; }
         public string Ingredient { get; set; }
         public string ImageName { get; set; }
     }
