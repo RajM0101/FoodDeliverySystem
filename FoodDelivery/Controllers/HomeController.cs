@@ -3,11 +3,7 @@ using FoodDelivery.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Reflection.Metadata;
-using System.Text;
 
 namespace FoodDelivery.Controllers
 {
@@ -146,7 +142,7 @@ namespace FoodDelivery.Controllers
             dashboardMainModel.restaurantDetailModel = objDatabase.GetAllRestaurantDetail();
             return dashboardMainModel;
         }
-        [Route("/restaurants/{RestaurantID?}", Name = "GetFoodList")]
+        [Route("/restaurants-tiffin/{RestaurantID?}", Name = "GetFoodList")]
         public ActionResult GetFoodList(int RestaurantID)
         {
             FoodListbyRestaurantIdMainModel MainModel = new FoodListbyRestaurantIdMainModel();

@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "FoodList";
     Layout = "~/Areas/AdminUser/Views/Shared/_Layout.cshtml";
+    var Name = ViewBag.Name;
 }
 <style>
 .hidden{
@@ -40,7 +41,7 @@ display:none;
                                 <div class="card">
                                     <div class="panel panel-default panel-toggled">
                                         <div class="card-header filter-header" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
-                                            <h5 class="mb-0">Advance filter - Food</h5>
+                                            <h5 class="mb-0">Advance filter - @Name</h5>
                                             <i class="collapsed fa fa-angle-down float-right" aria-expanded="false" aria-controls="collapseTwo"></i>
                                         </div>
 
@@ -65,7 +66,7 @@ display:none;
                                 </div>
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Food</h5>
+                                        <h5>@Name</h5>
                                         <div class="card-header-right">
                                             <div class="btn-group card-option">
 

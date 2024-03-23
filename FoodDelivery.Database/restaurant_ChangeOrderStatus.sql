@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[restaurant_ChangeOrderStatus]
+﻿CREATE PROCEDURE [dbo].[restaurant_ChangeOrderStatus]
 @OrderDetailID INT=0, -- 0 then Add mode
 @OrderStatusID INT=0
 AS 

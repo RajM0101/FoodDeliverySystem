@@ -167,6 +167,7 @@ namespace FoodDelivery.Areas.Restaurant.Models
         public int RestaurantID { get; set; }
         public string RestaurantName { get; set; }
         public string ImageName { get; set; }
+        public bool IsTiffinServices { get; set; }
     }
     public class SearchFoodAndRestaurant{
         public List<SearchRestaurantList> searchRestaurantList { get; set; }

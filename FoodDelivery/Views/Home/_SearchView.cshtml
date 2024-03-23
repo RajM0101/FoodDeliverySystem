@@ -9,21 +9,26 @@
         display: none;
     }
 </style>
+
 <section id="menu" class="hero d-flex align-items-center section-bg menu">
     <div class="container" data-aos="fade-up">
+
         <div class="section-header">
             <h2>Our Restaurant</h2>
         </div>
+
         <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+
             <div class="tab-pane fade active show" id="menu-vegetarian">
                 <div class="row gy-5">
                     @if (Model.searchRestaurantList.Count() > 0)
                     {
-                        @foreach (var item in Model.searchRestaurantList)
+                        var restaurantList = Model.searchRestaurantList.Where(x => x.IsTiffinServices == false).ToList();
+                        @foreach (var item in restaurantList)
                         {
                             var Image = "/Images/Restaurant/" + @item.ImageName;
                             <div class="col-lg-4 menu-item" style="max-height:300px">
-                                <a href="/restaurants/@item.RestaurantID" class="">
+                                <a href="/restaurants-tiffin/@item.RestaurantID" class="">
                                     <img src="@Image" class="menu-img img-fluid" alt="@item.RestaurantName" style="height:70%">
                                 </a>
                                 <h4>@item.RestaurantName</h4>
@@ -37,8 +42,53 @@
                 </div>
             </div><!-- End Starter Menu Content -->
         </div>
+
     </div>
 </section>
+<section id="menu" class="menu">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Our Tiffin Services</h2>
+        </div>
+
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+
+            <div class="tab-pane fade active show" id="menu-vegetarian">
+                <div class="row gy-5">
+                    @if (Model.searchRestaurantList.Count() > 0)
+                    {
+                        var tiffinList = Model.searchRestaurantList.Where(x => x.IsTiffinServices == true).ToList();
+                        if (tiffinList.Count() > 0)
+                        {
+                            @foreach (var item in tiffinList)
+                            {
+                                var Image = "/Images/TiffinServices/" + @item.ImageName;
+                                <div class="col-lg-4 menu-item" style="max-height:300px">
+                                    <a href="/restaurants-tiffin/@item.RestaurantID" class="">
+                                        <img src="@Image" class="menu-img img-fluid" alt="@item.RestaurantName" style="height:70%">
+                                    </a>
+                                    <h4>@item.RestaurantName</h4>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <h3>No Tiffin Services Found</h3>
+                        }
+                    }
+                    else
+                    {
+                        <h3>No Tiffin Services Found</h3>
+                    }
+                </div>
+            </div><!-- End Starter Menu Content -->
+        </div>
+
+    </div>
+</section>
+
+
 <section id="menu" class="hero d-flex align-items-center section-bg menu" style="padding-top:10px">
     <div class="container" data-aos="fade-up">
         <div class="section-header">

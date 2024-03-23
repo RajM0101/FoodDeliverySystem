@@ -32,7 +32,7 @@ function GetRestaurantList() {
                 "bSearchable": false,
                 "bSortable": true,
                 "mRender": function (data, type, aoData) {
-                    var href = adminSiteURLPortal + "foodlist" + "?RestaurantID=" + aoData[0];
+                    var href = adminSiteURLPortal + "foodlist" + "?RestaurantID=" + aoData[0] +"&Name=Food";
                     return '<a href=\"' + href + '\">' + aoData[2] + '</a>';
 
                 }

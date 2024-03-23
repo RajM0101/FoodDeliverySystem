@@ -35,8 +35,36 @@ namespace FoodDelivery.Areas.AdminUser.Models
             }
             return restaurantListModel;
         }
+        public List<TiffinServicesListModel> GetTiffinServicesList(JQueryDataTableParamModel param, string Name, out int noOfRecords)
+        {
+            List<TiffinServicesListModel> tiffinServicesListModel = new List<TiffinServicesListModel>();
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.admin_GetTiffinServicesList, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Search", SqlDbType.NVarChar, 100)).Value = Name;
+                    cmd.Parameters.Add(new SqlParameter("@DisplayStart", SqlDbType.Int)).Value = param.iDisplayStart;
+                    cmd.Parameters.Add(new SqlParameter("@PageSize", SqlDbType.Int)).Value = param.iDisplayLength;
+                    cmd.Parameters.Add(new SqlParameter("@SortColumnName", SqlDbType.VarChar, 50)).Value = param.iSortCol_0;
+                    cmd.Parameters.Add(new SqlParameter("@SortOrder", SqlDbType.VarChar, 50)).Value = param.sSortDir_0;
+                    con.Open();
+                    SqlParameter resultOutPut = new SqlParameter("@noOfRecords", SqlDbType.VarChar);
+                    resultOutPut.Size = 50;
+                    resultOutPut.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(resultOutPut);
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        tiffinServicesListModel = UserDefineExtensions.DataReaderMapToList<TiffinServicesListModel>(dataReader);
+                    }
+                    noOfRecords = Convert.ToInt32(cmd.Parameters["@noOfRecords"].Value);
+                    con.Close();
+                }
+            }
+            return tiffinServicesListModel;
+        }
 
-        public RestaurantViewModel GetOrderDetailByOrderId(int RestaurantID)
+        public RestaurantViewModel GetRestaurantDetailByRestaurantId(int RestaurantID)
         {
             RestaurantViewModel restaurantViewModel = new RestaurantViewModel();
             try
@@ -180,6 +208,32 @@ namespace FoodDelivery.Areas.AdminUser.Models
                 }
             }
             return foodListModel;
+        }
+        public RestaurantViewModel GetTiffinServicesDetailByOrderId(int TiffinServicesID)
+        {
+            RestaurantViewModel restaurantViewModel = new RestaurantViewModel();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.admin_GetRestaurantDetailByRestaurantId, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@RestaurantID", TiffinServicesID);
+                        con.Open();
+                        using (IDataReader datareader = cmd.ExecuteReader())
+                        {
+                            restaurantViewModel = UserDefineExtensions.DataReaderMapToEntity<RestaurantViewModel>(datareader);
+                        }
+                        con.Close();
+                    }
+                }
+                return restaurantViewModel;
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

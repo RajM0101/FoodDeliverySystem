@@ -12,12 +12,14 @@
             public const string RestaurantSession = "RestaurantSession";
             public const string UserSession = "UserSession";
             public const string AdminSession = "AdminSession";
+            public const string TiffinServicesSession = "TiffinServicesSession";
         }
         public static class StoredProcedureNames
         {
             #region Admin
             public const string admin_ChangeRestaurantStatus = "admin_ChangeRestaurantStatus";
             public const string admin_GetRestaurantList = "admin_GetRestaurantList";
+            public const string admin_GetTiffinServicesList = "admin_GetTiffinServicesList";
             public const string admin_GetRestaurantDetailByRestaurantId = "admin_GetRestaurantDetailByRestaurantId";
             public const string admin_AdminUserLogin = "admin_AdminUserLogin";
             public const string admin_GetUserList = "admin_GetUserList";
@@ -37,6 +39,21 @@
             public const string restaurant_GetOrderDetailByOrderId = "restaurant_GetOrderDetailByOrderId";
             public const string restaurant_OrderstatusList = "restaurant_OrderstatusList";
             public const string restaurant_ChangeOrderStatus = "restaurant_ChangeOrderStatus";
+            #endregion
+            #region TiffinServices 
+
+            public const string tiffinServices_TiffinServicesLogin = "tiffinServices_TiffinServicesLogin";
+            public const string tiffinServices_OrderstatusList = "tiffinServices_OrderstatusList";
+            public const string tiffinServices_GettiffinServicesOrders = "tiffinServices_GettiffinServicesOrders";
+            public const string tiffinServices_GetResataurantDetailsById = "tiffinServices_GetResataurantDetailsById";
+            public const string tiffinServices_GetOrderDetailByOrderId = "tiffinServices_GetOrderDetailByOrderId";
+            public const string tiffinServices_GetFoodItemGrid = "tiffinServices_GetFoodItemGrid";
+            public const string tiffinServices_GetFoodItemDetailsById = "tiffinServices_GetFoodItemDetailsById";
+            public const string tiffinServices_DeleteFood = "tiffinServices_DeleteFood";
+            public const string tiffinServices_ChangeOrderStatus = "tiffinServices_ChangeOrderStatus";
+            public const string tiffinServices_AddEditFoodItem = "tiffinServices_AddEditFoodItem";
+            public const string tiffinServices_AddEditTiffinServices = "tiffinServices_AddEditTiffinServices";
+            
             #endregion
             #region User
             public const string web_UserLogin = "web_UserLogin";
@@ -64,7 +81,7 @@
             public const string NotApproved = "You are currently not approved, Kindly contact on support email address.";
 
             public const string AdminUserIsNotActive = "You are currently not active, Kindly contact on support email address.";
-
+            public const string TiffinServicesIsNotActive = "Your tiffin services is currently not active, Kindly contact admin or email on support email address.";
             #endregion
             #region User
             public const string CustomerLoginSucessfully = "Login Successfully";

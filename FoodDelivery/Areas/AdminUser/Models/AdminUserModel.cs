@@ -47,4 +47,15 @@
         public bool IsVegetarian { get; set; }
         public decimal Rate { get; set; }
     }
+    public class TiffinServicesListModel
+    {
+        public int TiffinServicesID { get; set; }
+        public string OwnerName { get; set; }
+        public string TiffinServicesName { get; set; }
+        public string MobileNo { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
+        public string ZipCode { get; set; }
+        public bool TiffinServicesStatus { get; set; }
+    }
 }

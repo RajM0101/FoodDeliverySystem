@@ -9,8 +9,7 @@
     <ProjectGuid>{7939f3b9-5cc6-4d03-96e2-feb91223fae8}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
-    <RootPath>
-    </RootPath>
+    <RootPath />
     <RootNamespace>FoodDelivery.Database</RootNamespace>
     <AssemblyName>FoodDelivery.Database</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
@@ -48,7 +47,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
     <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
@@ -100,6 +98,18 @@
     <Build Include="web_GetSearchData.sql" />
     <Build Include="web_RateToFood.sql" />
     <Build Include="admin_GetAllFoodByRestaurantID.sql" />
+    <Build Include="admin_GetTiffinServicesList.sql" />
+    <Build Include="tiffinServices_AddEditFoodItem_1.sql" />
+    <Build Include="tiffinServices_AddEditTiffinServices_1.sql" />
+    <Build Include="tiffinServices_ChangeOrderStatus.sql" />
+    <Build Include="tiffinServices_DeleteFood_1.sql" />
+    <Build Include="tiffinServices_GetFoodItemDetailsById.sql" />
+    <Build Include="tiffinServices_GetFoodItemGrid.sql" />
+    <Build Include="tiffinServices_GetOrderDetailByOrderId.sql" />
+    <Build Include="tiffinServices_GetResataurantDetailsById.sql" />
+    <Build Include="tiffinServices_GettiffinServicesOrders.sql" />
+    <Build Include="tiffinServices_OrderstatusList.sql" />
+    <Build Include="tiffinServices_TiffinServicesLogin.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="FoodDelivery.Database.refactorlog" />

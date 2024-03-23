@@ -55,9 +55,10 @@ namespace FoodDelivery.Areas.AdminUser.Controllers
         {
             RestaurantViewModel restaurantViewModel = new RestaurantViewModel();
 
-            restaurantViewModel = objDatabaseAdminUser.GetOrderDetailByOrderId(RestaurantID);
+            restaurantViewModel = objDatabaseAdminUser.GetRestaurantDetailByRestaurantId(RestaurantID);
 
             ViewBag.IsReadOnlyClass = "readonly";
+            ViewBag.Name = "Restaurant";
             return View("_ChangeRestaurantStatus", restaurantViewModel);
         }
         [HttpPost]
@@ -125,9 +126,10 @@ namespace FoodDelivery.Areas.AdminUser.Controllers
         #region Foodlist
         [Route("adminuser/foodlist")]
         [HttpGet]
-        public ActionResult FoodList(string RestaurantID)
+        public ActionResult FoodList(string RestaurantID,string Name)
         {
             ViewBag.RestaurantID = RestaurantID;
+            ViewBag.Name = Name;
             return View("_FoodList");
         }
         [HttpGet]
@@ -164,5 +166,57 @@ namespace FoodDelivery.Areas.AdminUser.Controllers
             catch (Exception) { throw; }
         }
         #endregion
+        [Route("adminuser/tiffinservices")]
+        [HttpGet]
+        public ActionResult TiffinServicesList()
+        {
+            return View("_TiffinServicesList");
+        }
+        [HttpGet]
+        public ActionResult GetTiffinServicesList(JQueryDataTableParamModel param, string Name)
+        {
+            try
+            {
+                IEnumerable<string[]> obj = Enumerable.Empty<string[]>();
+                int noOfRecords;
+                var SortOrderString = param.sColumns.Split(',');
+                param.iSortCol_0 = SortOrderString[Convert.ToInt32(param.iSortCol_0)];
+                List<TiffinServicesListModel> list = objDatabaseAdminUser.GetTiffinServicesList(param, Name, out noOfRecords);
+                obj = from c in list
+                      select new[]
+                      {
+                        Convert.ToString(c.TiffinServicesID),
+                        Convert.ToString(c.OwnerName),
+                         Convert.ToString(c.TiffinServicesName),
+                        c.MobileNo,
+                        Convert.ToString(c.Email),
+                        Convert.ToString(c.Address),
+                        c.ZipCode,
+                        c.TiffinServicesStatus==false ?"Not Approved":"Approved"
+                      };
+
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = noOfRecords,
+                    iTotalDisplayRecords = noOfRecords,
+                    aaData = obj
+                });
+            }
+            catch (Exception) { throw; }
+        }
+        [Route("adminuser/change-tiffinservices-status")]
+        [HttpGet]
+        public ActionResult GetTiffinServicesDetailByOrderId(int TiffinServicesID)
+        {
+            RestaurantViewModel restaurantViewModel = new RestaurantViewModel();
+
+            restaurantViewModel = objDatabaseAdminUser.GetTiffinServicesDetailByOrderId(TiffinServicesID);
+
+            ViewBag.IsReadOnlyClass = "readonly";
+            ViewBag.Name = "Tiffin Services";
+            return View("_ChangeRestaurantStatus", restaurantViewModel);
+        }
+
     }
 }

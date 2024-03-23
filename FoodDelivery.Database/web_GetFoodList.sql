@@ -22,7 +22,8 @@ BEGIN
 			IsVegetarian,
 			IsJainAvailable,
 			DisplayOrder,
-			Rate
+			Rate,
+			IsTiffin
     FROM( 
 	   SELECT 
 			 f.RestaurantID
@@ -37,6 +38,7 @@ BEGIN
 			 ,IsJainAvailable
 			 ,DisplayOrder
 			 ,(SELECT ROUND((ISNULL(SUM(Rate),0)/COUNT(UserID)),2) FROM FoodRating fr where fr.FoodID=f.FoodID GROUP BY FoodID) Rate
+			 ,ISNULL(IsTiffin,0) AS IsTiffin
 		FROM Food f
 		LEFT JOIN Restaurant r ON r.RestaurantID=f.RestaurantID
 		WHERE IsAvailable=1 AND ISNULL(IsDeleted,0)=0 AND r.RestaurantStatus=1 '
@@ -59,8 +61,9 @@ BEGIN
 	 SET @QRYWHERE+=' ORDER BY DisplayOrder,IsBestSeller';
 
 	 EXEC(@QRY+@QRYWHERE)
-	 select @qry+@QRYWHERE
+	 --select @qry+@QRYWHERE
  END
+
 
 
 

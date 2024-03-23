@@ -71,6 +71,13 @@ namespace FoodDelivery.Models
         PasswordMissmatch = 4,
         Active = 5
     }
+    public enum TiffinServicesLoginEnum
+    {
+        UserNotAvailable = 1,
+        ContactAdmin = 3,
+        PasswordMissmatch = 4,
+        Active = 5
+    }
     public enum AdminLoginEnum
     {
         UserNotAvailable = 1,
@@ -169,12 +176,13 @@ namespace FoodDelivery.Models
     public class DashboardMainModel {
        public List<RestaurantDetailModel> restaurantDetailModel { get; set; } = new List<RestaurantDetailModel>();
     }
-    public class RestaurantDetailModel { 
+    public class RestaurantDetailModel {
         public int RestaurantID { get; set; }
         public string RestaurantName { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
         public string ImageName { get; set; }
+        public bool IsTiffinServices { get; set; }
     }
 
     public class FoodListbyRestaurantIdMainModel {
@@ -192,7 +200,7 @@ namespace FoodDelivery.Models
         public bool IsBestSeller { get; set; }
         public bool IsVegetarian { get; set; }
         public decimal Rate { get; set; }
-
+        public bool IsTiffin { get; set; }
     }
 
     public class ErrorStatusCodeViewModel
@@ -277,6 +285,67 @@ namespace FoodDelivery.Models
     {
         public int Status { get; set; }
     }
+    #region TiffinServices
+    public class TiffinServicesRegistrationModel
+    {
+        public int TiffinServicesID { get; set; }
+        [Required(ErrorMessage = "Please enter Owner's name")]
+        public string OwnerName { get; set; }
+        [Required(ErrorMessage = "Please enter tiffin services name")]
+        public string TiffinServicesName { get; set; }
+        [Display(Name = "Mobile number")]
+        [Required(ErrorMessage = "Please enter mobile number.")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Invalid Mobile number")]
+        [MinLength(4, ErrorMessage = "Enter minimum 4 digit Mobile number.")]
+        public string MobileNo { get; set; }
+        [EmailAddress(ErrorMessage = "Invalid Email address.")]
+        [Required(ErrorMessage = "Please enter email")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Please enter password.")]
+        [StringLength(16, ErrorMessage = "Please enter value between 8 to 16 character.", MinimumLength = 8)]
+        [RegularExpression(@"^(?=.{8,32})(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?\W).*$", ErrorMessage = "Minimum 8 characters at least 1 Uppercase Alphabet,1 Lowercase Alphabet,1 Number and 1 Special character.")]
+        public string Password { get; set; }
+        [Required(ErrorMessage = "Please enter confirm password.")]
+        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        public string ConfirmPassword { get; set; }
+        [Required(ErrorMessage = "Please enter confirm password.")]
+        public string ShopPlotNumber { get; set; }
+        public string Floor { get; set; }
+        public string BuildingName { get; set; }
+        public string ZipCode { get; set; }
+
+    }
+    public class TiffinServicesLoginModel
+    {
+
+        [Required(ErrorMessage = "Please enter email or mobile number")]
+        public string EmailOrMobileNo { get; set; }
+
+        [Required(ErrorMessage = "Please enter password.")]
+        [StringLength(16, ErrorMessage = "Please enter value between 8 to 16 character.", MinimumLength = 8)]
+        [RegularExpression(@"^(?=.{8,32})(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?\W).*$", ErrorMessage = "Minimum 8 characters at least 1 Uppercase Alphabet,1 Lowercase Alphabet,1 Number and 1 Special character.")]
+        public string Password { get; set; }
+    }
+    public class TiffinServicesLoginResult
+    {
+        public TiffinServicesSession TiffinServicesData { get; set; }
+        public int Flag { get; set; }
+    }
+    public class TiffinServicesSession
+    {
+        public int TiffinServicesID { get; set; }
+        public string OwnerName { get; set; }
+        public string TiffinServicesName { get; set; }
+        public string Email { get; set; }
+        public string MobileNo { get; set; }
+        public string Address { get; set; }
+        public string ZipCode { get; set; }
+        public bool TiffinServicesStatus { get; set; }
+    }
+     
+
+    #endregion
     public class CommonModel
     {
     }

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\AdminUser\Data\" />
+    <Folder Include="Areas\TiffinServices\Data\" />
     <Folder Include="NewFolder\" />
   </ItemGroup>
 

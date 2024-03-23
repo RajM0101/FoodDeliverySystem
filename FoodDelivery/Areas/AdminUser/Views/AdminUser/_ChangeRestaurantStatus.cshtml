@@ -2,6 +2,7 @@
 @{
     ViewBag.MetaTitle = "Change Restaurant Status";
     Layout = "~/Areas/AdminUser/Views/Shared/_Layout.cshtml";
+    var Name= ViewBag.Name;
 }
 
 <div class="pcoded-main-container add-cms-page proj-bg-color">
@@ -17,7 +18,7 @@
 
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Change Restaurant Status</h5>
+                                        <h5>Change @Name Status</h5>
 
                                         <div class="card-header-right">
                                             <div class="btn-group card-option">

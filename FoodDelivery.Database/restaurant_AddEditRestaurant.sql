@@ -40,7 +40,7 @@ BEGIN
             @Floor, 
             @BuildingName,
             @ZipCode, 
-            1, 
+            0, 
 			1,
             GetDate()
         )
@@ -62,6 +62,7 @@ BEGIN
 		WHERE RestaurantID=@RestaurantID
 	END
 END
+
 
 
 GO

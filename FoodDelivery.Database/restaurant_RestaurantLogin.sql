@@ -6,7 +6,7 @@ BEGIN
     DECLARE @IsRestaurantAvailable INT= 0, @MatchPassword INT= 0;
     DECLARE @Result INT =0
 
-	SELECT @IsRestaurantAvailable = COUNT(1) FROM Restaurant WHERE (Email = @EmailOrMobileNo OR MobileNo = @EmailOrMobileNo) AND ISNULL(IsDelete,0)=0  Group By RestaurantID
+	SELECT @IsRestaurantAvailable = COUNT(1) FROM Restaurant WHERE ISNULL(IsTiffinServices,0)=0 AND (Email = @EmailOrMobileNo OR MobileNo = @EmailOrMobileNo) AND ISNULL(IsDelete,0)=0  Group By RestaurantID
 		 
     IF(@IsRestaurantAvailable = 0)
     BEGIN
@@ -15,7 +15,7 @@ BEGIN
 	END
 	ELSE
     BEGIN 
-        SELECT @MatchPassword = COUNT(1) FROM Restaurant WHERE (Email = @EmailOrMobileNo OR MobileNo = @EmailOrMobileNo) AND [Password] = @Password AND ISNULL(IsDelete,0)=0 ;
+        SELECT @MatchPassword = COUNT(1) FROM Restaurant WHERE ISNULL(IsTiffinServices,0)=0 AND (Email = @EmailOrMobileNo OR MobileNo = @EmailOrMobileNo) AND [Password] = @Password AND ISNULL(IsDelete,0)=0 ;
 
 		IF(@MatchPassword = 0)
 		BEGIN
@@ -24,10 +24,10 @@ BEGIN
 		END
 		ELSE
 		BEGIN
-            DECLARE @IsRestaurantActive INT= (SELECT COUNT(1) FROM Restaurant WHERE (Email = @EmailOrMobileNo OR MobileNo = @EmailOrMobileNo) 
+            DECLARE @IsRestaurantActive INT= (SELECT COUNT(1) FROM Restaurant WHERE ISNULL(IsTiffinServices,0)=0 AND (Email = @EmailOrMobileNo OR MobileNo = @EmailOrMobileNo) 
                 AND [Password] = @Password AND ISNULL(IsDelete,0)=0 AND IsActive=1)
 
-			DECLARE @RestaurantStatus INT= (SELECT RestaurantStatus FROM Restaurant WHERE (Email = @EmailOrMobileNo OR MobileNo = @EmailOrMobileNo) 
+			DECLARE @RestaurantStatus INT= (SELECT RestaurantStatus FROM Restaurant WHERE ISNULL(IsTiffinServices,0)=0 AND (Email = @EmailOrMobileNo OR MobileNo = @EmailOrMobileNo) 
                 AND [Password] = @Password AND ISNULL(IsDelete,0)=0 AND IsActive=1)
 			
             IF(@IsRestaurantActive=1)
@@ -46,7 +46,7 @@ BEGIN
 						r.ZipCode,
 						r.RestaurantStatus
 					FROM Restaurant AS r 
-					WHERE (r.Email = @EmailOrMobileNo) OR (r.MobileNo = @EmailOrMobileNo)
+					WHERE ISNULL(IsTiffinServices,0)=0 AND (r.Email = @EmailOrMobileNo) OR (r.MobileNo = @EmailOrMobileNo)
 				END
 				ELSE
 				BEGIN
@@ -62,6 +62,7 @@ BEGIN
 		END
 	END 
 END
+
 
 
 GO

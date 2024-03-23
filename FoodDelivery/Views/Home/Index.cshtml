@@ -2,7 +2,13 @@
 @{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
+<style>
+    section {
+        padding: 20px 0 !important;
+    }
+</style>
 <!-- ======= Hero Section ======= -->
 <section id="hero" class="hero d-flex align-items-center section-bg">
     <div class="container">
@@ -33,36 +39,54 @@
                 <div class="row gy-5">
                     @if (Model.restaurantDetailModel.Count() > 0)
                     {
-                        @foreach (var item in Model.restaurantDetailModel)
+                        var restaurantList = Model.restaurantDetailModel.Where(x => x.IsTiffinServices == false).ToList();
+                        @foreach (var item in restaurantList)
                         {
                             var Image = "/Images/Restaurant/" + @item.ImageName;
                             <div class="col-lg-4 menu-item" style="max-height:300px">
-                                <a href="/restaurants/@item.RestaurantID" class="">
+                                <a href="/restaurants-tiffin/@item.RestaurantID" class="">
                                     <img src="@Image" class="menu-img img-fluid" alt="@item.RestaurantName" style="height:70%">
                                 </a>
                                 <h4>@item.RestaurantName</h4>
                             </div>
                         }
-
                     }
-                   
-
-                   @* <div class="col-lg-4 menu-item">
-                        <a href="frontassets/img/menu/menu-item-6.png" class="glightbox"><img src="frontassets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
-                        <h4>Laboriosam Direva</h4>
-                        <p class="ingredients">
-                            Lorem, deren, trataro, filede, nerada
-                        </p>
-                        <p class="price">
-                            $9.95
-                        </p>
-                    </div><!-- Menu Item -->*@
 
                 </div>
             </div><!-- End Starter Menu Content -->
+        </div>
 
-           
-            
+    </div>
+</section>
+<section id="menu" class="menu">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Our Tiffin Services</h2>
+            <p>Tiffin Services with online delivery</p>
+        </div>
+
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+
+            <div class="tab-pane fade active show" id="menu-vegetarian">           
+                <div class="row gy-5">
+                    @if (Model.restaurantDetailModel.Count() > 0)
+                    {
+                        var tiffinList = Model.restaurantDetailModel.Where(x => x.IsTiffinServices == true).ToList();
+                        @foreach (var item in tiffinList)
+                        {
+                            var Image = "/Images/TiffinServices/" + @item.ImageName;
+                            <div class="col-lg-4 menu-item" style="max-height:300px">
+                                <a href="/restaurants-tiffin/@item.RestaurantID" class="">
+                                    <img src="@Image" class="menu-img img-fluid" alt="@item.RestaurantName" style="height:70%">
+                                </a>
+                                <h4>@item.RestaurantName</h4>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div><!-- End Starter Menu Content -->
         </div>
 
     </div>

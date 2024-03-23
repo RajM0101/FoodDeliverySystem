@@ -1,0 +1,109 @@
+﻿@model OrderViewModel
+@{
+    ViewBag.MetaTitle = "Change Order Status";
+    Layout = "~/Areas/TiffinServices/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+    {
+    <script type="text/javascript">
+
+
+
+
+
+
+    </script>
+}
+
+<div class="pcoded-main-container add-cms-page proj-bg-color">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ fixed-menu ] start -->
+                            <div class="col-sm-12">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Change Order Status</h5>
+
+                                        <div class="card-header-right">
+                                            <div class="btn-group card-option">
+                                                <a href="@Url.Action("TiffinServicesOrderList","TiffinServicesFood")" class="btn btn-primary">List</a>
+                                                <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="feather icon-more-horizontal"></i>
+                                                </button>
+                                                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                    <li class="dropdown-item full-card"><a href="javascript:"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                                                    <li class="dropdown-item minimize-card"><a href="javascript:"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                                                    <li class="dropdown-item close-card"><a href="javascript:"><i class="fas fa-eye-slash"></i> hide</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <form asp-action="ChangeOrderStatus" asp-controller="TiffinServicesFood" method="POST" id="ChangeOrderStatusForm" autocomplete="off">
+                                            <input type="hidden" class="form-control" asp-for="OrderID">
+                                            <input type="hidden" class="form-control" asp-for="OrderDetailID">
+                                            <input type="hidden" class="form-control" asp-for="FoodId">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Name<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="Name" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Price<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="Price" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Qauntity<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" asp-for="Qauntity" readonly="readonly">
+
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2">Order Status<span style="color: red">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <select asp-for="OrderStatus" asp-items="@(new SelectList(ViewBag.OrderStatusList,"OrderStatusID", "OrderStatusName"))" class="form-control" style="width:100%!important"></select>
+                                                </div>
+                                                <div class="input-group error-font-size">
+                                                    <span asp-validation-for="OrderStatus" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-2"></div>
+                                                <div class="col-sm-4">
+                                                    <button type="submit" id="btnSave" class="btn btn-primary">Save</button>
+                                                    <a type="button" href="@Url.Action("TiffinServicesOrderList","Food")" class="btn btn-primary">Cancel</a>
+                                                </div>
+                                                <div class="col-sm-6"></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ fixed-menu ] end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

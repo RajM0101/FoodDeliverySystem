@@ -10,6 +10,7 @@
 	[ImageName] [nvarchar](500) NULL,
 	[DisplayOrder] [int] NULL,
 	[DiscountInPercentage] [int] NULL,
+	[IsTiffin] [bit] NULL,
 	[IsAvailable] [bit] NULL,
 	[IsDeleted] [bit] NULL,
 	[CreatedDate] [datetime2](7) NULL,

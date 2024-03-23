@@ -76,7 +76,11 @@ app.UseMvc(routes =>
        "adminuser/{controller}/{action}/{id?}",
        new { area = "adminuser", controller = "Login", action = "Index" }
     );
-    
+    routes.MapRoute(
+      "TiffinServices",
+      "tiffinservices/{controller}/{action}/{id?}",
+      new { area = "tiffinservices", controller = "TiffinServicesLogin", action = "Index" }
+   );
 
     routes.MapRoute(
         name: "default",

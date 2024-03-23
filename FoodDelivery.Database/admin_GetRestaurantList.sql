@@ -41,7 +41,7 @@ BEGIN
 
     SET @QRYTABLE = ' from Restaurant ';
 
-    SET @QRYWHERE += ' WHERE 1=1 '; 
+    SET @QRYWHERE += ' WHERE 1=1 AND ISNULL(IsTiffinServices,0)=0 '; 
 
     SET @QRYWHERE += ')TempTable where 1=1' 
 
@@ -60,6 +60,7 @@ BEGIN
     --SELECT (@QRY+@QRYTABLE+@QRYWHERE+@PAGINATION);    
     EXEC (@QRY+@QRYTABLE+@QRYWHERE+@PAGINATION);    
 END
+
 
 
 

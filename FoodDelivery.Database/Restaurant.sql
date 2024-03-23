@@ -16,6 +16,7 @@
 	[CreatedDate] [datetime] NULL,
 	[ApprovedBy] [int] NULL,
 	[ModifiedDate] [datetime] NULL,
+	[IsTiffinServices] [bit] NULL,
  CONSTRAINT [PK_Restaurant] PRIMARY KEY CLUSTERED 
 (
 	[RestaurantID] ASC
