@@ -31,6 +31,18 @@ namespace FoodDelivery.Controllers
             DashboardMainModel dashboardMainModel = GetDashboardAllDetails();
             return View(dashboardMainModel);
         }
+        [Route("/tiffin-services", Name = "TiffinPage")]
+        public ActionResult TiffinServices()
+        {
+            DashboardMainModel dashboardMainModel = GetDashboardAllDetails();
+            return View(dashboardMainModel);
+        }
+        [Route("/restaurants", Name = "RestaurantsPage")]
+        public ActionResult Restaurants()
+        {
+            DashboardMainModel dashboardMainModel = GetDashboardAllDetails();
+            return View(dashboardMainModel);
+        }
 
         public IActionResult Privacy()
         {
