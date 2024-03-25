@@ -29,6 +29,8 @@ namespace FoodDelivery.Models
         public string ShopPlotNumber { get; set; }
         public string Floor { get; set; }
         public string BuildingName { get; set; }
+
+        [RegularExpression(@"^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$", ErrorMessage = "Invalid Zip code")]
         public string ZipCode { get; set; }
 
     }
@@ -313,6 +315,7 @@ namespace FoodDelivery.Models
         public string ShopPlotNumber { get; set; }
         public string Floor { get; set; }
         public string BuildingName { get; set; }
+        [RegularExpression(@"^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$", ErrorMessage = "Invalid Zip code")]
         public string ZipCode { get; set; }
 
     }
