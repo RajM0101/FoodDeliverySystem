@@ -2,7 +2,9 @@
 using System.Data;
 using System.Data.SqlClient;
 using FoodDelivery.Areas.Restaurant.Models;
+using FoodDelivery.Areas.TiffinServices.Models;
 using FoodDelivery.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace FoodDelivery.Areas.Restaurant.Models
 {
@@ -102,6 +104,25 @@ namespace FoodDelivery.Areas.Restaurant.Models
         }
 
         #endregion
+        public bool CheckCertificateIsAllow(int RestaurantID) {
+            bool IsCertificateIsAllow = false;
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_CheckCertificateIsAllow, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@RestaurantID", SqlDbType.NVarChar, 100)).Value = RestaurantID;
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        IsCertificateIsAllow = Convert.ToBoolean(dr["IsCertificateIsAllow"]);
+                    }
+                    con.Close();
+                }
+            }
+            return IsCertificateIsAllow;
+        }
         public GetRestaurantDetailById GetRestaurantDetailsById(int RestaurantID)
         {
             GetRestaurantDetailById getRestaurantDetailById = new GetRestaurantDetailById();

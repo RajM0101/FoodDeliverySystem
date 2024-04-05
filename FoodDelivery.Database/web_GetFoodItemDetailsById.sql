@@ -14,12 +14,14 @@ BEGIN
 		ImageName as FoodImageName,
 		DiscountInPercentage,
 		DisplayOrder,
-		IsAvailable
+		IsAvailable,
+		ISNULL(IsTrusted,0) AS IsTrusted
 	FROM dbo.Food f
 	WHERE ISNULL(f.IsDeleted,0)=0 AND f.FoodID=@FoodID
     
          
 END
+
 
 
 

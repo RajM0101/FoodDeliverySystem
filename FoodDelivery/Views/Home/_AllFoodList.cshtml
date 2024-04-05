@@ -44,7 +44,6 @@
     //    document.querySelector('#one').value = this.value
     //};
     function GetFoodList() {
-        debugger
         var MinVal = $(".filter-price__min-value").text();
         var MaxVal = $(".filter-price__max-value").text();
         //SetActiveFilterPanel();
@@ -71,7 +70,9 @@
 
 </script>
 <style>
-
+    [dir=ltr] .product-card__badges {
+        left: 16px;
+    }
     .input-check {
         display: inline-block;
     }

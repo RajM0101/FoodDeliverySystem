@@ -203,6 +203,7 @@ namespace FoodDelivery.Models
         public bool IsVegetarian { get; set; }
         public decimal Rate { get; set; }
         public bool IsTiffin { get; set; }
+        public bool IsTrusted { get; set; }
     }
 
     public class ErrorStatusCodeViewModel

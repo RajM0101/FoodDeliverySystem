@@ -6,6 +6,20 @@ namespace FoodDelivery.Models
 {
     public class Database
     {
+        public string UpdateRestaurantTrusted() {
+            
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.web_UpdateRestaurantTrusted, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            return "";
+        }
         public LoginUserInfo UserLogin(LoginUserModel loginUserModel)
         {
             LoginUserInfo loginUser = new LoginUserInfo();

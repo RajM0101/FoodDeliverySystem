@@ -16,9 +16,10 @@ BEGIN
 		INSERT INTO FoodRating(FoodID,UserID,Rate,RateDate)
 		VALUES(@FoodId,@UserId,@Rate,GETDATE())
 	END
-	 
+
 	 Select cast(1 as int) as Status
  END
+
 
 
 

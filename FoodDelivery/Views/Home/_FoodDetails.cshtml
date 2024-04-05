@@ -4,8 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    .p-15{
-        padding:15px;
+    .p-15 {
+        padding: 15px;
     }
 
     .product__header h1 {
@@ -17,7 +17,7 @@
 
     .product__meta table {
         font-size: 20px;
-        width:100%;
+        width: 100%;
     }
 
     [dir=ltr] .product__meta th {
@@ -68,83 +68,93 @@
         }
 </style>
 <section id="menu" class="hero align-items-center section-bg menu">
-<div class="block-split">
+    <div class="block-split">
 
-    <div class="container" style="background-color:white; padding:30px;">
-        <div class="row">
-            <div class="col-md-6 product-gallery p-15">
-                <span class='zoom' id='product-img'>
-                    @{
-                        var Image = "/Images/Food/" + @Model.FoodImageName;
-                        ViewBag.MetaImage = @Image;
-                    }
-                    <img src="@Image" style="max-height:500px;" alt="@Model.FoodName" />
-                       
+        <div class="container" style="background-color:white; padding:30px;">
+            <div class="row">
+                <div class="col-md-6 product-gallery p-15">
+                    <span class='zoom' id='product-img'>
+                        @{
+                            var Image = "/Images/Food/" + @Model.FoodImageName;
+                            ViewBag.MetaImage = @Image;
+                        }
+                        <img src="@Image" style="max-height:500px;" alt="@Model.FoodName" />
+
                     </span>
-            </div>
-            <div class="col-md-6 product p-15">
-                <div class="product__body">
+                </div>
+                <div class="col-md-6 product p-15">
+                    <div class="product__body">
                         <div class="product__header">
                             <h1 class="product__title">@Model.FoodName</h1>
                         </div>
-                    <div class="product__main">
-                        <div class="product__meta">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th>
+                        <div class="product__main">
+                            <div class="product__meta">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <th>
                                                 @if (Model.IsVegetarian)
                                                 {
-                                                    <img src="~/images/vegetarian.png" alt="Vegetarian"/>
+                                                    <img src="~/images/vegetarian.png" alt="Vegetarian" />
                                                 }
                                                 else
                                                 {
                                                     <img src="~/images/non-vegetarian.png" alt="Non-Vegetarian" />
                                                 }
-                                        </th>
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-                                        <th>Ingredient</th>
-                                        <td>@Model.Ingredient</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Price</th>
-                                        <td>$@Model.Price</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Jain Available</th>
-                                        <td>@(Model.IsJainAvailable==true? "Yes" :"No")</td>
-                                    </tr>
-                                    @if (Model.DiscountInPercentage != null || Model.DiscountInPercentage != 0)
-                                    {
-                                        <tr>
-                                            <th>Discount</th>
-                                            <td>@Model.DiscountInPercentage%</td>
+                                            </th>
+                                            <th></th>
                                         </tr>
-                                    }
-                                    
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                        <input type="hidden" class="form-control" asp-for="FoodID" value="@Model.FoodID">
+                                        <tr>
+                                            <th>Ingredient</th>
+                                            <td>@Model.Ingredient</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Price</th>
+                                            <td>$@Model.Price</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Jain Available</th>
+                                            <td>@(Model.IsJainAvailable == true ? "Yes" : "No")</td>
+                                        </tr>
+                                        @if (Model.DiscountInPercentage != null || Model.DiscountInPercentage != 0)
+                                        {
+                                            <tr>
+                                                <th>Discount</th>
+                                                <td>@Model.DiscountInPercentage%</td>
+                                            </tr>
+                                        }
+                                        @if (Model.IsTrusted)
+                                        {
+                                            <tr>
+                                                <th>
+                                                    <div class="product-card__badges">
+                                                        <div class="tag-badge tag-badge--sale">sale</div>
+                                                    </div>
+                                                </th>
+                                               
+                                            </tr>
+                                        }
 
-                        <button class="btn btn-primary btn-lg btn-block" style="width: 49%; float: left; margin-right: 1%; margin-top: 0.75rem;white-space: nowrap;" onclick="javascript:AddFoodToCartConfirm(@Model.FoodID)">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <input type="hidden" class="form-control" asp-for="FoodID" value="@Model.FoodID">
+
+                            <button class="btn btn-primary btn-lg btn-block" style="width: 49%; float: left; margin-right: 1%; margin-top: 0.75rem;white-space: nowrap;" onclick="javascript:AddFoodToCartConfirm(@Model.FoodID)">
                                 <i class="fa fa-shopping-cart"></i> Add to cart
                             </button>
                             @*
-                        <button class="btn btn-primary btn-lg btn-block btnfav" style="width: 49%; float: left; margin-top: 0.75rem;"
-                                onclick="javascript:AddOrRemoveFavourite(@Model.DesignId)">
+                            <button class="btn btn-primary btn-lg btn-block btnfav" style="width: 49%; float: left; margin-top: 0.75rem;"
+                            onclick="javascript:AddOrRemoveFavourite(@Model.DesignId)">
                             <i class="fa fa-heart"></i> Favourite
-                        </button>*@
-                       
+                            </button>*@
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-</div>
-<div class="block-space block-space--layout--before-footer"></div>
+    <div class="block-space block-space--layout--before-footer"></div>
 </section>

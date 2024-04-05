@@ -39,6 +39,7 @@
             public const string restaurant_GetOrderDetailByOrderId = "restaurant_GetOrderDetailByOrderId";
             public const string restaurant_OrderstatusList = "restaurant_OrderstatusList";
             public const string restaurant_ChangeOrderStatus = "restaurant_ChangeOrderStatus";
+            public const string restaurant_CheckCertificateIsAllow = "restaurant_CheckCertificateIsAllow";
             #endregion
             #region TiffinServices 
 
@@ -53,9 +54,10 @@
             public const string tiffinServices_ChangeOrderStatus = "tiffinServices_ChangeOrderStatus";
             public const string tiffinServices_AddEditFoodItem = "tiffinServices_AddEditFoodItem";
             public const string tiffinServices_AddEditTiffinServices = "tiffinServices_AddEditTiffinServices";
-            
+
             #endregion
             #region User
+            public const string web_UpdateRestaurantTrusted = "web_UpdateRestaurantTrusted";
             public const string web_UserLogin = "web_UserLogin";
             public const string web_UserRegister = "web_UserRegister";
             public const string web_GetAllRestaurant = "web_GetAllRestaurant";

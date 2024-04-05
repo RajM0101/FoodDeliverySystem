@@ -73,6 +73,7 @@ namespace FoodDelivery.Areas.Restaurant.Models
         public int DisplayOrder { get; set; }
         public bool IsAvailable { get; set; }
         public int DiscountInPercentage { get; set; }
+        public bool IsTrusted { get; set; }
     }
     public class AddEditFoodViewModel
     {
@@ -162,6 +163,7 @@ namespace FoodDelivery.Areas.Restaurant.Models
         public decimal Rate { get; set; }
         public string Ingredient { get; set; }
         public string ImageName { get; set; }
+        public bool IsTrusted { get; set; }
     }
     public class SearchRestaurantList {
         public int RestaurantID { get; set; }
