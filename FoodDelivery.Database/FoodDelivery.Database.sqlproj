@@ -110,6 +110,8 @@
     <Build Include="tiffinServices_GettiffinServicesOrders.sql" />
     <Build Include="tiffinServices_OrderstatusList.sql" />
     <Build Include="tiffinServices_TiffinServicesLogin.sql" />
+    <Build Include="restaurant_CheckCertificateIsAllow.sql" />
+    <Build Include="web_UpdateRestaurantTrusted.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="FoodDelivery.Database.refactorlog" />

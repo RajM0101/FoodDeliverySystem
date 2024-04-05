@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[tiffinServices_GettiffinServicesOrders]
+﻿CREATE PROCEDURE [dbo].[tiffinServices_GettiffinServicesOrders]
 @TiffinServicesID INT=0,
 @Search NVARCHAR(50) = '',         
 @DisplayStart INT,    

@@ -22,7 +22,6 @@
         };
 
         $(document).ready(function () {
-            debugger
             var validator = $("#editTiffinServicesForm").data("validator");
             validator.settings.ignore = "";
             $("#TiffinServicesImageName").rules("remove", "required");
@@ -87,7 +86,6 @@
             });
         });
         function changeCatalogFile($this) {
-            debugger
             var fname = $($this).val();
             switch (fname.substring(fname.lastIndexOf('.') + 1).toLowerCase()) {
                 case 'jpeg': case 'jpg': case 'png':

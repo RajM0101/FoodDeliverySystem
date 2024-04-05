@@ -15,6 +15,7 @@
 	[IsDeleted] [bit] NULL,
 	[CreatedDate] [datetime2](7) NULL,
 	[ModifyDate] [datetime2](7) NULL,
+	[IsTrusted] [bit] NULL,
  CONSTRAINT [PK_Food] PRIMARY KEY CLUSTERED 
 (
 	[FoodID] ASC

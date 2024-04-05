@@ -7,6 +7,26 @@ namespace FoodDelivery.Areas.TiffinServices.Models
 {
     public class DatabaseTiffinServices
     {
+        public bool CheckCertificateIsAllow(int RestaurantID)
+        {
+            bool IsCertificateIsAllow = false;
+            using (SqlConnection con = new SqlConnection(Common.DBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Common.StoredProcedureNames.restaurant_CheckCertificateIsAllow, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@RestaurantID", SqlDbType.NVarChar, 100)).Value = RestaurantID;
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        IsCertificateIsAllow = Convert.ToBoolean(dr["IsCertificateIsAllow"]);
+                    }
+                    con.Close();
+                }
+            }
+            return IsCertificateIsAllow;
+        }
         #region Login Registration
         public TiffinServicesLoginResult TiffinServicesLogin(TiffinServicesLoginModel adminLoginModel)
         {

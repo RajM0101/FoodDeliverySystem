@@ -29,6 +29,7 @@ namespace FoodDelivery.Controllers
         public ActionResult Index()
         {
             DashboardMainModel dashboardMainModel = GetDashboardAllDetails();
+            objDatabase.UpdateRestaurantTrusted();
             return View(dashboardMainModel);
         }
         [Route("/tiffin-services", Name = "TiffinPage")]
@@ -154,6 +155,7 @@ namespace FoodDelivery.Controllers
             dashboardMainModel.restaurantDetailModel = objDatabase.GetAllRestaurantDetail();
             return dashboardMainModel;
         }
+
         [Route("/restaurants-tiffin/{RestaurantID?}", Name = "GetFoodList")]
         public ActionResult GetFoodList(int RestaurantID)
         {

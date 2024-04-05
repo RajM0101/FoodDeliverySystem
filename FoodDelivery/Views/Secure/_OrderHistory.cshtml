@@ -143,7 +143,6 @@
         '<div class="popover-body"></div>',
         '</div></div>'].join('');
     function OpenUserPopOver(title, html) {
-        debugger
         var item = new bootstrap.Popover(popoverElement, { html: true, trigger: 'click', container: 'body', placement: 'left', template: popTemplate, content: html, title: title, animation: true, sanitize: false });
         item.show();
     }
@@ -152,7 +151,6 @@
         $('.popover').popover().hide();
     }
     $(document).off('click', '.ratePopOver').on('click', '.ratePopOver', function () {
-        debugger
         closePopovers();
         var OrderDetailId = $(this).data('orderdetailid');
         var Rate = $(this).data('foodrate');
@@ -252,7 +250,6 @@
         });
     }
     function RateToFood(OrderDetailId) {
-        debugger
         var Rate = $("#ProspectRating").val();
         $.ajax({
             url: siteURL + "Secure/RateToFood",
@@ -262,6 +259,7 @@
             .done(
                 function (data, textStatus, jqXHR) {
                     showToastPortal('success', '', 'Rate to food sucessfully');
+                    setTimeout(function () { location.reload() }, 1000);
                 })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 showToastPortal('danger', '', 'Something went wrong, you cannot give rate to this food');

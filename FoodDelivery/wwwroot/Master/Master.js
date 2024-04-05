@@ -108,7 +108,6 @@ $(document).ready(function () {
     }
 
     $(".input-number__input").change(function () {
-        debugger
         var Qauntity = $(this).val();
         var FoodId = $(this).data('foodid');
         if ($("#userid").val() == null) {

@@ -17,7 +17,7 @@ BEGIN
 			Ingredient,
 			f.ImageName,
 			(SELECT isnull(ROUND((ISNULL(SUM(Rate),0)/COUNT(UserID)),2),0) FROM FoodRating fr where fr.FoodID=f.FoodID GROUP BY FoodID) Rate
-			          
+			,ISNULL(IsTrusted,0) AS IsTrusted   
         FROM dbo.Food f
 		LEFT JOIN dbo.Restaurant r ON r.RestaurantID=f.RestaurantID
 		WHERE ISNULL(f.IsDeleted,0)=0 AND ISNULL(f.IsAvailable,0)=1 AND ISNULL(RestaurantStatus,0)=1'
@@ -44,6 +44,7 @@ BEGIN
         EXEC (@Query+@WhereQuery) 
 		EXEC (@ResQuery+@ResWhereQuery) 
 END
+
 
 
 
