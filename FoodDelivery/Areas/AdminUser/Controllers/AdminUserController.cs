@@ -67,6 +67,7 @@ namespace FoodDelivery.Areas.AdminUser.Controllers
         {
             try
             {
+                ModelState.Remove("RestaurantImageName");
                 if (ModelState.IsValid)
                 {
                     RestaurantStatusResponse StatusResponse = new RestaurantStatusResponse();
@@ -75,7 +76,7 @@ namespace FoodDelivery.Areas.AdminUser.Controllers
                 }
                 else
                 {
-                    return View("_ChangeOrderStatus", restaurantViewModel);
+                    return View("_ChangeRestaurantStatus", restaurantViewModel);
                 }
 
             }
