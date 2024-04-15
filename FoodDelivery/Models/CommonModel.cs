@@ -347,9 +347,21 @@ namespace FoodDelivery.Models
         public string ZipCode { get; set; }
         public bool TiffinServicesStatus { get; set; }
     }
-     
+
 
     #endregion
+    public class PaymentPlanDetailModel {
+        [Required(ErrorMessage = "Please enter card number.")]
+        
+        public string CardNumber { get; set; }
+        [Required(ErrorMessage = "Please enter card holder name.")]
+        public string HolderName { get; set; }
+        [RegularExpression(@"^\d{2}/\d{2}$", ErrorMessage = "Enter valid expiration date.")]
+        [Required(ErrorMessage = "Please enter expiration date.")]
+        public string ExpirationDate { get; set; }
+        [Required(ErrorMessage = "Please enter cvv.")]
+        public int CVV { get; set; }
+    }
     public class CommonModel
     {
     }

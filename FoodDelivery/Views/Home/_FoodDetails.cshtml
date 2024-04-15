@@ -4,6 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
+    .product-card__badges{
+        position:relative;
+    }
     .p-15 {
         padding: 15px;
     }
@@ -66,6 +69,10 @@
             vertical-align: middle;
             max-width: 100%;
         }
+
+    [dir=ltr] .product-card__badges {
+        left: 0px;
+    }
 </style>
 <section id="menu" class="hero align-items-center section-bg menu">
     <div class="block-split">
@@ -128,7 +135,7 @@
                                             <tr>
                                                 <th>
                                                     <div class="product-card__badges">
-                                                        <div class="tag-badge tag-badge--sale">sale</div>
+                                                        <div class="tag-badge tag-badge--sale">Trusted</div>
                                                     </div>
                                                 </th>
                                                

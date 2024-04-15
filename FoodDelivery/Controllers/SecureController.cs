@@ -60,6 +60,13 @@ namespace FoodDelivery.Controllers
             ViewBag.TotalPrices = TotalPrice;
             return View("_CartDetail", cartDetailList);
         }
+        [HttpGet]
+        [Route("/PaymentForOrder", Name = "PaymentForOrder")]
+        public ActionResult PaymentForOrder(string FoodIds) {
+            PaymentPlanDetailModel Model = new PaymentPlanDetailModel();
+            ViewBag.FoodIds = FoodIds;  
+            return PartialView("_PaymentDetailPage", Model);
+        }
         [HttpPost]
         public ActionResult AddUserOrder(string FoodIds)
         {
