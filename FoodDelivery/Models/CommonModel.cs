@@ -350,16 +350,21 @@ namespace FoodDelivery.Models
 
 
     #endregion
-    public class PaymentPlanDetailModel {
+    public class PaymentPlanDetailModel
+    {
         [Required(ErrorMessage = "Please enter card number.")]
-        
+        [StringLength(16, MinimumLength = 16, ErrorMessage = "Card number must be 16 digits.")]
         public string CardNumber { get; set; }
+
         [Required(ErrorMessage = "Please enter card holder name.")]
         public string HolderName { get; set; }
+
         [RegularExpression(@"^\d{2}/\d{2}$", ErrorMessage = "Enter valid expiration date.")]
         [Required(ErrorMessage = "Please enter expiration date.")]
         public string ExpirationDate { get; set; }
-        [Required(ErrorMessage = "Please enter cvv.")]
+
+        [Required(ErrorMessage = "Please enter CVV.")]
+        [Range(100, 999, ErrorMessage = "CVV must be a 3-digit number.")]
         public int CVV { get; set; }
     }
     public class CommonModel
